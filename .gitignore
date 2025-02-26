@@ -1,0 +1,102 @@
+# ==========================
+# COMMON IGNORE RULES
+# ==========================
+
+# Node.js dependencies
+/node_modules
+
+# Build outputs
+/build
+/dist
+/nbbuild/
+/nbdist/
+/nbproject/private/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-related files
+.DS_Store
+
+# VSCode config
+.vscode
+
+# ==========================
+# BACKEND IGNORE RULES
+# ==========================
+
+HELP.md
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### Spring Tool Suite (STS) ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Java compiled files
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# NetBeans
+/nbproject/private/
+/.nb-gradle/
+
+# ==========================
+# DOCUMENTATION IGNORE RULES
+# ==========================
+
+# Docusaurus generated files
+.docusaurus
+.cache-loader
+
+# Yarn-related files
+.yarn/install-state.gz
+
+# ==========================
+# FRONTEND IGNORE RULES
+# ==========================
+
+# Package manager files
+/.pnp
+.pnp.js
+
+# Next.js build outputs
+/.next/
+/out/
+
+# Testing
+/coverage
+
+# Vercel deployment
+.vercel
+
+# TypeScript files
+*.tsbuildinfo
+next-env.d.ts
