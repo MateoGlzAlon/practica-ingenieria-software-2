@@ -4,7 +4,9 @@ WORKDIR /opt/app
 
 COPY --chown=gradle:gradle . .
 
-RUN gradle build --no-daemon -x test
+
+RUN gradle build
+# RUN gradle build --no-daemon -x test
 
 ENV PROFILE=docker
 
