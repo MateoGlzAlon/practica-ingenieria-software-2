@@ -1,4 +1,7 @@
 package com.backend.repository;
 
-public interface PostImageRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.backend.persistence.entity.PostImageEntity;
+
+public interface PostImageRepository extends JpaRepository<PostImageEntity, Long> {
 }

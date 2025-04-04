@@ -1,4 +1,7 @@
 package com.backend.repository;
 
-public interface TipRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.backend.persistence.entity.TipEntity;
+
+public interface TipRepository extends JpaRepository<TipEntity, Long> {
 }
