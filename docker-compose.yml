@@ -27,6 +27,10 @@ services:
 
   backend:
     container_name: stoa-backend
+    environment:
+      - POSTGRES_DATABASE=<value>
+      - POSTGRES_USERNAME=<value>
+      - POSTGRES_PASSWORD=<value>
     build:
       context: ./backend
       dockerfile: Dockerfile
