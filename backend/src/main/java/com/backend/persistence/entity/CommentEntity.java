@@ -1,9 +1,11 @@
 package com.backend.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "comments")
@@ -17,10 +19,12 @@ public class CommentEntity {
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference(value = "post-comment")
     private PostEntity post;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference(value = "user-comment")
     private UserEntity user;
 
     private String content;

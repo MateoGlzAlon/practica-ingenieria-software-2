@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +23,7 @@ public class PostEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference(value = "user-post")
     private UserEntity user;
 
     private String title;
@@ -31,9 +34,11 @@ public class PostEntity {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostImage> images = new ArrayList<>();
+    @JsonManagedReference(value = "post-image")
+    private List<PostImageEntity> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "post-comments")
     private List<CommentEntity> comments = new ArrayList<>();
 
     @ManyToMany

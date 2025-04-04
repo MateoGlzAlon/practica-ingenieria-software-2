@@ -1,5 +1,6 @@
 package com.backend.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,13 +11,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostImage {
+public class PostImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference(value = "post-image")
     private PostEntity post;
 
     private String imageUrl;
