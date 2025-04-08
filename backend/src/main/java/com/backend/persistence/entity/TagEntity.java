@@ -1,5 +1,7 @@
 package com.backend.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -21,5 +23,5 @@ public class TagEntity {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    private Set<PostEntity> posts = new HashSet<>();
+    private Set<PostEntity> posts;
 }

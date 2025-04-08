@@ -31,15 +31,15 @@ public class PostEntity {
     private int likes = 0;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "post-image")
-    private List<PostImageEntity> images = new ArrayList<>();
+    private List<PostImageEntity> images;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "post-comments")
-    private List<CommentEntity> comments = new ArrayList<>();
+    private List<CommentEntity> comments;
 
     @ManyToMany
     @JoinTable(
@@ -47,5 +47,5 @@ public class PostEntity {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<TagEntity> tags = new HashSet<>();
+    private Set<TagEntity> tags;
 }

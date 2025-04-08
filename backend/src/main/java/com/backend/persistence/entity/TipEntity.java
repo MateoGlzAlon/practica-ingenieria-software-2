@@ -35,5 +35,5 @@ public class TipEntity {
     private int amount;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

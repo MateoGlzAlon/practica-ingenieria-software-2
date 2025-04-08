@@ -31,5 +31,5 @@ public class CommentEntity {
     private int likes = 0;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

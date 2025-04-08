@@ -29,15 +29,15 @@ public class UserEntity {
     private String avatarUrl;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-post")
-    private List<PostEntity> posts = new ArrayList<>();
+    private List<PostEntity> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-comment")
-    private List<CommentEntity> comments = new ArrayList<>();
+    private List<CommentEntity> comments;
 }
 
 

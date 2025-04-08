@@ -20,17 +20,9 @@ public class TagControllerImpl implements TagController {
     @Override
     @GetMapping("/{id}")
     public TagEntity findTagById(@PathVariable Long id) {
-        return tagService.findTagById(id);
+
+        TagEntity tag = tagService.findTagById(id);
+        return tag;
     }
 
 }
-
-/*
-
-package com.backend.controller.impl;
-
-
-
-
-
-*/

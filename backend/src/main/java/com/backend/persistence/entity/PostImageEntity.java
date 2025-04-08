@@ -24,5 +24,5 @@ public class PostImageEntity {
     private String imageUrl;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }
