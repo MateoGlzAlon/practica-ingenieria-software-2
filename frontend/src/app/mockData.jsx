@@ -19,5 +19,45 @@ export const mockData = {
             state: "Solved",
         },
 
-    ]
+    ],
+
+    postSideBarTags: ["Home", "Questions", "Tags"],
+
+    commentsExamples: [
+        {
+            id: 1,
+            content: "Another approach is to use Grid layout with the `place-items-center` utility.",
+            votes: 37,
+            accepted: false
+        },
+        {
+            id: 2,
+            content: "If you prefer absolute positioning, you can do it this way, with `absolute`, `top-1/2`, `left-1/2`, and `transform`.",
+            votes: 12,
+            accepted: true
+        },
+        {
+            id: 0,
+            content: "To center a div both horizontally and vertically with Tailwind CSS, you can use Flexbox.",
+            votes: 125,
+            accepted: false
+        }
+    ],
+
+    postExampleDetails: {
+        question: {
+            id: 1,
+            title: "How to center a div horizontally and vertically using Tailwind CSS?",
+            content: "I'm trying to center a div horizontally and vertically using Tailwind CSS, but I'm having trouble getting it to work correctly. Here's my current code:",
+            votes: 42
+        },
+        codeExample:
+            `<div className="h-screen">
+    <div className="bg-blue-500 p-4 text-white">
+        This div should be centered
+    </div>
+</div>`
+    }
+
+
 };

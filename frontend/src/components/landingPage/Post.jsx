@@ -2,7 +2,7 @@ import { ArrowUp, ArrowDown } from 'lucide-react';
 
 export default function Post({ postData }) {
     return (
-        <div className="bg-gray-700 p-4 rounded shadow text-white w-full max-w-3xl mx-auto">
+        <div className="bg-gray-700 p-4 rounded shadow text-white w-full max-w-3xl mx-auto " >
             <div className="bg-white text-black p-2 rounded mb-2">{postData.title}</div>
 
             <div className="bg-white h-48 rounded mb-2 flex items-center justify-center text-black">

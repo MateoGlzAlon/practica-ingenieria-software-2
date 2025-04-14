@@ -2,6 +2,7 @@ package com.backend.controller.impl;
 
 import com.backend.controller.UserController;
 import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,5 +21,11 @@ public class UserControllerImpl implements UserController {
     @GetMapping("/{id}")
     public UserEntity findUserById(@PathVariable Long id) {
         return userService.findUserById(id);
+    }
+
+    @Override
+    @GetMapping("/input/{id}")
+    public UserInputDTO findInputUserById(@PathVariable Long id) {
+        return userService.findUserInputByID(id);
     }
 }
