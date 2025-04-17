@@ -1,4 +1,5 @@
 export const mockData = {
+    //landingPage mockData (not used for now)
     postExamples: [
         {
             id: 1,
@@ -21,8 +22,12 @@ export const mockData = {
 
     ],
 
+
+    //left size buttons
     postSideBarTags: ["Home", "Questions", "Tags"],
 
+
+    //individual comments
     commentsExamples: [
         {
             id: 1,
@@ -44,6 +49,8 @@ export const mockData = {
         }
     ],
 
+
+    //individual initial block
     postExampleDetails: {
         question: {
             id: 1,

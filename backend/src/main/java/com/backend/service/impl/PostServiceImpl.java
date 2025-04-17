@@ -3,6 +3,7 @@ package com.backend.service.impl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
+import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.repository.PostRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,20 @@ public class PostServiceImpl implements PostService {
         return feedPostDTOs;
     }
 
+    @Override
+    public PostInputDTO getPostIndividual(Long id){
+        PostEntity post = postRepository.findById(id).orElse(null);
 
+        if (post == null) {
+            return null;
+        }
+
+        return PostInputDTO.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .likes(post.getLikes())
+                .build();
+    }
 
 }
