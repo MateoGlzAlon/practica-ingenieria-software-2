@@ -4,7 +4,7 @@ import { Landmark } from 'lucide-react';
 export default function Navbar() {
     return (
         <>
-            <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50 px-6 py-4 flex justify-between items-center">
+            <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
                 <div />
 
                 <div className="flex items-center text-2xl font-bold text-black pl-8 hover:cursor-pointer">
@@ -19,7 +19,7 @@ export default function Navbar() {
                 </button>
             </nav>
 
-            <div className="mt-20"></div>
+            <div className="mt-[72px]"></div>
         </>
     );
 }

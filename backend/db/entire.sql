@@ -67,16 +67,16 @@ CREATE TABLE IF NOT EXISTS post_tags (
 
 -- USERS
 INSERT INTO users (username, email, password, about, avatar_url) VALUES
-('alice', 'alice@example.com', 'hashed_pw1', 'Philosopher and writer', 'https://example.com/avatars/alice.png'),
-('bob', 'bob@example.com', 'hashed_pw2', 'Lover of Stoicism', 'https://example.com/avatars/bob.png'),
-('charlie', 'charlie@example.com', 'hashed_pw3', 'Tech and wisdom', 'https://example.com/avatars/charlie.png'),
-('diana', 'diana@example.com', 'hashed_pw4', 'Meditation fan', 'https://example.com/avatars/diana.png'),
-('edgar', 'edgar@example.com', 'hashed_pw5', 'Stoic entrepreneur', 'https://example.com/avatars/edgar.png'),
-('fiona', 'fiona@example.com', 'hashed_pw6', 'Mindfulness advocate', 'https://example.com/avatars/fiona.png'),
-('george', 'george@example.com', 'hashed_pw7', 'Writing about virtue', 'https://example.com/avatars/george.png'),
-('hannah', 'hannah@example.com', 'hashed_pw8', 'Stoic mom', 'https://example.com/avatars/hannah.png'),
-('ian', 'ian@example.com', 'hashed_pw9', 'Ethics enthusiast', 'https://example.com/avatars/ian.png'),
-('julia', 'julia@example.com', 'hashed_pw10', 'Lover of logic', 'https://example.com/avatars/julia.png');
+('alice', 'alice@example.com', 'hashed_pw1', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1'),
+('bob', 'bob@example.com', 'hashed_pw2', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2'),
+('charlie', 'charlie@example.com', 'hashed_pw3', 'Tech and wisdom', 'https://placehold.co/600x400?text=User3'),
+('diana', 'diana@example.com', 'hashed_pw4', 'Meditation fan', 'https://placehold.co/600x400?text=User4'),
+('edgar', 'edgar@example.com', 'hashed_pw5', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5'),
+('fiona', 'fiona@example.com', 'hashed_pw6', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6'),
+('george', 'george@example.com', 'hashed_pw7', 'Writing about virtue', 'https://placehold.co/600x400?text=User7'),
+('hannah', 'hannah@example.com', 'hashed_pw8', 'Stoic mom', 'https://placehold.co/600x400?text=User8'),
+('ian', 'ian@example.com', 'hashed_pw9', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9'),
+('julia', 'julia@example.com', 'hashed_pw10', 'Lover of logic', 'https://placehold.co/600x400?text=User10');
 
 -- POSTS
 INSERT INTO posts (user_id, title, content, likes) VALUES
@@ -93,16 +93,16 @@ INSERT INTO posts (user_id, title, content, likes) VALUES
 
 -- POST IMAGES
 INSERT INTO post_images (post_id, image_url) VALUES
-(1, 'https://example.com/images/stoic1.jpg'),
-(2, 'https://example.com/images/stoic2.jpg'),
-(3, 'https://example.com/images/stoic3.jpg'),
-(4, 'https://example.com/images/stoic4.jpg'),
-(5, 'https://example.com/images/stoic5.jpg'),
-(6, 'https://example.com/images/stoic6.jpg'),
-(7, 'https://example.com/images/stoic7.jpg'),
-(8, 'https://example.com/images/stoic8.jpg'),
-(9, 'https://example.com/images/stoic9.jpg'),
-(10, 'https://example.com/images/stoic10.jpg');
+(1, 'https://placehold.co/600x400?text=Post1'),
+(2, 'https://placehold.co/600x400?text=Post2'),
+(3, 'https://placehold.co/600x400?text=Post3'),
+(4, 'https://placehold.co/600x400?text=Post4'),
+(5, 'https://placehold.co/600x400?text=Post5'),
+(6, 'https://placehold.co/600x400?text=Post6'),
+(7, 'https://placehold.co/600x400?text=Post7'),
+(8, 'https://placehold.co/600x400?text=Post8'),
+(9, 'https://placehold.co/600x400?text=Post9'),
+(10, 'https://placehold.co/600x400?text=Post10');
 
 -- COMMENTS
 INSERT INTO comments (post_id, user_id, content, likes) VALUES

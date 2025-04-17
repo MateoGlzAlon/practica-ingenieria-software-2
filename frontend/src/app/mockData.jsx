@@ -21,7 +21,7 @@ export const mockData = {
 
     ],
 
-    postSideBarTags: ["Home", "Questions", "Tags"],
+    postSideBarTags: ["javascript", "react", "node.js", "css", "python"],
 
     commentsExamples: [
         {

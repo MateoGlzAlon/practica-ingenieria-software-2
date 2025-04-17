@@ -1,39 +1,47 @@
-import { useEffect, useState } from "react";
-import Post from "./Post";
-import { mockData } from "@/app/mockData";
-import getFeedPosts from "@/api/getLandingPageFeedPosts";
-import Link from "next/link";
+"use client"
+
+import { useEffect, useState } from "react"
+import Post from "./Post"
+import getFeedPosts from "@/api/getLandingPageFeedPosts"
 
 export default function MainFeed() {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const data = await getFeedPosts();
-                setPosts(data);
-                console.log("Los posts son ", data)
+                const data = await getFeedPosts()
+                setPosts(data)
+                setIsLoading(false)
             } catch (error) {
-                console.error("Error fetching feed posts:", error);
+                console.error("Error fetching feed posts:", error)
+                setIsLoading(false)
             }
-        };
+        }
 
-        fetchPosts();
-    }, []);
+        fetchPosts()
+    }, [])
 
     return (
-        <div className="flex-1 flex flex-col gap-4 px-4  border-r-2 border-black">
-            <h1 className="text-xl font-bold text-center">For you page</h1>
+        <div className="flex-1 flex flex-col gap-4 px-32 border-x-[1px] border-gray-300">
+            <h1 className="text-xl font-bold text-center py-2">For you page</h1>
 
-            {posts.length > 0 ? (
-                posts.map((post) => (
-                    <Link href={`/post/${post.id}`}>
-                        <Post key={post.id} postData={post} />
-                    </Link>
-                ))
+            {isLoading ? (
+                <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-white p-4 rounded shadow animate-pulse">
+                            <div className="h-5 bg-gray-200 rounded w-3/4 mb-3"></div>
+                            <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                        </div>
+                    ))}
+                </div>
             ) : (
-                <p>Loading posts...</p>
+                posts.map((post) => (
+                    <Post postData={post} key={post.id} />
+                ))
             )}
         </div>
-    );
+    )
 }
