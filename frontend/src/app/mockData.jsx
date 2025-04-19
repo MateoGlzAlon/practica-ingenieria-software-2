@@ -1,4 +1,5 @@
 export const mockData = {
+    //landingPage mockData (not used for now)
     postExamples: [
         {
             id: 1,
@@ -23,6 +24,7 @@ export const mockData = {
 
     postSideBarTags: ["javascript", "react", "node.js", "css", "python"],
 
+    //individual comments
     commentsExamples: [
         {
             id: 1,
@@ -56,6 +58,8 @@ export const mockData = {
         }
     ],
 
+
+    //individual initial block
     postExampleDetails: {
         id: 1,
         author: "Percy",
