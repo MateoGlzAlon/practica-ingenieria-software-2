@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "post_images")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostImageEntity {

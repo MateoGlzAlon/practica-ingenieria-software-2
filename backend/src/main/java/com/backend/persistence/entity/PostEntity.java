@@ -14,6 +14,8 @@ import lombok.*;
 @Entity
 @Table(name = "posts")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostEntity {
