@@ -6,15 +6,15 @@ export default function SidebarRight() {
 
 
     const topUsers = [
-        { name: "jonSkeet", reputation: 1234567, badges: { gold: 42, silver: 5621, bronze: 9874 } },
-        { name: "darin", reputation: 987654, badges: { gold: 31, silver: 4532, bronze: 7654 } },
-        { name: "gordon", reputation: 876543, badges: { gold: 28, silver: 3987, bronze: 6543 } },
+        { name: "jonSkeet", answers: 114 },
+        { name: "darin", answers: 87 },
+        { name: "gordon", answers: 25 },
     ]
 
     return (
         <div className="w-[20%] hidden lg:flex flex-col gap-4 sticky top-20 self-start">
             <div className="bg-orange-50 border border-orange-200 p-4 rounded-md">
-                <h3 className="font-medium mb-2 text-orange-800">Join the DevOverflow Community</h3>
+                <h3 className="font-medium mb-2 text-orange-800">Join the Stoa Community</h3>
                 <p className="text-sm text-gray-700 mb-3">
                     Get unstuck by asking questions, unlock new privileges, and vote on content.
                 </p>
@@ -36,10 +36,7 @@ export default function SidebarRight() {
                                 {user.name}
                             </div>
                             <div className="flex items-center gap-1 text-xs">
-                                <span className="text-amber-500">{user.badges.gold}</span>
-                                <span className="text-gray-400">{user.badges.silver}</span>
-                                <span className="text-amber-700">{user.badges.bronze}</span>
-                                <span className="text-gray-600 ml-1">{user.reputation.toLocaleString()}</span>
+                                <span className="text-gray-600 ml-1">{user.answers}</span>
                             </div>
                         </li>
                     ))}

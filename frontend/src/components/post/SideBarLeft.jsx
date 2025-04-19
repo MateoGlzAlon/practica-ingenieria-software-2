@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { mockData } from "@/app/mockData";
 
-export default function Sidebar() {
+export default function SidebarLeft() {
     return (
         <div className="space-y-2 w-[10%]">
             {
