@@ -8,6 +8,10 @@ import com.backend.repository.PostRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<FeedPostDTO> getFeedPosts() {
         List<PostEntity> posts = postRepository.findAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm");
 
         List<FeedPostDTO> feedPostDTOs = new ArrayList<>();
 
@@ -36,9 +41,20 @@ public class PostServiceImpl implements PostService {
                 firstImageUrl = post.getImages().get(0).getImageUrl();
             }
 
+            //data
+            //Timestamp createdAtTimestamp = Timestamp.valueOf(post.getCreatedAt());
+            int commentCount = (post.getComments() != null) ? post.getComments().size() : 0;
+
+            String formattedDate = post.getCreatedAt().format(formatter);
+            
+            //add author, content, createdAt
             FeedPostDTO feedPostDTO = FeedPostDTO.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .content(post.getContent())
+                    .author(post.getUser().getUsername())
+                    .createdAt(formattedDate) // instead of a Timestamp, return String
+                    .comments(commentCount)
                     .imageURL(firstImageUrl)
                     .likes(post.getLikes())
                     .state("TO-DO")
