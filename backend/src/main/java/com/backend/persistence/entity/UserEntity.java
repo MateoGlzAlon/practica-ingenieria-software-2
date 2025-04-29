@@ -31,7 +31,7 @@ public class UserEntity {
     private String avatarUrl;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-post")
@@ -40,6 +40,13 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-comment")
     private List<CommentEntity> comments;
+
+
+    @Override
+    public String toString() {
+        return "UserEntitity{id=" + id + ", username='" + username + "'}";
+    }
+
 }
 
 

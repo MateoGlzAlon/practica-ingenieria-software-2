@@ -3,6 +3,7 @@ package com.backend.service;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.specialdto.PostDetailsDTO;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface PostService {
     List<FeedPostDTO> getFeedPosts();
 
     PostInputDTO getPostIndividual(Long id);
+
+    PostDetailsDTO getPostDetails(Long id);
 }
 
 

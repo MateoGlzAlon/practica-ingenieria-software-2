@@ -5,6 +5,7 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,15 @@ public class PostControllerImpl implements PostController {
     @GetMapping("/focus/{id}")
     public PostInputDTO getPostIndividual(@PathVariable Long id) {
         return postService.getPostIndividual(id);
+    }
+
+    @Override
+    @GetMapping("/details/{id}")
+    public PostDetailsDTO getPostDetails(@PathVariable Long id) {
+
+        PostDetailsDTO postDetailsDTO = postService.getPostDetails(id);
+
+        return postDetailsDTO;
     }
 
 }

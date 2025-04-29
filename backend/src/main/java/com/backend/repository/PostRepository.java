@@ -12,4 +12,5 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     @Query("FROM PostEntity p " +
             "WHERE p.id = :postId")
     PostEntity getFeedPosts(@Param("postId") Long id);
+
 }

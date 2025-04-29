@@ -1,4 +1,4 @@
--- Usuarios
+-- USUARIOS
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -9,17 +9,24 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Publicaciones (Posts)
+-- ETIQUETAS
+CREATE TABLE IF NOT EXISTS tags (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- PUBLICACIONES (POSTS)
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    tag_id INTEGER REFERENCES tags(id) ON DELETE SET NULL,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     likes INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Imágenes de publicaciones
+-- IMÁGENES DE PUBLICACIONES
 CREATE TABLE IF NOT EXISTS post_images (
     id SERIAL PRIMARY KEY,
     post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
@@ -27,7 +34,7 @@ CREATE TABLE IF NOT EXISTS post_images (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Comentarios / Respuestas
+-- COMENTARIOS
 CREATE TABLE IF NOT EXISTS comments (
     id SERIAL PRIMARY KEY,
     post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
@@ -37,7 +44,7 @@ CREATE TABLE IF NOT EXISTS comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Propinas
+-- PROPINAS
 CREATE TABLE IF NOT EXISTS tips (
     id SERIAL PRIMARY KEY,
     sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -48,22 +55,9 @@ CREATE TABLE IF NOT EXISTS tips (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Etiquetas
-CREATE TABLE IF NOT EXISTS tags (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
-);
-
--- Relación Post-Tag (muchos a muchos)
-CREATE TABLE IF NOT EXISTS post_tags (
-    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
-    tag_id INTEGER REFERENCES tags(id) ON DELETE CASCADE,
-    PRIMARY KEY (post_id, tag_id)
-);
-
-
-
-
+-- =====================
+-- DATOS DE EJEMPLO
+-- =====================
 
 -- USERS
 INSERT INTO users (username, email, password, about, avatar_url) VALUES
@@ -78,18 +72,31 @@ INSERT INTO users (username, email, password, about, avatar_url) VALUES
 ('ian', 'ian@example.com', 'hashed_pw9', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9'),
 ('julia', 'julia@example.com', 'hashed_pw10', 'Lover of logic', 'https://placehold.co/600x400?text=User10');
 
--- POSTS
-INSERT INTO posts (user_id, title, content, likes) VALUES
-(1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10),
-(2, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7),
-(3, 'Meditation and Logos', 'Finding order within.', 5),
-(4, 'How Epictetus Changed Me', 'Life lessons from Discourses.', 8),
-(5, 'Seneca on Anger', 'Practical advice for temper.', 6),
-(6, 'Marcus Aurelius Reflections', 'Journal-style wisdom.', 9),
-(7, 'Virtue Over Pleasure', 'A stoic view.', 4),
-(8, 'Modern Stoicism', 'Is it still relevant?', 11),
-(9, 'Mindfulness vs Stoicism', 'Complement or conflict?', 3),
-(10, 'Stoic Parenting', 'Teaching kids the stoic way.', 5);
+-- TAGS
+INSERT INTO tags (name) VALUES
+('stoicism'),         -- 1
+('philosophy'),       -- 2
+('meditation'),       -- 3
+('epictetus'),        -- 4
+('seneca'),           -- 5
+('marcus aurelius'),  -- 6
+('virtue'),           -- 7
+('mindfulness'),      -- 8
+('parenting'),        -- 9
+('daily routine');    -- 10
+
+-- POSTS (asociando un solo tag a cada post)
+INSERT INTO posts (user_id, tag_id, title, content, likes) VALUES
+(1, 1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10),
+(2, 10, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7),
+(3, 3, 'Meditation and Logos', 'Finding order within.', 5),
+(4, 4, 'How Epictetus Changed Me', 'Life lessons from Discourses.', 8),
+(5, 5, 'Seneca on Anger', 'Practical advice for temper.', 6),
+(6, 6, 'Marcus Aurelius Reflections', 'Journal-style wisdom.', 9),
+(7, 7, 'Virtue Over Pleasure', 'A stoic view.', 4),
+(8, 2, 'Modern Stoicism', 'Is it still relevant?', 11),
+(9, 8, 'Mindfulness vs Stoicism', 'Complement or conflict?', 3),
+(10, 9, 'Stoic Parenting', 'Teaching kids the stoic way.', 5);
 
 -- POST IMAGES
 INSERT INTO post_images (post_id, image_url) VALUES
@@ -129,30 +136,3 @@ INSERT INTO tips (sender_id, receiver_id, post_id, comment_id, amount) VALUES
 (9, 8, 8, 9, 130),
 (10, 9, 9, 10, 170),
 (1, 10, 10, 10, 220);
-
--- TAGS
-INSERT INTO tags (name) VALUES
-('stoicism'),
-('philosophy'),
-('meditation'),
-('epictetus'),
-('seneca'),
-('marcus aurelius'),
-('virtue'),
-('mindfulness'),
-('parenting'),
-('daily routine');
-
--- POST-TAGS
-INSERT INTO post_tags (post_id, tag_id) VALUES
-(1, 1), (1, 2),
-(2, 1), (2, 10),
-(3, 1), (3, 3),
-(4, 1), (4, 4),
-(5, 1), (5, 5),
-(6, 1), (6, 6),
-(7, 1), (7, 7),
-(8, 1), (8, 2),
-(9, 1), (9, 8),
-(10, 1), (10, 9);
-

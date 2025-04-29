@@ -24,6 +24,7 @@ public class TagEntity {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private Set<PostEntity> posts;
 }

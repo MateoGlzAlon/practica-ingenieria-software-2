@@ -1,9 +1,11 @@
 package com.backend.service.impl;
 
 import com.backend.persistence.entity.PostEntity;
+import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.PostRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
@@ -64,6 +66,34 @@ public class PostServiceImpl implements PostService {
                 .content(post.getContent())
                 .likes(post.getLikes())
                 .build();
+    }
+
+    @Override
+    public PostDetailsDTO getPostDetails(Long id) {
+
+        PostEntity post = postRepository.findById(id).orElse(null);
+
+        List<String> listImages = new ArrayList<>();
+
+        for( PostImageEntity image : post.getImages()){
+
+            listImages.add(image.getImageUrl());
+
+        }
+
+
+        PostDetailsDTO postDetails = PostDetailsDTO.builder()
+                .id(post.getId())
+                .author(post.getUser().getUsername())
+                .postImages(listImages)
+                .title(post.getTitle())
+                .content(post.getContent())
+                .votes(post.getLikes())
+                .date(post.getCreatedAt())
+                .build();
+
+
+        return postDetails;
     }
 
 }

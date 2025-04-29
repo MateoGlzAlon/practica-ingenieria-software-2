@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
             newUser.setEmail(googleLoginDTO.getEmail());
             newUser.setPassword(""); // puedes dejarlo vacío o poner un valor dummy
             newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());
-            newUser.setCreatedAt(LocalDateTime.now());
+            newUser.setCreatedAt(new Date());
             return userRepository.save(newUser);
         });
 

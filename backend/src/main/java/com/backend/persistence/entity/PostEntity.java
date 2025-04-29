@@ -1,10 +1,7 @@
 package com.backend.persistence.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,7 +30,7 @@ public class PostEntity {
     private int likes = 0;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "post-image")
@@ -43,11 +40,16 @@ public class PostEntity {
     @JsonManagedReference(value = "post-comments")
     private List<CommentEntity> comments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private Set<TagEntity> tags;
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private TagEntity tag;
+
+    @Override
+    public String toString() {
+        return "PostEntity{id=" + id + ", title='" + title + "'}";
+    }
+
+
 }
+
+
