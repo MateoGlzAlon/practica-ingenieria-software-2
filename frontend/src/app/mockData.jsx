@@ -82,6 +82,64 @@ export const mockData = {
 
         votes: 42,
         createdAt: "17-4-2025",
+    },
+
+    profilePageExample: {
+        user: {
+            name: "UPDATE-DB",
+            username: "alice",
+            avatar: "https://placehold.co/400x400?text=Post1",
+            role: "UPDATE-DB-IF-WANTED",
+            memberSince: "Abril 2021",
+            stats: {
+                questions: 42,
+                answers: 187,
+            },
+            about:
+                "Desarrollador con más de 8 años de experiencia en tecnologías web. Especializado en React, Node.js y arquitecturas cloud. Contribuidor activo en proyectos open source y mentor de desarrolladores junior.",
+            links: {
+                github: "github.com/carlos_dev",
+                twitter: "twitter.com/carlos_dev",
+                website: "carlosdev.com",
+            },
+        },
+        activityData: [
+            { month: "Ene", contributions: 45 },
+            { month: "Feb", contributions: 32 },
+            { month: "Mar", contributions: 67 },
+            { month: "Abr", contributions: 58 },
+            { month: "May", contributions: 43 },
+            { month: "Jun", contributions: 89 },
+            { month: "Jul", contributions: 76 },
+            { month: "Ago", contributions: 91 },
+            { month: "Sep", contributions: 65 },
+            { month: "Oct", contributions: 83 },
+            { month: "Nov", contributions: 72 },
+            { month: "Dic", contributions: 56 },
+        ],
+        topPosts: [
+            {
+                id: 1,
+                title: "Cómo optimizar el rendimiento de aplicaciones React",
+                votes: 124,
+                answers: 8,
+                date: "publicado el 15-3-2023",
+            },
+            {
+                id: 2,
+                title: "Guía completa para implementar autenticación con JWT",
+                votes: 98,
+                answers: 12,
+                date: "publicado el 22-5-2023",
+            },
+            {
+                id: 3,
+                title: "Mejores prácticas para estructurar proyectos Node.js",
+                votes: 87,
+                answers: 6,
+                date: "publicado el 7-8-2023",
+            },
+        ],
     }
 
 
