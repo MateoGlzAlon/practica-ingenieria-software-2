@@ -102,14 +102,39 @@ export const mockData = {
                 twitter: "twitter.com/carlos_dev",
                 website: "carlosdev.com",
             },
-            tipsReceived: [
-                { sender: "bob", amount: 10, date: "2025-03-12" },
-                { sender: "alice", amount: 5, date: "2025-04-01" },
-            ],
             tipsSent: [
-                { receiver: "john", amount: 7, date: "2025-03-15" },
-                { receiver: "emma", amount: 12, date: "2025-04-02" },
+                {
+                    receiver: "john",
+                    amount: 7,
+                    date: "2025-03-15",
+                    postId: 1,
+                    commentId: 1,
+                },
+                {
+                    receiver: "emma",
+                    amount: 12,
+                    date: "2025-04-02",
+                    postId: 1,
+                    commentId: 2,
+                },
             ],
+            tipsReceived: [
+                {
+                    sender: "bob",
+                    amount: 10,
+                    date: "2025-03-12",
+                    postId: 2,
+                    commentId: 3,
+                },
+                {
+                    sender: "alice",
+                    amount: 5,
+                    date: "2025-04-01",
+                    postId: 2,
+                    commentId: 4,
+                },
+            ],
+
         },
         activityData: [
             { month: "Jan", contributions: 45 },
