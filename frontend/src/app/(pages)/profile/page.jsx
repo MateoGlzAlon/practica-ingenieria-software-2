@@ -2,70 +2,15 @@
 
 import { useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { Building, MessageSquare, Award, BookOpen, Users, GitlabIcon as GitHub, Twitter, Globe } from "lucide-react"
+import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
+import { mockData } from "@/app/mockData"
 
-// Todos los datos necesarios para la página están en esta variable
-const pageData = {
-    user: {
-        name: "UPDATE-DB-Alice Jackson",
-        username: "alice",
-        avatar: "https://placehold.co/400x400?text=Post1",
-        role: "UPDATE-DB-IF-WANTED-Senior Backend Developer",
-        memberSince: "Abril 2021",
-        stats: {
-            questions: 42,
-            answers: 187,
-        },
-        about:
-            "Desarrollador con más de 8 años de experiencia en tecnologías web. Especializado en React, Node.js y arquitecturas cloud. Contribuidor activo en proyectos open source y mentor de desarrolladores junior.",
-        links: {
-            github: "UPDATE-DB-IF-WANTED-github.com/carlos_dev",
-            twitter: "UPDATE-DB-IF-WANTED-twitter.com/carlos_dev",
-            website: "UPDATE-DB-IF-WANTED-carlosdev.com",
-        },
-    },
-    activityData: [
-        { month: "Ene", contributions: 45 },
-        { month: "Feb", contributions: 32 },
-        { month: "Mar", contributions: 67 },
-        { month: "Abr", contributions: 58 },
-        { month: "May", contributions: 43 },
-        { month: "Jun", contributions: 89 },
-        { month: "Jul", contributions: 76 },
-        { month: "Ago", contributions: 91 },
-        { month: "Sep", contributions: 65 },
-        { month: "Oct", contributions: 83 },
-        { month: "Nov", contributions: 72 },
-        { month: "Dic", contributions: 56 },
-    ],
-    posts: [
-        {
-            id: 1,
-            title: "Cómo optimizar el rendimiento de aplicaciones React",
-            votes: 124,
-            answers: 8,
-            created_at: "publicado el 15-3-2023",
-        },
-        {
-            id: 2,
-            title: "Guía completa para implementar autenticación con JWT",
-            votes: 98,
-            answers: 12,
-            created_at: "publicado el 22-5-2023",
-        },
-        {
-            id: 3,
-            title: "Mejores prácticas para estructurar proyectos Node.js",
-            votes: 87,
-            answers: 6,
-            created_at: "publicado el 7-8-2023",
-        },
-    ],
-}
+// All necessary data for the page is in this variable
+const pageData = mockData.profilePageExample
 
 export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState("perfil")
-    const { user, activityData, topPosts } = pageData
+    const [activeTab, setActiveTab] = useState("profile")
+    const { user, activityData, posts } = pageData
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -81,18 +26,16 @@ export default function ProfilePage() {
                             <p className="text-gray-600 mb-2">@{user.username}</p>
                             <p className="text-sm text-gray-500 mb-4">{user.role}</p>
 
-
-
                             <div className="w-full border-t border-gray-200 pt-4">
                                 <div className="flex items-center text-sm mb-2">
                                     <MessageSquare className="h-4 w-4 mr-2 text-gray-500" />
-                                    <span>Miembro desde {user.memberSince}</span>
+                                    <span>Member since {user.memberSince}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="border-t border-gray-200 p-4">
-                            <h3 className="font-medium mb-3">Enlaces</h3>
+                            <h3 className="font-medium mb-3">Links</h3>
                             <div className="space-y-2">
                                 <a
                                     href={`https://${user.links.github}`}
@@ -119,20 +62,18 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="border-t border-gray-200 p-4">
-                            <h3 className="font-medium mb-3">Estadísticas</h3>
-                            <div className="grid grid-cols-3 gap-2 text-center">
+                            <h3 className="font-medium mb-3">Statistics</h3>
+                            <div className="grid grid-cols-2 gap-2 text-center">
                                 <div className="bg-gray-50 p-2 rounded">
                                     <div className="text-lg font-bold">{user.stats.questions}</div>
-                                    <div className="text-xs text-gray-500">Preguntas</div>
+                                    <div className="text-xs text-gray-500">Questions</div>
                                 </div>
                                 <div className="bg-gray-50 p-2 rounded">
                                     <div className="text-lg font-bold">{user.stats.answers}</div>
-                                    <div className="text-xs text-gray-500">Respuestas</div>
+                                    <div className="text-xs text-gray-500">Answers</div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -143,43 +84,52 @@ export default function ProfilePage() {
                         <div className="border-b border-gray-200">
                             <nav className="flex -mb-px">
                                 <button
-                                    onClick={() => setActiveTab("perfil")}
-                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "perfil"
+                                    onClick={() => setActiveTab("profile")}
+                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "profile"
                                         ? "border-b-2 border-blue-500 text-blue-600"
                                         : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
                                         }`}
                                 >
-                                    Perfil
+                                    Profile
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab("actividad")}
-                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "actividad"
+                                    onClick={() => setActiveTab("activity")}
+                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "activity"
                                         ? "border-b-2 border-blue-500 text-blue-600"
                                         : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
                                         }`}
                                 >
-                                    Actividad
+                                    Activity
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab("respuestas")}
-                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "respuestas"
+                                    onClick={() => setActiveTab("answers")}
+                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "answers"
                                         ? "border-b-2 border-blue-500 text-blue-600"
                                         : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
                                         }`}
                                 >
-                                    Respuestas
+                                    Answers
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab("tips")}
+                                    className={`px-4 py-3 text-sm font-medium ${activeTab === "tips"
+                                        ? "border-b-2 border-blue-500 text-blue-600"
+                                        : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                                        }`}
+                                >
+                                    Tips
                                 </button>
                             </nav>
                         </div>
 
                         {/* Tab Content */}
                         <div className="p-6">
-                            {activeTab === "perfil" && (
+                            {activeTab === "profile" && (
                                 <div>
-                                    <h2 className="text-xl font-bold mb-4">Sobre mí</h2>
+                                    <h2 className="text-xl font-bold mb-4">About me</h2>
                                     <p className="text-gray-700 mb-6">{user.about}</p>
 
-                                    <h2 className="text-xl font-bold mb-4">Actividad reciente</h2>
+                                    <h2 className="text-xl font-bold mb-4">Recent activity</h2>
                                     <div className="h-64 w-full">
                                         <ResponsiveContainer width="100%" height="100%">
                                             <BarChart data={activityData}>
@@ -194,25 +144,23 @@ export default function ProfilePage() {
                                 </div>
                             )}
 
-                            {activeTab === "actividad" && (
+                            {activeTab === "activity" && (
                                 <div>
-                                    <h2 className="text-xl font-bold mb-4">Publicaciones principales</h2>
+                                    <h2 className="text-xl font-bold mb-4">Top posts</h2>
                                     <div className="space-y-4">
-                                        {topPosts.map((post) => (
+                                        {posts.map((post) => (
                                             <div key={post.id} className="border border-gray-200 rounded-lg p-4">
                                                 <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
                                                     {post.title}
                                                 </h3>
                                                 <div className="flex items-center text-sm text-gray-500">
                                                     <span className="flex items-center mr-4">
-                                                        <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                                                        </svg>
-                                                        {post.votes} votos
+                                                        <Vote className="h-4 w-4 mr-1" />
+                                                        {post.votes} votes
                                                     </span>
                                                     <span className="flex items-center mr-4">
                                                         <MessageSquare className="h-4 w-4 mr-1" />
-                                                        {post.answers} respuestas
+                                                        {post.answers} answers
                                                     </span>
                                                     <span>{post.created_at}</span>
                                                 </div>
@@ -222,15 +170,50 @@ export default function ProfilePage() {
                                 </div>
                             )}
 
-                            {activeTab === "respuestas" && (
+                            {activeTab === "answers" && (
                                 <div>
-                                    <h2 className="text-xl font-bold mb-4">Mis respuestas</h2>
+                                    <h2 className="text-xl font-bold mb-4">My answers</h2>
                                     <div className="bg-gray-100 rounded-lg p-6 text-center">
                                         <BookOpen className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                                        <p className="text-gray-600">Selecciona esta pestaña para ver todas tus respuestas</p>
+                                        <p className="text-gray-600">Select this tab to view all your answers</p>
                                     </div>
                                 </div>
                             )}
+
+                            {activeTab === "tips" && (
+                                <div>
+                                    <h2 className="text-xl font-bold mb-4">Tips</h2>
+
+                                    {/* Incoming Payments */}
+                                    <div className="mb-6">
+                                        <h3 className="text-lg font-semibold mb-2">Incoming Tips</h3>
+                                        <ul className="space-y-2">
+                                            {user.tipsReceived.map((tip, index) => (
+                                                <li key={index} className="bg-green-50 p-4 rounded border border-green-200">
+                                                    <p className="text-sm text-gray-700">
+                                                        Received <span className="font-medium">${tip.amount}</span> from <span className="font-medium">@{tip.sender}</span> on {tip.date}
+                                                    </p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+
+                                    {/* Outgoing Payments */}
+                                    <div>
+                                        <h3 className="text-lg font-semibold mb-2">Outgoing Tips</h3>
+                                        <ul className="space-y-2">
+                                            {user.tipsSent.map((tip, index) => (
+                                                <li key={index} className="bg-red-50 p-4 rounded border border-red-200">
+                                                    <p className="text-sm text-gray-700">
+                                                        Sent <span className="font-medium">${tip.amount}</span> to <span className="font-medium">@{tip.receiver}</span> on {tip.date}
+                                                    </p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 </div>
