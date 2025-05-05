@@ -2,7 +2,7 @@ package com.backend.persistence.outputdto;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.*;
 
 @Data
@@ -16,7 +16,7 @@ public class UserOutputDTO {
     private String email;
     private String about;
     private String avatarUrl;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Date createdAt;
 
     //private List<PostEntity> posts = new ArrayList<>();
     //private List<CommentEntity> comments = new ArrayList<>();

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -33,5 +33,5 @@ public class CommentEntity {
     private int likes = 0;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 }
