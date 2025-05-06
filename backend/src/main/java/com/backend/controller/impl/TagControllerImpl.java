@@ -2,6 +2,7 @@ package com.backend.controller.impl;
 
 import com.backend.controller.TagController;
 import com.backend.persistence.entity.TagEntity;
+import com.backend.persistence.specialdto.TagsSearchDTO;
 import com.backend.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,12 @@ public class TagControllerImpl implements TagController {
 
         TagEntity tag = tagService.findTagById(id);
         return tag;
+    }
+
+    @Override
+    @GetMapping("/all")
+    public TagsSearchDTO findTags(){
+        return tagService.findTags();
     }
 
 }
