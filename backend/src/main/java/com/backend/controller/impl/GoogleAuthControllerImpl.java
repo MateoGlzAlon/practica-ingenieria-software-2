@@ -1,6 +1,7 @@
 package com.backend.controller.impl;
 
 import com.backend.controller.GoogleAuthController;
+import com.backend.persistence.inputDTO.CredentialDTO;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.service.GoogleAuthService;
@@ -16,7 +17,7 @@ public class GoogleAuthControllerImpl implements GoogleAuthController {
     private final GoogleAuthService googleAuthService;
 
     @Override
-    public ResponseEntity<UserInputDTO> loginWithGoogle(@RequestBody GoogleLoginDTO googleLoginDTO) {
+    public ResponseEntity<UserInputDTO> loginWithGoogle(@RequestBody CredentialDTO googleLoginDTO) {
         return googleAuthService.authenticateWithGoogle(googleLoginDTO);
     }
 }
