@@ -1,7 +1,23 @@
-import Link from "next/link";  // Make sure to import Link for navigation
+"use client";
+import Link from "next/link"; 
+import { useEffect, useState } from "react";
 import { Landmark } from 'lucide-react';
 
 export default function Navbar() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        setUser(null);
+        window.location.href = "/";
+    };
     return (
         <>
             <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
@@ -14,9 +30,23 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                    Login
-                </button>
+                {user ? (
+                    <div className="flex items-center gap-4">
+                        <img src={user.avatarUrl} alt="User Avatar" className="w-8 h-8 rounded-full" />
+                        <button 
+                            onClick={handleLogout}
+                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                ) : (
+                    <Link href="/login">
+                        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                            Login
+                        </button>
+                    </Link>
+                )}
             </nav>
 
             <div className="mt-[72px]"></div>
