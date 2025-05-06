@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/tips")
@@ -21,6 +23,11 @@ public class TipControllerImpl implements TipController {
     @GetMapping("/{id}")
     public TipEntity findTipById(@PathVariable Long id) {
         return tipService.findTipById(id);
+    }
+
+    @Override
+    public List<TipEntity> findTipsByPostId(Long id) {
+        return tipService.findTipsByPostId(id);
     }
 
 }
