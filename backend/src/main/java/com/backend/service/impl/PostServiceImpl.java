@@ -30,6 +30,7 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(id).orElse(null);
     }
 
+    @Override
     public List<FeedPostDTO> getFeedPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<PostEntity> postsPage = postRepository.findAll(pageable);
@@ -50,6 +51,7 @@ public class PostServiceImpl implements PostService {
                     .authorUsername(post.getUser().getUsername())
                     .commentCount(post.getComments().size())
                     .createdAt(post.getCreatedAt())
+                    .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
                     .build();
 
             feedPostDTOs.add(feedPostDTO);

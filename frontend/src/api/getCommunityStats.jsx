@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { DATA } from "@/app/data"
 
-export default async function getFeedPosts() {
+export default async function getCommunityStats() {
     try {
-        const response = await axios.get(`${DATA.apiURL}/posts/landingPageFeed`, {
+        const response = await axios.get(`${DATA.apiURL}/stats/community`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -11,7 +11,7 @@ export default async function getFeedPosts() {
 
         return response.data;
     } catch (error) {
-        console.error("Error fetching feed posts:", error);
+        console.error("Error fetching community stats:", error);
         throw error;
     }
 }

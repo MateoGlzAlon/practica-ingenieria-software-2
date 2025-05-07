@@ -22,5 +22,6 @@ public class FeedPostDTO {
     private int commentCount;
     private int likes;
     private Date createdAt;
+    private String content;
 
 }
