@@ -6,27 +6,40 @@ import getFeedPosts from "@/api/getLandingPageFeedPosts"
 
 export default function MainFeed() {
     const [posts, setPosts] = useState([])
+    const [page, setPage] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
+    const [isLoadingMore, setIsLoadingMore] = useState(false)
+    const [hasMore, setHasMore] = useState(true)
+    const PAGE_SIZE = 5
+
+    const fetchPosts = async (pageNumber) => {
+        try {
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE)
+            if (data.length < PAGE_SIZE) {
+                setHasMore(false)
+            }
+            setPosts(prev => [...prev, ...data])
+        } catch (error) {
+            console.error("Error fetching feed posts:", error)
+        } finally {
+            setIsLoading(false)
+            setIsLoadingMore(false)
+        }
+    }
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const data = await getFeedPosts()
-                setPosts(data)
-                setIsLoading(false)
-            } catch (error) {
-                console.error("Error fetching feed posts:", error)
-                setIsLoading(false)
-            }
-        }
-
-        fetchPosts()
+        fetchPosts(0)
     }, [])
 
-    return (
-        <div className="flex-1 flex flex-col gap-4 px-32 border-x-[1px] border-gray-300">
-            <h1 className="text-xl font-bold text-center py-2">For you page</h1>
+    const loadMore = () => {
+        setIsLoadingMore(true)
+        const nextPage = page + 1
+        setPage(nextPage)
+        fetchPosts(nextPage)
+    }
 
+    return (
+        <div className="flex-1 flex flex-col gap-4 px-16 border-x-[1px] border-gray-300 py-2">
             {isLoading ? (
                 <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
@@ -38,9 +51,20 @@ export default function MainFeed() {
                     ))}
                 </div>
             ) : (
-                posts.map((post) => (
-                    <Post postData={post} key={post.id} />
-                ))
+                <>
+                    {posts.map((post) => (
+                        <Post postData={post} key={post.id} />
+                    ))}
+                    {hasMore && (
+                        <button
+                            onClick={loadMore}
+                            disabled={isLoadingMore}
+                            className="bg-blue-500 text-white px-4 py-2 rounded self-center mt-4 hover:bg-blue-600 disabled:opacity-50"
+                        >
+                            {isLoadingMore ? "Loading..." : "Load More"}
+                        </button>
+                    )}
+                </>
             )}
         </div>
     )

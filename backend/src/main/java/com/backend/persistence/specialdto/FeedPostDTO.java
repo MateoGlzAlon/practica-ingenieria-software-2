@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,6 +18,10 @@ public class FeedPostDTO {
     private String title;
     private String imageURL;
     private String state;
+    private String authorUsername;
+    private int commentCount;
     private int likes;
+    private Date createdAt;
+    private String content;
 
 }

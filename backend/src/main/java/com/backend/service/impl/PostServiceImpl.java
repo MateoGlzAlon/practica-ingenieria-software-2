@@ -9,6 +9,10 @@ import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.PostRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,12 +31,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<FeedPostDTO> getFeedPosts() {
-        List<PostEntity> posts = postRepository.findAll();
+    public List<FeedPostDTO> getFeedPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostEntity> postsPage = postRepository.findAll(pageable);
 
         List<FeedPostDTO> feedPostDTOs = new ArrayList<>();
-
-        for (PostEntity post : posts) {
+        for (PostEntity post : postsPage.getContent()) {
             String firstImageUrl = null;
             if (post.getImages() != null && !post.getImages().isEmpty()) {
                 firstImageUrl = post.getImages().get(0).getImageUrl();
@@ -43,7 +47,11 @@ public class PostServiceImpl implements PostService {
                     .title(post.getTitle())
                     .imageURL(firstImageUrl)
                     .likes(post.getLikes())
-                    .state("TO-DO")
+                    .state(post.getState())
+                    .authorUsername(post.getUser().getUsername())
+                    .commentCount(post.getComments().size())
+                    .createdAt(post.getCreatedAt())
+                    .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
                     .build();
 
             feedPostDTOs.add(feedPostDTO);
@@ -51,6 +59,7 @@ public class PostServiceImpl implements PostService {
 
         return feedPostDTOs;
     }
+
 
     @Override
     public PostInputDTO getPostIndividual(Long id){
@@ -90,6 +99,7 @@ public class PostServiceImpl implements PostService {
                 .content(post.getContent())
                 .votes(post.getLikes())
                 .date(post.getCreatedAt())
+                .state(post.getState())
                 .build();
 
 

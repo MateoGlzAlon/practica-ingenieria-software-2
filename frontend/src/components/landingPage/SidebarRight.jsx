@@ -1,8 +1,26 @@
 "use client"
 
 import { TrendingUp, Award, ExternalLink } from "lucide-react"
+import getCommunityStats from "@/api/getCommunityStats"
+import { useEffect, useState } from "react"
+
 
 export default function SidebarRight() {
+
+    const [communityStats, setCommunityStats] = useState()
+
+    const fetchCommunityStats = async () => {
+        try {
+            const data = await getCommunityStats()
+            setCommunityStats(data)
+        } catch (error) {
+            console.error("Error fetching feed posts:", error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCommunityStats()
+    }, [])
 
 
     const topUsers = [
@@ -13,7 +31,7 @@ export default function SidebarRight() {
 
     return (
         <div className="w-[20%] hidden lg:flex flex-col gap-4 sticky top-20 self-start">
-            <div className="bg-orange-50 border border-orange-200 p-4 rounded-md">
+            {/* <div className="bg-orange-50 border border-orange-200 p-4 rounded-md">
                 <h3 className="font-medium mb-2 text-orange-800">Join the Stoa Community</h3>
                 <p className="text-sm text-gray-700 mb-3">
                     Get unstuck by asking questions, unlock new privileges, and vote on content.
@@ -21,7 +39,7 @@ export default function SidebarRight() {
                 <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-md text-sm font-medium">
                     Create Account
                 </button>
-            </div>
+            </div> */}
 
 
             <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200">
@@ -55,11 +73,13 @@ export default function SidebarRight() {
 
             <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200">
                 <h3 className="font-medium mb-2">Community Stats</h3>
-                <div className="text-sm space-y-1 text-gray-700">
-                    <div>Users: 12,345</div>
-                    <div>Questions: 45,678</div>
-                    <div>Answers: 98,765</div>
-                </div>
+                {communityStats &&
+                    <div className="text-sm space-y-1 text-gray-700">
+                        <div>Users: {communityStats.users}</div>
+                        <div>Questions: {communityStats.questions}</div>
+                        <div>Answers: {communityStats.answers}</div>
+                    </div>
+                }
             </div>
         </div>
     )
