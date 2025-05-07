@@ -13,7 +13,6 @@ export default function SidebarRight() {
         try {
             const data = await getCommunityStats()
             setCommunityStats(data)
-            console.log("data", data)
         } catch (error) {
             console.error("Error fetching feed posts:", error)
         }
@@ -21,7 +20,6 @@ export default function SidebarRight() {
 
     useEffect(() => {
         fetchCommunityStats()
-        console.log(communityStats)
     }, [])
 
 

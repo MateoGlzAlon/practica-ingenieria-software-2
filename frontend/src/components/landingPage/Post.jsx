@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 
 export default function Post({ postData }) {
 
-    console.log(postData);
     return (
 
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col gap-6 mb-4">
