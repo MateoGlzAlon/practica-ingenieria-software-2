@@ -1,5 +1,5 @@
 export const mockData = {
-    //landingPage mockData (not used for now)
+    //landingPage mockData 
     postExamples: [
         {
             id: 1,
@@ -8,13 +8,11 @@ export const mockData = {
             state: "Open",
             upvotes: 12,
             downvotes: 2,
-            state: "Open",
         },
         {
             id: 2,
             title: "What's the best JavaScript framework in 2025?",
             image: "https://fakeimg.pl/600x400?text=image_post2",
-            state: "Discussion",
             upvotes: 34,
             downvotes: 5,
             state: "Solved",

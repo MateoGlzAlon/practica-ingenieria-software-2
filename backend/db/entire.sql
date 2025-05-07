@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS posts (
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     likes INTEGER DEFAULT 0,
+    "state" VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -86,17 +87,18 @@ INSERT INTO tags (name) VALUES
 ('daily routine');    -- 10
 
 -- POSTS (asociando un solo tag a cada post)
-INSERT INTO posts (user_id, tag_id, title, content, likes) VALUES
-(1, 1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10),
-(2, 10, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7),
-(3, 3, 'Meditation and Logos', 'Finding order within.', 5),
-(4, 4, 'How Epictetus Changed Me', 'Life lessons from Discourses.', 8),
-(5, 5, 'Seneca on Anger', 'Practical advice for temper.', 6),
-(6, 6, 'Marcus Aurelius Reflections', 'Journal-style wisdom.', 9),
-(7, 7, 'Virtue Over Pleasure', 'A stoic view.', 4),
-(8, 2, 'Modern Stoicism', 'Is it still relevant?', 11),
-(9, 8, 'Mindfulness vs Stoicism', 'Complement or conflict?', 3),
-(10, 9, 'Stoic Parenting', 'Teaching kids the stoic way.', 5);
+INSERT INTO posts (user_id, tag_id, title, content, likes, state) VALUES
+(1, 1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10, 'open'),
+(2, 10, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7, 'open'),
+(3, 3, 'Meditation and Logos', 'Finding order within.', 5, 'open'),
+(4, 4, 'How Epictetus Changed Me', 'Life lessons from Discourses.', 8, 'open'),
+(5, 5, 'Seneca on Anger', 'Practical advice for temper.', 6, 'open'),
+(6, 6, 'Marcus Aurelius Reflections', 'Journal-style wisdom.', 9, 'open'),
+(7, 7, 'Virtue Over Pleasure', 'A stoic view.', 4, 'open'),
+(8, 2, 'Modern Stoicism', 'Is it still relevant?', 11, 'open'),
+(9, 8, 'Mindfulness vs Stoicism', 'Complement or conflict?', 3, 'open'),
+(10, 9, 'Stoic Parenting', 'Teaching kids the stoic way.', 5, 'open');
+
 
 -- POST IMAGES
 INSERT INTO post_images (post_id, image_url) VALUES

@@ -28,6 +28,7 @@ public class PostEntity {
     private String title;
     private String content;
     private int likes = 0;
+    private String state;
 
     @Column(name = "created_at")
     private Date createdAt;

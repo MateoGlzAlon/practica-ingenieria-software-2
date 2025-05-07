@@ -1,5 +1,7 @@
 import { ArrowUp, ArrowDown, Bookmark } from "lucide-react";
 import Link from "next/link"
+import { format } from 'date-fns';
+
 
 
 export default function Post({ postData }) {
@@ -59,14 +61,14 @@ export default function Post({ postData }) {
                     <div className="flex justify-between items-center text-sm text-gray-500 ">
                         <div className="flex items-center gap-2">
                             {/* TODO POST COMMENT COUNT*/}
-                            <span>{postData.comments || "N/A"} comments</span>
+                            <span>{postData.commentCount || "N/A"} {postData.commentCount === 1 ? "comment" : "comments"}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs ml-2">
+                        <div className="flex items-center gap-2  ml-2">
                             {/* TODO POST AUTHOR USERNAME*/}
-                            <span className="text-gray-600">{postData.username || "N/A"}</span>
+                            <span className="text-gray-600">{postData.authorUsername || "N/A"}</span>
                             <span>•</span>
                             {/* TODO POST CREATED AT*/}
-                            <span className="text-gray-400">{postData.createdAt || "N/A"}</span>
+                            <span className="text-gray-400 text-xs">{format(new Date(postData.createdAt), 'dd/MM/yyyy') || "N/A"}</span>
                         </div>
                     </div>
 
