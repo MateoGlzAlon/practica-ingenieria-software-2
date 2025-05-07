@@ -80,7 +80,101 @@ export const mockData = {
 
         votes: 42,
         createdAt: "17-4-2025",
+    },
+
+    profilePageExample: {
+        user: {
+            name: "UPDATE-DB",
+            username: "alice",
+            avatar: "https://placehold.co/400x400?text=Post1",
+            role: "UPDATE-DB-IF-WANTED",
+            memberSince: "April 2021",
+            stats: {
+                questions: 42,
+                answers: 187,
+            },
+            about:
+                "Developer with over 8 years of experience in web technologies. Specialized in React, Node.js, and cloud architectures. Active contributor to open source projects and mentor to junior developers.",
+            links: {
+                github: "github.com/carlos_dev",
+                twitter: "twitter.com/carlos_dev",
+                website: "carlosdev.com",
+            },
+            tipsSent: [
+                {
+                    receiver: "john",
+                    amount: 7,
+                    date: "2025-03-15",
+                    postId: 1,
+                    commentId: 1,
+                },
+                {
+                    receiver: "emma",
+                    amount: 12,
+                    date: "2025-04-02",
+                    postId: 1,
+                    commentId: 2,
+                },
+            ],
+            tipsReceived: [
+                {
+                    sender: "bob",
+                    amount: 10,
+                    date: "2025-03-12",
+                    postId: 2,
+                    commentId: 3,
+                },
+                {
+                    sender: "alice",
+                    amount: 5,
+                    date: "2025-04-01",
+                    postId: 2,
+                    commentId: 4,
+                },
+            ],
+
+        },
+        activityData: [
+            { month: "Jan", contributions: 45 },
+            { month: "Feb", contributions: 32 },
+            { month: "Mar", contributions: 67 },
+            { month: "Apr", contributions: 58 },
+            { month: "May", contributions: 43 },
+            { month: "Jun", contributions: 89 },
+            { month: "Jul", contributions: 76 },
+            { month: "Aug", contributions: 91 },
+            { month: "Sep", contributions: 65 },
+            { month: "Oct", contributions: 83 },
+            { month: "Nov", contributions: 72 },
+            { month: "Dec", contributions: 56 },
+        ],
+        posts: [
+            {
+                id: 1,
+                title: "How to optimize performance in React applications",
+                votes: 124,
+                answers: 8,
+                date: "published on 15-3-2023",
+            },
+            {
+                id: 2,
+                title: "Complete guide to implementing JWT authentication",
+                votes: 98,
+                answers: 12,
+                date: "published on 22-5-2023",
+            },
+            {
+                id: 3,
+                title: "Best practices for structuring Node.js projects",
+                votes: 87,
+                answers: 6,
+                date: "published on 7-8-2023",
+            },
+        ],
+
+
     }
+
 
 
 
