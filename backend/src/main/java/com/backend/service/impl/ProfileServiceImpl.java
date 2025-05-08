@@ -41,26 +41,11 @@ public class ProfileServiceImpl implements ProfileService {
     private final CommentRepository commentRepository;
 
     /*
-    TO-DO:
-        - change the date output (?)
-        - make code for ActivityData
-
-        - change links -> database
-        - add: 
-            - name in database (users)
-            - role in database (users)
+    TO-DO: change links -> database + code
     */
 
     public ProfileDTO getProfileByUserId(Long id){
 
-        /*
-        private Long id;
-        private String title;
-        private int votes;
-        private Long answers;
-        private Date date;
-        private String role;
-        */
         List<PostEntity> posts = postRepository.findPostsByUserId(id);
         List<PostOutputDTO> posts_total = new ArrayList<>();
 
@@ -81,22 +66,6 @@ public class ProfileServiceImpl implements ProfileService {
 
         }
 
-        /*
-        private Long id;
-        private String name;
-        private String username;
-        private String email;
-        private String about;
-        private String avatarUrl;
-        private Date memberSince;
-
-        private List<TipSentOutputDTO> tipsSent;
-        private List<TipReceivedOutputDTO> tipsReceived;
-    
-        private List<String> links; 
-        private List<int> stats;
-        */
-
         UserEntity userData = userRepository.findUserById(id);
         
         List<TipEntity> tipsSent = tipRepository.findTipsSentByUserId(id);
@@ -111,7 +80,6 @@ public class ProfileServiceImpl implements ProfileService {
                 .amount(te.getAmount())
                 .date(DateTimeFormatter.ofPattern("d-M-yyyy").withZone(ZoneId.systemDefault())
                     .format(te.getCreatedAt().toInstant()))
-                //.date(te.getCreatedAt())
                 .postId(te.getPost().getId())
                 .commentId(te.getComment().getId())
                 .build();
@@ -151,7 +119,6 @@ public class ProfileServiceImpl implements ProfileService {
 
         List<CommentEntity> commentsUser = commentRepository.findByUserId(id);
 
-        //update
         Map<String,Integer> stats = Map.of(
             "questions", posts.size(),
             "answers",   commentsUser.size()
@@ -167,7 +134,7 @@ public class ProfileServiceImpl implements ProfileService {
             .about(userData.getAbout())
             .avatarUrl(userData.getAvatarUrl())
             .memberSince(DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH).withZone(ZoneId.systemDefault())
-                .format(userData.getCreatedAt().toInstant())) //format for making -> April 2021
+                .format(userData.getCreatedAt().toInstant()))
             .tipsSent(tipsSentTotal)
             .tipsReceived(tipsReceivedTotal)
             .links(links)
