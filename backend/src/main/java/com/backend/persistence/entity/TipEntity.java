@@ -3,6 +3,7 @@ package com.backend.persistence.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 import lombok.*;
 
@@ -37,5 +38,5 @@ public class TipEntity {
     private int amount;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 }
