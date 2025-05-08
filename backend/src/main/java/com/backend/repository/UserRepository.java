@@ -17,7 +17,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserInputDTO findInputUserById(@Param("userId") Long id);
     Optional<UserEntity> findByEmail(String email);
 
-    @Query("FROM UserEntity u " +
-            "WHERE u.id = :userId")
-    UserEntity findUserById(@Param("userId") Long id);
+
 }

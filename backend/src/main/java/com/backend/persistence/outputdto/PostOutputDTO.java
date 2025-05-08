@@ -15,6 +15,6 @@ public class PostOutputDTO {
     private String title;
     private int votes;
     private Long answers;
-    private String date;
+    private Date date;
 
 }

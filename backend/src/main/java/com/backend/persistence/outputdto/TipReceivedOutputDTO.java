@@ -13,7 +13,7 @@ public class TipReceivedOutputDTO {
 
     private String sender;
     private int amount;
-    private String date;
+    private Date date;
     private Long postId;
     private Long commentId;
 

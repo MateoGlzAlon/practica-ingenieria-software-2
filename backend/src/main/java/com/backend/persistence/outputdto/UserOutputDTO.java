@@ -21,7 +21,7 @@ public class UserOutputDTO {
     private String email;
     private String about;
     private String avatarUrl;
-    private String memberSince; //createdAt
+    private Date memberSince; //createdAt
 
     private List<TipSentOutputDTO> tipsSent;
     private List<TipReceivedOutputDTO> tipsReceived;
