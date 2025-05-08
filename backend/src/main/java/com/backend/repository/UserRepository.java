@@ -1,7 +1,7 @@
 package com.backend.repository;
 
 import com.backend.persistence.entity.UserEntity;
-
+import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +16,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "WHERE u.id = :userId")
     UserInputDTO findInputUserById(@Param("userId") Long id);
     Optional<UserEntity> findByEmail(String email);
+
+    @Query("SELECT new com.backend.persistence.outputdto.UserOutputDTO(u.username,u.email, u.about, u.avatarUrl, u.createdAt) " +
+            "FROM UserEntity u " +
+            "WHERE u.id = :userId")
+    UserOutputDTO findOutputUserById(@Param("userId") Long id);
 }
