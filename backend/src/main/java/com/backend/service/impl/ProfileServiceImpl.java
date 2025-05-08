@@ -21,6 +21,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,8 +40,9 @@ public class ProfileServiceImpl implements ProfileService {
     /*
     TO-DO:
         - change the date output (?)
-        - change links -> database
         - make code for ActivityData
+
+        - change links -> database
         - add: 
             - name in database (users)
             - role in database (users)
@@ -64,7 +69,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .title(p.getTitle())
                 .votes(p.getLikes())
                 .answers((long)p.getComments().size())
-                .date(p.getCreatedAt())
+                .date("published on "+DateTimeFormatter.ofPattern("d-M-yyyy").withZone(ZoneId.systemDefault())
+                    .format(p.getCreatedAt().toInstant())) //format for making -> 10-3-2024
                 .build();
 
             posts_total.add(nPost);
@@ -100,7 +106,9 @@ public class ProfileServiceImpl implements ProfileService {
             TipSentOutputDTO nTip = TipSentOutputDTO.builder()
                 .receiver(te.getSender().getUsername())
                 .amount(te.getAmount())
-                .date(te.getCreatedAt())
+                .date(DateTimeFormatter.ofPattern("d-M-yyyy").withZone(ZoneId.systemDefault())
+                    .format(te.getCreatedAt().toInstant()))
+                //.date(te.getCreatedAt())
                 .postId(te.getPost().getId())
                 .commentId(te.getComment().getId())
                 .build();
@@ -116,7 +124,8 @@ public class ProfileServiceImpl implements ProfileService {
             TipReceivedOutputDTO nTip = TipReceivedOutputDTO.builder()
                 .sender(te.getSender().getUsername())
                 .amount(te.getAmount())
-                .date(te.getCreatedAt())
+                .date(DateTimeFormatter.ofPattern("d-M-yyyy").withZone(ZoneId.systemDefault())
+                    .format(te.getCreatedAt().toInstant()))
                 .postId(te.getPost().getId())
                 .commentId(te.getComment().getId())
                 .build();
@@ -149,15 +158,13 @@ public class ProfileServiceImpl implements ProfileService {
             .email(userData.getEmail())
             .about(userData.getAbout())
             .avatarUrl(userData.getAvatarUrl())
-            .memberSince(userData.getCreatedAt())
+            .memberSince(DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH).withZone(ZoneId.systemDefault())
+                .format(userData.getCreatedAt().toInstant())) //format for making -> April 2021
             .tipsSent(tipsSentTotal)
             .tipsReceived(tipsReceivedTotal)
             .links(links)
             .stats(stats)
             .build();
-
-
-    
         
         
 
