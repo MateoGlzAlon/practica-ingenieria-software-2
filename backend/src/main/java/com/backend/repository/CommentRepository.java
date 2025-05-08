@@ -18,4 +18,15 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     @Query("FROM CommentEntity c " +
             "WHERE c.user.id = :userId")
     List<CommentEntity> findByUserId(@Param("userId") Long postId);
+
+    @Query("SELECT " +
+      "FUNCTION('TO_CHAR', c.createdAt, 'Mon') AS month, " +
+      "COUNT(c) AS contributions " +
+      "FROM CommentEntity c " +
+      "WHERE c.user.id = :userId " +
+      "GROUP BY " +
+      "MONTH(c.createdAt), " +
+      "FUNCTION('TO_CHAR', c.createdAt, 'Mon') " +
+      "ORDER BY MONTH(c.createdAt)")
+    List<Object[]> findCommentCountsByMonth(@Param("userId") Long userId);
 }

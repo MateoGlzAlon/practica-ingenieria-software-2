@@ -3,6 +3,7 @@ package com.backend.service.impl;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
+import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.outputdto.ActivityOutputDTO;
@@ -27,6 +28,8 @@ import java.util.Locale;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 @Service
 @AllArgsConstructor
@@ -143,10 +146,15 @@ public class ProfileServiceImpl implements ProfileService {
             "website", updateLink
         );
 
+
+        
+
+        List<CommentEntity> commentsUser = commentRepository.findByUserId(id);
+
         //update
         Map<String,Integer> stats = Map.of(
             "questions", posts.size(),
-            "answers",   commentRepository.findByUserId(id).size()
+            "answers",   commentsUser.size()
         );
 
 
@@ -168,11 +176,54 @@ public class ProfileServiceImpl implements ProfileService {
         
         
 
-        //this is for testing
-        List<ActivityOutputDTO> activityData = List.of(
-            new ActivityOutputDTO("Mar", 67)
-        );
 
+        //this is for testing
+        /*List<ActivityOutputDTO> activityData = List.of(
+            new ActivityOutputDTO("Mar", 67)
+        );*/
+
+
+        List<Object[]> postCounts = postRepository.findPostCountsByMonth(id);
+        List<Object[]> commentCounts = commentRepository.findCommentCountsByMonth(id);
+        String[] months = { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+        
+
+        Map<String,Integer> totals = new LinkedHashMap<>();
+
+        for (String m : months) {
+            totals.put(m, 0);
+        }
+
+
+        for (Object[] row : postCounts) {
+            String month = (String) row[0];
+            int cnt = ((Number) row[1]).intValue();
+
+            totals.put(month, totals.getOrDefault(month, 0) + cnt);
+        }
+
+
+        for (Object[] row : commentCounts) {
+            String month = (String) row[0];
+            int cnt = ((Number) row[1]).intValue();
+
+            totals.put(month, totals.getOrDefault(month, 0) + cnt);
+        }
+
+
+
+        List<ActivityOutputDTO> activityData = new ArrayList<>();
+
+        for (String m : months) {
+
+            ActivityOutputDTO aDataDTO = ActivityOutputDTO.builder()
+                .month(m)
+                .contributions(totals.get(m))
+                .build();
+
+
+            activityData.add(aDataDTO);
+        }
 
 
         return ProfileDTO.builder()

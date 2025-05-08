@@ -20,4 +20,15 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
             "WHERE p.user.id = :userId")
     List<PostEntity> findPostsByUserId(@Param("userId") Long userId);
 
+    @Query("SELECT " +
+      "FUNCTION('TO_CHAR', p.createdAt, 'Mon') AS month, " +
+      "COUNT(p) AS contributions " +
+      "FROM PostEntity p " +
+      "WHERE p.user.id = :userId " +
+      "GROUP BY " +
+      "MONTH(p.createdAt), " +
+      "FUNCTION('TO_CHAR', p.createdAt, 'Mon') " +
+      "ORDER BY MONTH(p.createdAt)")
+    List<Object[]> findPostCountsByMonth(@Param("userId") Long userId);
+
 }
