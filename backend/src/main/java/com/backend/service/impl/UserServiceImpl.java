@@ -87,17 +87,6 @@ public class UserServiceImpl implements UserService {
             tipsReceivedTotal.add(nTip);
         }
 
-
-        //this is for testing
-        String updateLink = "UPDATE_LINKS_DATABASE_FROM_BACKEND";
-
-        Map<String,String> links = Map.of(
-                "github",  updateLink,
-                "twitter", updateLink,
-                "website", updateLink
-        );
-
-
         List<CommentEntity> commentsUser = commentRepository.findByUserId(id);
 
         Map<String,Integer> stats = Map.of(
@@ -117,7 +106,9 @@ public class UserServiceImpl implements UserService {
                 .memberSince(userData.getCreatedAt())
                 .tipsSent(tipsSentTotal)
                 .tipsReceived(tipsReceivedTotal)
-                .links(links)
+                .githubLink(userData.getGithub_link())
+                .twitterLink(userData.getTwitter_link())
+                .websiteLink(userData.getWebsite_link())
                 .stats(stats)
                 .build();
 

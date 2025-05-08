@@ -25,8 +25,11 @@ public class UserOutputDTO {
 
     private List<TipSentOutputDTO> tipsSent;
     private List<TipReceivedOutputDTO> tipsReceived;
-   
-    private Map<String,String> links;
+
+    private String githubLink;
+    private String twitterLink;
+    private String websiteLink;
+
     private Map<String,Integer> stats;
     
     
