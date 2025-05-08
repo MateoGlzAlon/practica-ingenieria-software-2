@@ -147,7 +147,7 @@ public class ProfileServiceImpl implements ProfileService {
         );
 
 
-        
+
 
         List<CommentEntity> commentsUser = commentRepository.findByUserId(id);
 
@@ -160,9 +160,9 @@ public class ProfileServiceImpl implements ProfileService {
 
         UserOutputDTO userDto = UserOutputDTO.builder()
             .id(userData.getId())
-            .name("UPDATE-DB-FROM-BACKEND")
+            .name(userData.getName())
             .username(userData.getUsername())
-            .role("UPDATE-DB-FROM-BACKEND")
+            .role(userData.getRole())
             .email(userData.getEmail())
             .about(userData.getAbout())
             .avatarUrl(userData.getAvatarUrl())
