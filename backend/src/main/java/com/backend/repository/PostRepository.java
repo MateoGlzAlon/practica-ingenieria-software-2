@@ -16,18 +16,8 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
             "WHERE p.id = :postId")
     PostEntity getFeedPosts(@Param("postId") Long id);
 
-    @Query("SELECT new com.backend.persistence.outputdto.PostOutputDTO(" +
-           "  p.id, " +
-           "  p.title, " +
-           "  p.likes, " +
-           "  COUNT(c), " +
-           "  p.createdAt" +
-           ") " +
-           "FROM PostEntity p " +
-           "LEFT JOIN p.comments c " +
-           "WHERE p.user.id = :userId " +
-           "GROUP BY p.id, p.title, p.likes, p.createdAt " +
-           "ORDER BY p.createdAt DESC")
-    List<PostOutputDTO> findPostsByUserId(@Param("userId") Long userId);
+    @Query("FROM PostEntity p " +
+            "WHERE p.user.id = :userId")
+    List<PostEntity> findPostsByUserId(@Param("userId") Long userId);
 
 }

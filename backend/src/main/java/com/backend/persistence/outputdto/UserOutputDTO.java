@@ -7,12 +7,13 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserOutputDTO {
 
-    //private Long id;
+    private Long id;
+    private String name;
     private String username;
     private String email;
     private String about;
@@ -21,24 +22,11 @@ public class UserOutputDTO {
 
     private List<TipEntity> tipsSent;
     private List<TipEntity> tipsReceived;
-
+   
     //todo: links/stats/name
+    private List<String> links;
+    private List<Integer> stats;
     
-
-
-    public UserOutputDTO(String username,
-                         String email,
-                         String about,
-                         String avatarUrl,
-                         Date memberSince) {
-        this.username     = username;
-        this.email        = email;
-        this.about        = about;
-        this.avatarUrl    = avatarUrl;
-        this.memberSince  = memberSince;
-    }
-
-
     
 }
 

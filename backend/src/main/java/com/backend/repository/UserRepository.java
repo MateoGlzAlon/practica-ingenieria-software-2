@@ -17,8 +17,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserInputDTO findInputUserById(@Param("userId") Long id);
     Optional<UserEntity> findByEmail(String email);
 
-    @Query("SELECT new com.backend.persistence.outputdto.UserOutputDTO(u.username,u.email, u.about, u.avatarUrl, u.createdAt) " +
-            "FROM UserEntity u " +
+    @Query("FROM UserEntity u " +
             "WHERE u.id = :userId")
-    UserOutputDTO findOutputUserById(@Param("userId") Long id);
+    UserEntity findUserById(@Param("userId") Long id);
 }
