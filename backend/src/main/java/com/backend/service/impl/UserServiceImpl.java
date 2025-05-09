@@ -113,14 +113,6 @@ public class UserServiceImpl implements UserService {
                 .build();
 
 
-
-
-        //this is for testing
-        /*List<ActivityOutputDTO> activityData = List.of(
-            new ActivityOutputDTO("Mar", 67)
-        );*/
-
-
         List<Object[]> postCounts = postRepository.findPostCountsByMonth(id);
         List<Object[]> commentCounts = commentRepository.findCommentCountsByMonth(id);
         String[] months = { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };

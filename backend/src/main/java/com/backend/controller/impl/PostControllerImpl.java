@@ -6,10 +6,10 @@ import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
+import com.backend.persistence.inputDTO.PostCreationDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -48,6 +48,11 @@ public class PostControllerImpl implements PostController {
         PostDetailsDTO postDetailsDTO = postService.getPostDetails(id);
 
         return postDetailsDTO;
+    }
+
+    @PostMapping("/create")
+    public PostEntity createPost(@RequestBody PostCreationDTO post){
+        return postService.createPost(post);
     }
 
 }

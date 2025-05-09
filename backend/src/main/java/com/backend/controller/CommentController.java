@@ -2,9 +2,7 @@ package com.backend.controller;
 
 import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,5 +14,9 @@ public interface CommentController {
 
     @GetMapping("/post/{id}")
     List<CommentInputDTO> findCommentsOfAPost(@PathVariable Long id);
+
+
+    @PostMapping("/create")
+    CommentEntity createComment(@RequestBody CommentInputDTO comment);
 
 }

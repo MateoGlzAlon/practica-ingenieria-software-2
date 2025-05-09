@@ -9,4 +9,6 @@ public interface CommentService {
     CommentEntity findCommentById(Long id);
 
     List<CommentInputDTO> findCommentsOfAPost(Long id);
+
+    CommentEntity createComment(CommentInputDTO comment);
 }

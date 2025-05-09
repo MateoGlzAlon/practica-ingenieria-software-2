@@ -5,20 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+
+import java.util.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentInputDTO {
+public class PostCreationDTO {
 
-    //endpoint /comments/post/{id}
-    //also used in the creation of comments
-    private Long id;
-    private int post_id;
+    private String title;
     private String content;
-    private int likes;
+    private String tag;
 
+    //optional value
+    private List<String> links;
 
 }
