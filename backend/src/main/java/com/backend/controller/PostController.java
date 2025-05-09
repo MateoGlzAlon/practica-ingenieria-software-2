@@ -14,8 +14,7 @@ import java.util.List;
 
 @RequestMapping("/posts")
 public interface PostController {
-    
-    //merge this one and the "getPostIndividual()" if its not used
+
     @GetMapping("/{id}")
     PostEntity findPostById(@PathVariable Long id);
 

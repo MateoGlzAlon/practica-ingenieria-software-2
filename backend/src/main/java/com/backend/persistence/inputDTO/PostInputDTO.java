@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PostInputDTO {
 
-    //endpoint /posts/focus/{id}
     private Long id;
     private String title;
     private String content;

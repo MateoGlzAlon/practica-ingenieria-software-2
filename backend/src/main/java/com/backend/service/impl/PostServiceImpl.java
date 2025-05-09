@@ -126,6 +126,7 @@ public class PostServiceImpl implements PostService {
         */
 
         /*
+        EXAMPLE OF REQUEST:
         {
         "title":"test2",
         "content":"this a test2",

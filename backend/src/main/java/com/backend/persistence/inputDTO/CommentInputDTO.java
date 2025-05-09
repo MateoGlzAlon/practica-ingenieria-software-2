@@ -14,14 +14,11 @@ import java.util.List;
 public class CommentInputDTO {
 
     //endpoint /comments/post/{id}
+    //also used in the creation of comments
     private Long id;
     private int post_id;
     private String content;
     private int likes;
-    
 
-    
-    //mockdata has status true/false
-    //private boolean status;
 
 }

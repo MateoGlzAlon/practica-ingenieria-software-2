@@ -42,11 +42,20 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentEntity createComment(CommentInputDTO comment){
 
+        /*
+        EXAMPLE OF REQUEST:
+        {
+        "post_id":28,
+        "content":"WOW!!!!!!!!!! NICE ONE LOL"
+        }
+        */
+
         CommentEntity newComment = new CommentEntity();
 
         PostEntity postComment = postRepository.findById((long)comment.getPost_id()).orElse(null);
 
         newComment.setPost(postComment);
+
 
 
         //change this when we have persistance
@@ -62,7 +71,6 @@ public class CommentServiceImpl implements CommentService {
 
 
         return commentRepository.save(newComment);
-
 
     }
 
