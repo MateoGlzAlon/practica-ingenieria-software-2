@@ -1,11 +1,14 @@
 package com.backend.service.impl;
 
 import com.backend.persistence.entity.PostEntity;
+import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
+import com.backend.persistence.inputDTO.PostCreationDTO;
 import com.backend.repository.PostRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +110,30 @@ public class PostServiceImpl implements PostService {
 
         return postDetails;
     }
+
+    @Override
+    public PostEntity createPost(PostCreationDTO post){
+
+        PostEntity nPost = new PostEntity();
+        nPost.setTitle(post.getTitle());
+        nPost.setContent(post.getContent());
+
+        // valores ficticios para probar
+        UserEntity dummyUser = new UserEntity();
+        dummyUser.setId(1L);
+        TagEntity  dummyTag  = new TagEntity();
+        dummyTag.setId(1L);
+        
+        nPost.setUser(dummyUser);
+        nPost.setTag(dummyTag);
+        nPost.setLikes(0);
+        nPost.setState("open");
+        nPost.setCreatedAt(new Date());
+
+        return postRepository.save(nPost);
+
+    }
+
+
 
 }

@@ -4,10 +4,11 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.specialdto.FeedDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.inputDTO.PostCreationDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -26,5 +27,10 @@ public interface PostController {
 
     @GetMapping("/details/{id}")
     PostDetailsDTO getPostDetails(@PathVariable Long id);
+
+
+    // create post
+    @PostMapping("/create")
+    PostEntity createPost(@RequestBody PostCreationDTO post);
 
 }
