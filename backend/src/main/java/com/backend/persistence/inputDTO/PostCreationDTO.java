@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+
+import java.util.*;
 
 @Data
 @Builder
@@ -16,5 +17,8 @@ public class PostCreationDTO {
     private String title;
     private String content;
     private String tag;
+
+    //optional value
+    private List<String> links;
 
 }

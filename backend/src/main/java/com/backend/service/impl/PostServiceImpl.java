@@ -11,6 +11,7 @@ import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.persistence.inputDTO.PostCreationDTO;
 import com.backend.repository.PostRepository;
 import com.backend.repository.TagRepository;
+import com.backend.repository.PostImageRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ import java.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Collections;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +33,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final TagRepository tagRepository;
+    private final PostImageRepository postImageRepository;
 
 
     @Override
@@ -116,6 +120,23 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity createPost(PostCreationDTO post){
 
+        /*
+        TO-DO:
+            - add userId to post
+        */
+
+        /*
+        {
+        "title":"test2",
+        "content":"this a test2",
+        "tag":"ARCH LINUX",
+        "links":[
+            "https://placehold.co/600x400?text=Post90",
+            "https://placehold.co/600x400?text=Post91"
+            ]
+        }
+        */
+
         PostEntity nPost = new PostEntity();
         nPost.setTitle(post.getTitle());
         nPost.setContent(post.getContent());
@@ -129,10 +150,10 @@ public class PostServiceImpl implements PostService {
         
 
 
+
         TagEntity tagDatabase = tagRepository.findTagByName(post.getTag()).orElse(null);
 
         if(tagDatabase == null){
-
             TagEntity newTag = new TagEntity();
             newTag.setName(post.getTag());
 
@@ -140,11 +161,8 @@ public class PostServiceImpl implements PostService {
             tagRepository.save(newTag);
 
             nPost.setTag(newTag);
-
         }else{
-
             nPost.setTag(tagDatabase);
-
         }
 
         
@@ -152,7 +170,34 @@ public class PostServiceImpl implements PostService {
         nPost.setState("open");
         nPost.setCreatedAt(new Date());
 
-        return postRepository.save(nPost);
+
+        // i do this for setting the id of the post for the links of the images
+        PostEntity saved = postRepository.save(nPost);
+        
+        List<String> links = post.getLinks() != null ? post.getLinks() : Collections.emptyList();
+        
+
+        if(links.size() != 0){
+
+            List<PostImageEntity> listImages = new ArrayList<>();
+            
+            for(String link : links){
+
+                PostImageEntity postImageNew = new PostImageEntity();
+                postImageNew.setPost(saved);
+                postImageNew.setImageUrl(link);
+                postImageNew.setCreatedAt(new Date());
+
+                postImageRepository.save(postImageNew);
+
+                listImages.add(postImageNew);
+
+            }
+
+            saved.setImages(listImages);
+        }
+
+        return saved;
 
     }
 
