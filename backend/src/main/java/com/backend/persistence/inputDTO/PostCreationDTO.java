@@ -15,5 +15,6 @@ public class PostCreationDTO {
 
     private String title;
     private String content;
+    private String tag;
 
 }

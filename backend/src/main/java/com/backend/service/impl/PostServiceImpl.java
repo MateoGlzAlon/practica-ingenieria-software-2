@@ -10,6 +10,7 @@ import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.persistence.inputDTO.PostCreationDTO;
 import com.backend.repository.PostRepository;
+import com.backend.repository.TagRepository;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final TagRepository tagRepository;
 
 
     @Override
@@ -118,14 +120,34 @@ public class PostServiceImpl implements PostService {
         nPost.setTitle(post.getTitle());
         nPost.setContent(post.getContent());
 
-        // valores ficticios para probar
+
+
+        //change this when we have persistance
         UserEntity dummyUser = new UserEntity();
         dummyUser.setId(1L);
-        TagEntity  dummyTag  = new TagEntity();
-        dummyTag.setId(1L);
-        
         nPost.setUser(dummyUser);
-        nPost.setTag(dummyTag);
+        
+
+
+        TagEntity tagDatabase = tagRepository.findTagByName(post.getTag()).orElse(null);
+
+        if(tagDatabase == null){
+
+            TagEntity newTag = new TagEntity();
+            newTag.setName(post.getTag());
+
+            //added to the database to have it later on
+            tagRepository.save(newTag);
+
+            nPost.setTag(newTag);
+
+        }else{
+
+            nPost.setTag(tagDatabase);
+
+        }
+
+        
         nPost.setLikes(0);
         nPost.setState("open");
         nPost.setCreatedAt(new Date());
