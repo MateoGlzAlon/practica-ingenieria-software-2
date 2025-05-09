@@ -143,11 +143,15 @@ public class PostServiceImpl implements PostService {
 
 
 
+
+
         //change this when we have persistance
         UserEntity dummyUser = new UserEntity();
         dummyUser.setId(1L);
         nPost.setUser(dummyUser);
         
+
+
 
 
 
