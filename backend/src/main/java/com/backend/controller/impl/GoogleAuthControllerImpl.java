@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class GoogleAuthControllerImpl implements GoogleAuthController {
 
     private final GoogleAuthService googleAuthService;
 
+    @PostMapping("/google")
     @Override
     public ResponseEntity<UserInputDTO> loginWithGoogle(@RequestBody CredentialDTO googleLoginDTO) {
         return googleAuthService.authenticateWithGoogle(googleLoginDTO);

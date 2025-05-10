@@ -10,7 +10,7 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post('http://localhost:8080/auth/google', {
-        token: token,
+        credential: token,
       });
 
       const backendToken = response.data.token;

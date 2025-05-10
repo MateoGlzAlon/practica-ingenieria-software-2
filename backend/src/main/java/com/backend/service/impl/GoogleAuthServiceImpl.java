@@ -25,6 +25,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Value;
 
 import java.util.Collections;
 import java.security.GeneralSecurityException;
@@ -35,7 +36,8 @@ import java.io.IOException;
 public class GoogleAuthServiceImpl implements GoogleAuthService {
 
     private final UserRepository userRepository;
-
+        @Value("${GOOGLE_CLIENT_ID}")
+        private String googleClientId;
     @Override
     public ResponseEntity<UserInputDTO> authenticateWithGoogle(CredentialDTO credentialDTO) {
         /*Optional<UserEntity> optionalUser = userRepository.findByEmail(googleLoginDTO.getEmail());
@@ -98,7 +100,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 JacksonFactory.getDefaultInstance())
-                .setAudience(Collections.singletonList("TU_CLIENT_ID_DE_GOOGLE")) // PON AQUÍ TU CLIENT_ID
+                .setAudience(Collections.singletonList(googleClientId)) 
                 .build();
 
         GoogleIdToken idToken = verifier.verify(idTokenString);

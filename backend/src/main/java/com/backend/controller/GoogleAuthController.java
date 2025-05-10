@@ -9,8 +9,9 @@ import com.backend.persistence.inputDTO.CredentialDTO;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 
+@RequestMapping("/auth")
 public interface GoogleAuthController {
 
-    @RequestMapping("/auth/google")
+    @PostMapping("/google")
     ResponseEntity<UserInputDTO> loginWithGoogle(@RequestBody CredentialDTO googleLoginDTO);
 }
