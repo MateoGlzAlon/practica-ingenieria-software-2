@@ -40,26 +40,6 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
         private String googleClientId;
     @Override
     public ResponseEntity<UserInputDTO> authenticateWithGoogle(CredentialDTO credentialDTO) {
-        /*Optional<UserEntity> optionalUser = userRepository.findByEmail(googleLoginDTO.getEmail());
-
-        UserEntity user = optionalUser.orElseGet(() -> {
-            UserEntity newUser = new UserEntity();
-            newUser.setUsername(googleLoginDTO.getUsername());
-            newUser.setEmail(googleLoginDTO.getEmail());
-            newUser.setPassword(""); 
-            newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());
-            newUser.setCreatedAt(new Date());
-            return userRepository.save(newUser);
-        });
-        UserInputDTO userInputDTO = UserInputDTO.builder()
-            .username(user.getUsername())
-            .email(user.getEmail())
-            .password(user.getPassword())
-            .about(user.getAbout())
-            .avatarUrl(user.getAvatarUrl())
-            .build();
-
-        return ResponseEntity.ok(userInputDTO);*/
         String idToken = credentialDTO.getCredential();
 
         GoogleIdToken.Payload payload = validateGoogleToken(idToken);
@@ -77,7 +57,9 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
         UserEntity user = optionalUser.orElseGet(() -> {
             UserEntity newUser = new UserEntity();
             newUser.setUsername(username);
+            newUser.setName(username);
             newUser.setEmail(email);
+            newUser.setRole("USER");
             newUser.setPassword("");
             newUser.setAvatarUrl(avatarUrl);
             newUser.setCreatedAt(new Date());
@@ -96,23 +78,23 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
     }
 
     private GoogleIdToken.Payload validateGoogleToken(String idTokenString) {
-    try {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance())
-                .setAudience(Collections.singletonList(googleClientId)) 
-                .build();
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    GoogleNetHttpTransport.newTrustedTransport(),
+                    JacksonFactory.getDefaultInstance())
+                    .setAudience(Collections.singletonList("513343928845-hs8muladv0dlt2m84o7u1691isnjgafe.apps.googleusercontent.com")) 
+                    .build();
 
-        GoogleIdToken idToken = verifier.verify(idTokenString);
-        if (idToken != null) {
-            return idToken.getPayload();
-        } else {
-            System.out.println("Invalid ID token.");
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken != null) {
+                return idToken.getPayload();
+            } else {
+                System.out.println("Invalid ID token.");
+                return null;
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
             return null;
         }
-    } catch (GeneralSecurityException | IOException e) {
-        e.printStackTrace();
-        return null;
     }
-}
 }
