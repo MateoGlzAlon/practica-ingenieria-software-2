@@ -2,20 +2,31 @@
 
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
+  const { login, setUser } = useAuth();
+  const router = useRouter();
   const handleSuccess = async (credentialResponse) => {
     const token = credentialResponse.credential;
 
     try {
       const response = await axios.post('http://localhost:8080/auth/google', {
-        token: token,
+        credential: token,
       });
 
-      const backendToken = response.data.token;
-      localStorage.setItem('token', backendToken);
+      const backendToken = response.data?.token;
+      const userData = response.data?.user;
+      if (!userData) throw new Error('User data not found in response');
+      if (!backendToken) throw new Error('Token not found in response');
+      login(backendToken);
+      setUser(userData);
+      router.push('/'); 
       console.log('Login successfully:', backendToken);
+      localStorage.setItem('token', backendToken);
+      localStorage.setItem('user', JSON.stringify(userData));
+      
     } catch (error) {
       console.error('Error authenticating with the backend', error);
     }

@@ -19,6 +19,6 @@ public class CommentInputDTO {
     private Long postId;
     private Long userId;
     private String content;
-
-
+    private int votes;
+   
 }

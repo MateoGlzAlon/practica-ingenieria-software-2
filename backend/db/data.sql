@@ -12,7 +12,7 @@ INSERT INTO users (username, email, password, about, avatar_url) VALUES
 ('julia', 'julia@example.com', 'hashed_pw10', 'Lover of logic', 'https://example.com/avatars/julia.png');
 
 -- POSTS
-INSERT INTO posts (user_id, title, content, likes) VALUES
+INSERT INTO posts (user_id, title, content, votes) VALUES
 (1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10),
 (2, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7),
 (3, 'Meditation and Logos', 'Finding order within.', 5),
@@ -38,7 +38,7 @@ INSERT INTO post_images (post_id, image_url) VALUES
 (10, 'https://example.com/images/stoic10.jpg');
 
 -- COMMENTS
-INSERT INTO comments (post_id, user_id, content, likes) VALUES
+INSERT INTO comments (post_id, user_id, content, votes) VALUES
 (1, 2, 'Really insightful post!', 3),
 (1, 3, 'Thank you for sharing.', 2),
 (2, 1, 'This inspired my routine.', 1),

@@ -1,6 +1,6 @@
 package com.backend.persistence.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,7 +26,8 @@ public class PostEntity {
 
     private String title;
     private String content;
-    private int likes;
+
+    private int votes;
     private String state;
 
     @Column(name = "created_at")

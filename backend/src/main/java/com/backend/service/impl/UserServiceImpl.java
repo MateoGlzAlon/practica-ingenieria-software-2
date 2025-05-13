@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             PostOutputDTO nPost = PostOutputDTO.builder()
                     .id(p.getId())
                     .title(p.getTitle())
-                    .likes(p.getLikes())
+                    .votes(p.getVotes())
                     .answers((long)p.getComments().size())
                     .date(p.getCreatedAt())
                     .build();
