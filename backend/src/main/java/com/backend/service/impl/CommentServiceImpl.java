@@ -4,6 +4,7 @@ import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
+import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.repository.CommentRepository;
 import com.backend.repository.PostRepository;
 import com.backend.service.CommentService;
@@ -26,17 +27,31 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentInputDTO> findCommentsOfAPost(Long id) {
+    public List<CommentOutputDTO> findCommentsOfAPost(Long id) {
         List<CommentEntity> comments = commentRepository.findByPostId(id);
 
-        return comments.stream()
-                .map(comment -> CommentInputDTO.builder()
-                        .id(comment.getId())
-                        .post_id(comment.getPost().getId().intValue())
-                        .content(comment.getContent())
-                        .likes(comment.getLikes())
-                        .build())
-                .toList();
+        List<CommentOutputDTO> listCommentsOutput = new ArrayList<>();
+
+        for(CommentEntity newComment : comments){
+
+            CommentOutputDTO auxToComment = CommentOutputDTO.builder()
+                .id(newComment.getId())
+                .author(newComment.getUser().getUsername())
+                .authorProfilePicture(newComment.getUser().getAvatarUrl())
+                .createdAt(newComment.getCreatedAt())
+                .content(newComment.getContent())
+                .votes(newComment.getLikes())
+                .commentCount(0) // change this later
+                .accepted(false)
+                .build();
+
+            listCommentsOutput.add(auxToComment);
+
+        }
+
+        return listCommentsOutput;
+
+        
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.backend.controller.CommentController;
 import com.backend.persistence.entity.CommentEntity;
 import com.backend.service.CommentService;
 import com.backend.persistence.inputDTO.CommentInputDTO;
+import com.backend.persistence.outputdto.CommentOutputDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/post/{id}")
-    public List<CommentInputDTO> findCommentsOfAPost(@PathVariable Long id){
+    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id){
         return commentService.findCommentsOfAPost(id);
     }
 
