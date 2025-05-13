@@ -12,7 +12,8 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
 
     //review this code, idk if its good enough
-    @Query("SELECT c FROM CommentEntity c WHERE c.post.id = :postId")
+    @Query("FROM CommentEntity c " +
+            "WHERE c.post.id = :postId")
     List<CommentEntity> findByPostId(@Param("postId") Long postId);
 
     @Query("FROM CommentEntity c " +

@@ -2,6 +2,7 @@ package com.backend.controller.impl;
 
 import com.backend.controller.CommentController;
 import com.backend.persistence.entity.CommentEntity;
+import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.service.CommentService;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import lombok.AllArgsConstructor;
@@ -24,13 +25,12 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/post/{id}")
-    public List<CommentInputDTO> findCommentsOfAPost(@PathVariable Long id){
+    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id){
         return commentService.findCommentsOfAPost(id);
     }
 
-
     @Override
-    @PostMapping("/create")
+    @PostMapping
     public CommentEntity createComment(@RequestBody CommentInputDTO comment){
         return commentService.createComment(comment);
     }
