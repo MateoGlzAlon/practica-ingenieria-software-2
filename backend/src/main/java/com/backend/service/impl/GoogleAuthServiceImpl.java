@@ -1,45 +1,40 @@
 package com.backend.service.impl;
 
+
+import com.backend.configuration.JwtUtils;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.CredentialDTO;
-import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
+import com.backend.persistence.outputdto.AuthResponse;
 import com.backend.repository.UserRepository;
 import com.backend.service.GoogleAuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
-
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Value;
-
-import java.util.Collections;
-import java.security.GeneralSecurityException;
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
 public class GoogleAuthServiceImpl implements GoogleAuthService {
 
     private final UserRepository userRepository;
-        @Value("${GOOGLE_CLIENT_ID}")
-        private String googleClientId;
+    private final JwtUtils jwtUtils;
+    @Value("${GOOGLE_CLIENT_ID}")
+    private String googleClientId;
     @Override
-    public ResponseEntity<UserInputDTO> authenticateWithGoogle(CredentialDTO credentialDTO) {
+    public ResponseEntity<AuthResponse> authenticateWithGoogle(CredentialDTO credentialDTO) {
         String idToken = credentialDTO.getCredential();
 
         GoogleIdToken.Payload payload = validateGoogleToken(idToken);
@@ -65,6 +60,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
             newUser.setCreatedAt(new Date());
             return userRepository.save(newUser);
         });
+        String jwt = jwtUtils.generateToken(user.getEmail());
 
         UserInputDTO userInputDTO = UserInputDTO.builder()
                 .username(user.getUsername())
@@ -74,7 +70,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
                 .avatarUrl(user.getAvatarUrl())
                 .build();
 
-        return ResponseEntity.ok(userInputDTO);
+        return ResponseEntity.ok(new AuthResponse(jwt, user));
     }
 
     private GoogleIdToken.Payload validateGoogleToken(String idTokenString) {

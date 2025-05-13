@@ -2,9 +2,10 @@
 import Link from "next/link"; 
 import { useEffect, useState } from "react";
 import { Landmark } from 'lucide-react';
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
-    const [user, setUser] = useState(null);
+    const {user, setUser} = useState(null);
 
     useEffect(() => {
         const userData = localStorage.getItem("user");
@@ -14,6 +15,7 @@ export default function Navbar() {
     }, []);
 
     const handleLogout = () => {
+        localStorage.removeItem("token");
         localStorage.removeItem("user");
         setUser(null);
         window.location.href = "/";
@@ -32,8 +34,19 @@ export default function Navbar() {
 
                 {user ? (
                     <div className="flex items-center gap-4">
-                        <img src={user.avatarUrl} alt="User Avatar" className="w-8 h-8 rounded-full" />
-                        <button 
+                        {user.avatarUrl && (
+                            <img
+                                src={user.avatarUrl}
+                                alt="User Avatar"
+                                className="w-8 h-8 rounded-full"
+                            />
+                        )}
+                        <Link href="/profile">
+                            <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                Perfil
+                            </button>
+                        </Link>
+                        <button
                             onClick={handleLogout}
                             className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                         >

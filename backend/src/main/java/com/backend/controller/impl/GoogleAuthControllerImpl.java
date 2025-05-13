@@ -4,6 +4,7 @@ import com.backend.controller.GoogleAuthController;
 import com.backend.persistence.inputDTO.CredentialDTO;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
+import com.backend.persistence.outputdto.AuthResponse;
 import com.backend.service.GoogleAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class GoogleAuthControllerImpl implements GoogleAuthController {
 
     @PostMapping("/google")
     @Override
-    public ResponseEntity<UserInputDTO> loginWithGoogle(@RequestBody CredentialDTO googleLoginDTO) {
+    public ResponseEntity<AuthResponse> loginWithGoogle(@RequestBody CredentialDTO googleLoginDTO) {
         return googleAuthService.authenticateWithGoogle(googleLoginDTO);
     }
 }
