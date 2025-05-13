@@ -2,8 +2,8 @@
 BACKEND_DIR=backend
 FRONTEND_DIR=frontend
 
-# Detecta si estás en Windows (ComSpec está presente)
-IS_WINDOWS := $(findstring Windows_NT, $(OS))
+# Detectar sistema operativo
+IS_WINDOWS := $(findstring Windows_NT,$(OS))
 
 # Comandos
 BACKEND_RUN = $(if $(IS_WINDOWS),gradlew.bat,./gradlew)
@@ -17,8 +17,13 @@ all: start
 
 start:
 	@echo "🚀 Iniciando Backend y Frontend..."
+ifeq ($(IS_WINDOWS),Windows_NT)
+	start cmd /c "cd $(BACKEND_DIR) && $(BACKEND_RUN) bootRun"
+	start cmd /c "cd $(FRONTEND_DIR) && npm run dev"
+else
 	(cd $(BACKEND_DIR) && $(BACKEND_RUN) bootRun) & \
 	(cd $(FRONTEND_DIR) && npm run dev)
+endif
 
 backend:
 	@echo "🛠 Iniciando solo el Backend..."

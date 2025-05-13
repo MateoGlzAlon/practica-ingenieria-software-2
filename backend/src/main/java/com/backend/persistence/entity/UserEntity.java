@@ -18,6 +18,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -47,6 +50,12 @@ public class UserEntity {
     @JsonManagedReference(value = "user-comment")
     private List<CommentEntity> comments;
 
+
+    private String github_link;
+
+    private String twitter_link;
+
+    private String website_link;
 
     @Override
     public String toString() {

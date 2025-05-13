@@ -3,6 +3,7 @@ package com.backend.controller.impl;
 import com.backend.controller.UserController;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.UserInputDTO;
+import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,5 +28,11 @@ public class UserControllerImpl implements UserController {
     @GetMapping("/input/{id}")
     public UserInputDTO findInputUserById(@PathVariable Long id) {
         return userService.findUserInputByID(id);
+    }
+
+    @Override
+    @GetMapping("/profile/{id}")
+    public ProfileDTO getProfileByUserId(@PathVariable Long id) {
+        return userService.getProfileByUserId(id);
     }
 }

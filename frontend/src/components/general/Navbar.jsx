@@ -16,12 +16,12 @@ export default function Navbar() {
             <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
                 <div />
 
-                <div className="flex items-center text-2xl font-bold text-black pl-8 hover:cursor-pointer">
-                    <Link href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center">
+                    <div className="flex items-center text-2xl font-bold text-black  hover:cursor-pointer">
                         <Landmark size={28} />
-                        <span>Stoa</span>
-                    </Link>
-                </div>
+                        <span className="pl-2 text-2xl">Stoa</span>
+                    </div>
+                </Link>
 
                 {user ? (
                     <div className="flex items-center gap-4">
