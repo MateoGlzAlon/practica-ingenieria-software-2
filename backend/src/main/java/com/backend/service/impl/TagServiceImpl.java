@@ -7,6 +7,13 @@ import com.backend.service.TagService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +31,14 @@ public class TagServiceImpl implements TagService {
 
 
     @Override
-    public TagOutputDTO findTags(){
-        List<TagEntity> tags = tagRepository.findAll();
+    public TagOutputDTO findTags(int page, int size){
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TagEntity> tagPage = tagRepository.findAll(pageable);
 
         List<String> listNameTags = new ArrayList<>();
 
-        for(TagEntity newTag : tags){
+        for(TagEntity newTag : tagPage.getContent()){
             listNameTags.add(newTag.getName());
         }
 

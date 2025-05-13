@@ -7,6 +7,6 @@ public interface TagService {
 
     TagEntity findTagById(Long id);
 
-    TagOutputDTO findTags();
+    TagOutputDTO findTags(int page, int size);
 
 }

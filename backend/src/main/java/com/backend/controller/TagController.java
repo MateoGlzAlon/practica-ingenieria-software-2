@@ -13,6 +13,6 @@ public interface TagController {
     TagEntity findTagById(@PathVariable Long id);
 
     @GetMapping("/all")
-    TagOutputDTO findTags();
+    TagOutputDTO findTags(int page, int size);
 
 }
