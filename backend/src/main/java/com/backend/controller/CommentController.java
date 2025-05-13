@@ -16,7 +16,8 @@ public interface CommentController {
     @GetMapping("/post/{id}")
     List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id);
 
-    @PostMapping("/create")
+
+    @PostMapping
     CommentEntity createComment(@RequestBody CommentInputDTO comment);
 
 }

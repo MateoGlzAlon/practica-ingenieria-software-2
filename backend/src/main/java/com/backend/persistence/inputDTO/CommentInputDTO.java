@@ -14,8 +14,8 @@ import java.util.List;
 public class CommentInputDTO {
 
     private Long id;
-    private int post_id;
+    private Long postId;
+    private Long userId;
     private String content;
-    private int likes;
 
 }
