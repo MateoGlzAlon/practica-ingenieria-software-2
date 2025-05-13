@@ -26,12 +26,8 @@ public class PostEntity {
 
     private String title;
     private String content;
-<<<<<<< Updated upstream
-    private int votes = 0;
-    private int likes;
-=======
+
     private int votes;
->>>>>>> Stashed changes
     private String state;
 
     @Column(name = "created_at")
