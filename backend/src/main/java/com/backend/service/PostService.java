@@ -1,6 +1,7 @@
 package com.backend.service;
 
 import com.backend.persistence.entity.PostEntity;
+import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
@@ -13,9 +14,11 @@ public interface PostService {
 
     List<FeedPostDTO> getFeedPosts(int page, int size);
 
-    PostInputDTO getPostIndividual(Long id);
+    PostOutputDTO getPostIndividual(Long id);
 
     PostDetailsDTO getPostDetails(Long id);
+
+    PostEntity createPost(PostInputDTO post);
 }
 
 

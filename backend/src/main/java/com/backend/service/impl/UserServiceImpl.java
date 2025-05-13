@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             PostOutputDTO nPost = PostOutputDTO.builder()
                     .id(p.getId())
                     .title(p.getTitle())
-                    .votes(p.getLikes())
+                    .likes(p.getLikes())
                     .answers((long)p.getComments().size())
                     .date(p.getCreatedAt())
                     .build();
@@ -111,14 +111,6 @@ public class UserServiceImpl implements UserService {
                 .websiteLink(userData.getWebsite_link())
                 .stats(stats)
                 .build();
-
-
-
-
-        //this is for testing
-        /*List<ActivityOutputDTO> activityData = List.of(
-            new ActivityOutputDTO("Mar", 67)
-        );*/
 
 
         List<Object[]> postCounts = postRepository.findPostCountsByMonth(id);

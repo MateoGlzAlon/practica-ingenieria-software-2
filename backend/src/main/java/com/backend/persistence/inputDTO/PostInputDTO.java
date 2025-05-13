@@ -13,10 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 public class PostInputDTO {
 
-    //endpoint /posts/focus/{id}
-    private Long id;
     private String title;
     private String content;
-    private int likes;
+    private Long tagId;
+
+    private Long userId;
+    private String state;
+
+    //optional value
+    private List<String> imageLinks;
+    private List<String> comments;
 
 }

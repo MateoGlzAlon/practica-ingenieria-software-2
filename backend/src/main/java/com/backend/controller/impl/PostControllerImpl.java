@@ -2,14 +2,13 @@ package com.backend.controller.impl;
 
 import com.backend.controller.PostController;
 import com.backend.persistence.entity.PostEntity;
-import com.backend.persistence.specialdto.FeedDTO;
+import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
@@ -37,17 +36,19 @@ public class PostControllerImpl implements PostController {
 
     @Override
     @GetMapping("/focus/{id}")
-    public PostInputDTO getPostIndividual(@PathVariable Long id) {
+    public PostOutputDTO getPostIndividual(@PathVariable Long id) {
         return postService.getPostIndividual(id);
     }
 
     @Override
     @GetMapping("/details/{id}")
     public PostDetailsDTO getPostDetails(@PathVariable Long id) {
+        return postService.getPostDetails(id);
+    }
 
-        PostDetailsDTO postDetailsDTO = postService.getPostDetails(id);
-
-        return postDetailsDTO;
+    @PostMapping
+    public PostEntity createPost(@RequestBody PostInputDTO post){
+        return postService.createPost(post);
     }
 
 }
