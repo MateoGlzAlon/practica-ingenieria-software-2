@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS posts (
     tag_id INTEGER REFERENCES tags(id) ON DELETE SET NULL,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
-    likes INTEGER DEFAULT 0,
+    votes INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
-    likes INTEGER DEFAULT 0,
+    votes INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -86,7 +86,7 @@ INSERT INTO tags (name) VALUES
 ('daily routine');    -- 10
 
 -- POSTS (asociando un solo tag a cada post)
-INSERT INTO posts (user_id, tag_id, title, content, likes) VALUES
+INSERT INTO posts (user_id, tag_id, title, content, votes) VALUES
 (1, 1, 'What is Stoicism?', 'A deep dive into ancient philosophy.', 10),
 (2, 10, 'Daily Stoic Habits', 'How I incorporate stoicism into my life.', 7),
 (3, 3, 'Meditation and Logos', 'Finding order within.', 5),
@@ -112,7 +112,7 @@ INSERT INTO post_images (post_id, image_url) VALUES
 (10, 'https://placehold.co/600x400?text=Post10');
 
 -- COMMENTS
-INSERT INTO comments (post_id, user_id, content, likes) VALUES
+INSERT INTO comments (post_id, user_id, content, votes) VALUES
 (1, 2, 'Really insightful post!', 3),
 (1, 3, 'Thank you for sharing.', 2),
 (2, 1, 'This inspired my routine.', 1),

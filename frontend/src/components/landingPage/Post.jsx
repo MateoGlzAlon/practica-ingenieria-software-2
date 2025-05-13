@@ -41,7 +41,7 @@ export default function Post({ postData }) {
                         >
                             <ArrowUp size={28} />
                         </button>
-                        <span className="font-semibold text-lg text-gray-900">{postData.likes}</span>
+                        <span className="font-semibold text-lg text-gray-900">{postData.votes}</span>
                         <button
                             onClick={() => { }}
                             className="text-gray-600 hover:text-red-500"

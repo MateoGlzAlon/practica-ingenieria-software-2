@@ -5,19 +5,10 @@ import { Landmark } from 'lucide-react';
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
-    const {user, setUser} = useState(null);
-
-    useEffect(() => {
-        const userData = localStorage.getItem("user");
-        if (userData) {
-            setUser(JSON.parse(userData));
-        }
-    }, []);
+    const {user, setUser, logout} = useState(null);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setUser(null);
+        logout();
         window.location.href = "/";
     };
     return (

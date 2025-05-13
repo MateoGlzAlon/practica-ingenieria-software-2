@@ -42,7 +42,7 @@ public class PostServiceImpl implements PostService {
                     .id(post.getId())
                     .title(post.getTitle())
                     .imageURL(firstImageUrl)
-                    .likes(post.getLikes())
+                    .votes(post.getVotes())
                     .state("TO-DO")
                     .build();
 
@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .likes(post.getLikes())
+                .votes(post.getVotes())
                 .build();
     }
 
@@ -88,7 +88,7 @@ public class PostServiceImpl implements PostService {
                 .postImages(listImages)
                 .title(post.getTitle())
                 .content(post.getContent())
-                .votes(post.getLikes())
+                .votes(post.getVotes())
                 .date(post.getCreatedAt())
                 .build();
 

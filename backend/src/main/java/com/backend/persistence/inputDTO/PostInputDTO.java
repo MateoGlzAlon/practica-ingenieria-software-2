@@ -17,6 +17,6 @@ public class PostInputDTO {
     private Long id;
     private String title;
     private String content;
-    private int likes;
+    private int votes;
 
 }

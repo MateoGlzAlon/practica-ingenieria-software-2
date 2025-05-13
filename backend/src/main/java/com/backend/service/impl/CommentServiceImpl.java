@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
                         .id(comment.getId())
                         .post_id(comment.getPost().getId().intValue()) // o haz cast seguro si es Long
                         .content(comment.getContent())
-                        .likes(comment.getLikes())
+                        .votes(comment.getVotes())
                         .build())
                 .toList();
     }

@@ -17,7 +17,7 @@ public class CommentInputDTO {
     private Long id;
     private int post_id;
     private String content;
-    private int likes;
+    private int votes;
     
 
     
