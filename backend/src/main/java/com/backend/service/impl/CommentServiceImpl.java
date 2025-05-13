@@ -60,8 +60,8 @@ public class CommentServiceImpl implements CommentService {
                 //id no se pone, se asigna solo
                 .post(postRepository.findById(comment.getPostId()).orElse(null))
                 .user(userRepository.findById(comment.getUserId()).orElse(null))
-                //los likes se inician a 0
-                .likes(0)
+                //los votes se inician a 0
+                .votes(0)
                 .content(comment.getContent())
                 //setteo el date actual
                 .createdAt(new Date())

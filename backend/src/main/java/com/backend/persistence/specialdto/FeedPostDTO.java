@@ -21,6 +21,10 @@ public class FeedPostDTO {
     private int votes;
     private String authorUsername;
     private int commentCount;
+<<<<<<< Updated upstream
+=======
+    private int votes;
+>>>>>>> Stashed changes
     private Date createdAt;
     private String content;
 

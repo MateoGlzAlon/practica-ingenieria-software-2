@@ -31,7 +31,11 @@ public class CommentEntity {
     private UserEntity user;
 
     private String content;
+<<<<<<< Updated upstream
     private int votes = 0;
+=======
+    private int votes;
+>>>>>>> Stashed changes
 
     @Column(name = "created_at")
     private Date createdAt;
