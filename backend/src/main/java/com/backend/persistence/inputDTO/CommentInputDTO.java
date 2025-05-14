@@ -13,12 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentInputDTO {
 
-    //endpoint /comments/post/{id}
-    //also used in the creation of comments
     private Long id;
     private Long postId;
     private Long userId;
     private String content;
-
 
 }
