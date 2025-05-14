@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
                     .id(post.getId())
                     .title(post.getTitle())
                     .imageURL(firstImageUrl)
-                    .likes(post.getLikes())
+                    .votes(post.getVotes())
                     .state(post.getState())
                     .authorUsername(post.getUser().getUsername())
                     .commentCount(post.getComments().size())
@@ -84,7 +84,7 @@ public class PostServiceImpl implements PostService {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .likes(post.getLikes())
+                .votes(post.getVotes())
                 .build();
     }
 
@@ -108,7 +108,7 @@ public class PostServiceImpl implements PostService {
                 .postImages(listImages)
                 .title(post.getTitle())
                 .content(post.getContent())
-                .votes(post.getLikes())
+                .votes(post.getVotes())
                 .date(post.getCreatedAt())
                 .state(post.getState())
                 .build();
@@ -140,7 +140,7 @@ public class PostServiceImpl implements PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .tag(tag)
-                .likes(0)
+                .votes(0)
                 .state("open")
                 .createdAt(new Date())
                 .images(new ArrayList<>()) // inicializamos vacío para luego agregar
