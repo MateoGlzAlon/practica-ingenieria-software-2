@@ -4,6 +4,7 @@ import com.backend.controller.PostController;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
+import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
@@ -49,6 +50,12 @@ public class PostControllerImpl implements PostController {
     @PostMapping
     public PostEntity createPost(@RequestBody PostInputDTO post){
         return postService.createPost(post);
+    }
+
+    @Override
+    @GetMapping("/hot-posts")
+    public List<PostHotQuestionsDTO> hotPosts(){
+        return postService.hotPosts();
     }
 
 }
