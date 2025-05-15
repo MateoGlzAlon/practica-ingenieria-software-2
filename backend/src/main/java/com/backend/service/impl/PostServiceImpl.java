@@ -125,7 +125,7 @@ public class PostServiceImpl implements PostService {
         {
             "title":"test2",
             "content":"this a test2",
-            "userId": 1
+            "userId": 1,
             "tagId": 1,
             "imageLinks":[
                 "https://placehold.co/600x400?text=Post90",
