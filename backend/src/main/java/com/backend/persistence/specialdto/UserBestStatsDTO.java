@@ -16,7 +16,7 @@ import java.util.List;
 public class UserBestStatsDTO {
 
     private Long id;
-    private String user;
+    private String username;
     private Long totalContributions;
 
 }
