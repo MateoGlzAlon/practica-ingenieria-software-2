@@ -2,7 +2,7 @@ name: Backend CI Pipeline
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches: ["main", "dev"] #1
   pull_request:
     branches: ["main", "dev"]
 
