@@ -5,7 +5,6 @@ import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 
 import java.util.List;
 
@@ -21,7 +20,6 @@ public interface PostService {
 
     PostEntity createPost(PostInputDTO post);
 
-    List<PostHotQuestionsDTO> hotPosts();
 }
 
 

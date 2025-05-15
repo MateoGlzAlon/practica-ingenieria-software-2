@@ -6,7 +6,6 @@ import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
-import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.PostRepository;
@@ -160,32 +159,6 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(newPost);
     }
-
-    @Override
-    public List<PostHotQuestionsDTO> hotPosts(){
-
-        //get the 3 most recent questions from the db
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("createdAt").descending());
-        Page<PostEntity> postsPage = postRepository.findAll(pageable);
-
-        List<PostHotQuestionsDTO> totalPosts = new ArrayList<>();
-
-        for(PostEntity post : postsPage.getContent()){
-
-            PostHotQuestionsDTO newPost = PostHotQuestionsDTO.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .build();
-
-            totalPosts.add(newPost);
-
-        }
-
-        return totalPosts;
-
-    }
-
-
 
 
 }

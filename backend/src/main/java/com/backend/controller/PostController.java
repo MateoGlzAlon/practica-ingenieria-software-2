@@ -5,7 +5,6 @@ import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +28,5 @@ public interface PostController {
 
     @PostMapping
     PostEntity createPost(@RequestBody PostInputDTO post);
-
-    @GetMapping("/hot-posts")
-    List<PostHotQuestionsDTO> hotPosts();
 
 }

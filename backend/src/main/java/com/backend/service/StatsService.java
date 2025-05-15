@@ -1,6 +1,7 @@
 package com.backend.service;
 
 import com.backend.persistence.specialdto.CommunityStatsDTO;
+import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.specialdto.UserBestStatsDTO;
 import com.backend.repository.PostRepository;
 
@@ -13,4 +14,5 @@ public interface StatsService {
 
     List<UserBestStatsDTO> getTop3Users();
 
+    List<PostHotQuestionsDTO> hotPosts();
 }
