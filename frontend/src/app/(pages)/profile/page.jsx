@@ -67,21 +67,21 @@ export default function ProfilePage() {
                             <h3 className="font-medium mb-3">Links</h3>
                             <div className="space-y-2">
                                 <a
-                                    href={`https://${user.githubLink}`}
+                                    href={`${user.githubLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <GitHub className="h-4 w-4 mr-2" />
                                     {user.githubLink}
                                 </a>
                                 <a
-                                    href={`https://${user.twitterLink}`}
+                                    href={`${user.twitterLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <Twitter className="h-4 w-4 mr-2" />
                                     {user.twitterLink}
                                 </a>
                                 <a
-                                    href={`https://${user.websiteLink}`}
+                                    href={`${user.websiteLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <Globe className="h-4 w-4 mr-2" />
