@@ -13,9 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -34,7 +33,7 @@ public class TagServiceImpl implements TagService {
     public TagOutputDTO findTags(int page, int size){
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<TagEntity> tagPage = tagRepository.findAll(pageable);
+        Page<TagEntity> tagPage = tagRepository.findAllRandom(pageable);
 
         List<String> listNameTags = new ArrayList<>();
 

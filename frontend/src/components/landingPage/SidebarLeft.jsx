@@ -1,8 +1,29 @@
 
-import { mockData } from "@/app/mockData"
+//import { mockData } from "@/app/mockData"
+import getAllTags from "@/api/getAllTags"
+import { useEffect, useState } from "react"
+
+
 
 export default function SidebarLeft() {
-    const tags = mockData.postSideBarTags
+
+    const [tags, setTags] = useState([])
+    
+    
+    const fetchTags = async () => {
+        try {
+            const data = await getAllTags()
+            setTags(data.tags)
+        } catch (error) {
+            console.error("Error fetching tags:", error)
+        }
+    }
+
+    useEffect(() => {
+        fetchTags()
+    }, [])
+    
+    //const tags = mockData.postSideBarTags
 
     return (
         <div className="w-[20%] min-w-[180px] flex flex-col gap-4 sticky top-20 self-start">

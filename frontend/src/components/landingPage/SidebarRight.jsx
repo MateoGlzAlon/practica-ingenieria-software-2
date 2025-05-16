@@ -2,6 +2,7 @@
 
 import { TrendingUp, Award, ExternalLink } from "lucide-react"
 import getCommunityStats from "@/api/getCommunityStats"
+import getTopUsersStats from "@/api/getTopUsersStats"
 import { useEffect, useState } from "react"
 
 
@@ -18,16 +19,25 @@ export default function SidebarRight() {
         }
     }
 
+
+    const [topUsers, setTopUsers] = useState([])
+
+
+    const fetchTopUsers = async () => {
+        try {
+            const data = await getTopUsersStats()
+            setTopUsers(data)
+        } catch (error) {
+            console.error("Error fetching top users:", error)
+        }
+    }
+
     useEffect(() => {
-        fetchCommunityStats()
+        fetchCommunityStats(),
+        fetchTopUsers()
     }, [])
+    
 
-
-    const topUsers = [
-        { name: "jonSkeet", answers: 114 },
-        { name: "darin", answers: 87 },
-        { name: "gordon", answers: 25 },
-    ]
 
     return (
         <div className="w-[20%] hidden lg:flex flex-col gap-4 sticky top-20 self-start">
@@ -51,10 +61,10 @@ export default function SidebarRight() {
                     {topUsers.map((user, index) => (
                         <li key={index} className="flex justify-between items-center">
                             <div className="text-sm text-blue-700 hover:text-blue-900">
-                                {user.name}
+                                {user.username}
                             </div>
                             <div className="flex items-center gap-1 text-xs">
-                                <span className="text-gray-600 ml-1">{user.answers}</span>
+                                <span className="text-gray-600 ml-1">{user.totalContributions}</span>
                             </div>
                         </li>
                     ))}

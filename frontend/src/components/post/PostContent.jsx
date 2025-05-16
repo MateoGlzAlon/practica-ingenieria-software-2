@@ -1,26 +1,53 @@
 import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
 import { mockData } from "@/app/mockData"
+import { useState } from 'react'
 import MarkdownRenderer from "./MarkDownRenderer"
 
 
-export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments }) {
-    const data = mockData.postExampleDetails
+export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, data }) {
+    //const data = mockData.postExampleDetails
+
+    const [voteStatus, setVoteStatus] = useState(0)
 
     return (
         <div className="bg-white p-6 border border-gray-200 rounded-md">
             <div className="flex gap-4">
                 <div className="flex flex-col items-center">
                     <button
-                        onClick={() => setQuestionVotes(questionVotes + 1)}
-                        className="text-gray-400 hover:text-orange-500 transition"
+                        onClick={() => {
+                            if (voteStatus === 1) {
+                                setQuestionVotes(q => q - 1)
+                                setVoteStatus(0)
+                            } else {
+                                setQuestionVotes(q => q + (voteStatus === -1 ? 2 : 1))
+                                setVoteStatus(1)
+                            }
+                        }}
+                        className={`transition ${
+                        voteStatus === 1
+                            ? 'text-orange-500'
+                            : 'text-gray-400 hover:text-orange-500'
+                        }`}
                         aria-label="Upvote"
                     >
                         <ArrowUp size={32} />
                     </button>
                     <span className="text-xl font-bold my-2 text-gray-700">{questionVotes}</span>
                     <button
-                        onClick={() => setQuestionVotes(questionVotes - 1)}
-                        className="text-gray-400 hover:text-gray-600 transition"
+                        onClick={() => {
+                            if (voteStatus === -1) {
+                                setQuestionVotes(q => q + 1)
+                                setVoteStatus(0)
+                            } else {
+                                setQuestionVotes(q => q - (voteStatus === 1 ? 2 : 1))
+                                setVoteStatus(-1)
+                            }
+                        }}
+                        className={`transition ${
+                          voteStatus === -1
+                            ? 'text-orange-500'
+                            : 'text-gray-400 hover:text-gray-600'
+                        }`}
                         aria-label="Downvote"
                     >
                         <ArrowDown size={32} />
@@ -66,7 +93,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                                 />
                                 <div className="text-sm">
                                     <div className="font-medium text-blue-600">{data.author || "N/A"}</div>
-                                    <div className="text-gray-500">Created {data.createdAt || "N/A"}</div>
+                                    <div className="text-gray-500">Created {data.date || "N/A"}</div>
                                 </div>
                             </div>
                         </div>
