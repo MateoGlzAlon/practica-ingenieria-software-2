@@ -1,16 +1,45 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
-import { mockData } from "@/app/mockData"
+//import { mockData } from "@/app/mockData"
+import getProfileUser from "@/api/getProfileUser"
 
 // All necessary data for the page is in this variable
-const pageData = mockData.profilePageExample
+//const pageData = mockData.profilePageExample
 
 export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState("profile")
-    const { user, activityData, posts } = pageData
+
+    //for now we search for userId=1, change this later
+    const idUser = 1
+
+    const [profileData, setProfileData] = useState(null)
+    const [activeTab, setActiveTab] = useState('profile')
+
+    useEffect(() => {
+        if (!idUser) return
+
+        const fetchProfile = async () => {
+        try {
+            const data = await getProfileUser(idUser)
+            setProfileData(data)
+        } catch (err) {
+            console.error('Error fetching profile:', err)
+        }
+        }
+
+        fetchProfile()
+    }, [idUser])
+
+    if (!profileData) {
+        return <p className="text-center py-10">Loading profile...</p>
+    }
+
+    const { user, activityData, posts } = profileData
+
+    //const [activeTab, setActiveTab] = useState("profile")
+    //const { user, activityData, posts } = pageData
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -21,7 +50,7 @@ export default function ProfilePage() {
                 <div className="md:col-span-1">
                     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="p-6 flex flex-col items-center text-center">
-                            <img src={user.avatar || "/placeholder.svg"} alt={user.name} className="w-24 h-24 rounded-full object-cover mb-4" />
+                            <img src={user.avatarUrl || "/placeholder.svg"} alt={user.name} className="w-24 h-24 rounded-full object-cover mb-4" />
                             <h1 className="text-xl font-bold">{user.name}</h1>
                             <p className="text-gray-600 mb-2">@{user.username}</p>
                             <p className="text-sm text-gray-500 mb-4">{user.role}</p>
@@ -38,25 +67,25 @@ export default function ProfilePage() {
                             <h3 className="font-medium mb-3">Links</h3>
                             <div className="space-y-2">
                                 <a
-                                    href={`https://${user.links.github}`}
+                                    href={`https://${user.githubLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <GitHub className="h-4 w-4 mr-2" />
-                                    {user.links.github}
+                                    {user.githubLink}
                                 </a>
                                 <a
-                                    href={`https://${user.links.twitter}`}
+                                    href={`https://${user.twitterLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <Twitter className="h-4 w-4 mr-2" />
-                                    {user.links.twitter}
+                                    {user.twitterLink}
                                 </a>
                                 <a
-                                    href={`https://${user.links.website}`}
+                                    href={`https://${user.websiteLink}`}
                                     className="flex items-center text-sm text-blue-600 hover:underline"
                                 >
                                     <Globe className="h-4 w-4 mr-2" />
-                                    {user.links.website}
+                                    {user.websiteLink}
                                 </a>
                             </div>
                         </div>

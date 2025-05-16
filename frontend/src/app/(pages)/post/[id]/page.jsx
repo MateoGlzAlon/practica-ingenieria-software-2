@@ -15,11 +15,12 @@ import { useParams } from 'next/navigation'
 
 export default function Post({ params }) {
 
+    //this is for post information
     const { id } = useParams()
 
     const [dataPost, setDataPost] = useState(null)
 
-    const [questionVotes, setQuestionVotes] = useState(42)
+    const [questionVotes, setQuestionVotes] = useState(0)
     const [answerVotes, setAnswerVotes] = useState([125, 37, 12])
     const [acceptedAnswer, setAcceptedAnswer] = useState(0)
     const [showComments, setShowComments] = useState(false)
@@ -31,6 +32,7 @@ export default function Post({ params }) {
         try {
             const post = await getIndividualPost(id)
             setDataPost(post)
+            setQuestionVotes(post.votes)
         } catch (error) {
             console.error('Error fetching post:', error)
         }
@@ -42,6 +44,7 @@ export default function Post({ params }) {
     if (!dataPost) {
         return <p className="text-center py-10">Loading post...</p>
     }
+
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -61,6 +64,7 @@ export default function Post({ params }) {
                             setQuestionVotes={setQuestionVotes}
                             showComments={showComments}
                             setShowComments={setShowComments}
+                            data={dataPost}
                         />
 
                         <div className="flex items-center justify-between my-8">
@@ -80,6 +84,7 @@ export default function Post({ params }) {
                             setAnswerVotes={setAnswerVotes}
                             acceptedAnswer={acceptedAnswer}
                             setAcceptedAnswer={setAcceptedAnswer}
+                            idPost={id}
                         />
 
                         <div className="mt-8 bg-white p-6 border border-gray-200 rounded-md">
