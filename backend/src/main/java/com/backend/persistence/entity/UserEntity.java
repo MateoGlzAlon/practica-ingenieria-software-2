@@ -48,6 +48,12 @@ public class UserEntity {
     private List<CommentEntity> comments;
 
 
+    private String github_link;
+
+    private String twitter_link;
+
+    private String website_link;
+
     @Override
     public String toString() {
         return "UserEntitity{id=" + id + ", username='" + username + "'}";

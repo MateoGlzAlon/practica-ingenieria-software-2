@@ -11,8 +11,7 @@ import lombok.*;
 @Entity
 @Table(name = "posts")
 @Data
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostEntity {
@@ -27,7 +26,9 @@ public class PostEntity {
 
     private String title;
     private String content;
-    private int votes = 0;
+
+    private int votes;
+    private String state;
 
     @Column(name = "created_at")
     private Date createdAt;

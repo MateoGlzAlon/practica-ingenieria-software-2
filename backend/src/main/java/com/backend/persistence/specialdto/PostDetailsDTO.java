@@ -19,4 +19,5 @@ public class PostDetailsDTO {
     private String content;
     private int votes;
     private Date date;
+    private String state;
 }

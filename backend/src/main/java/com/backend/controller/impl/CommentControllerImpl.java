@@ -2,13 +2,11 @@ package com.backend.controller.impl;
 
 import com.backend.controller.CommentController;
 import com.backend.persistence.entity.CommentEntity;
+import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.service.CommentService;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +25,15 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/post/{id}")
-    public List<CommentInputDTO> findCommentsOfAPost(@PathVariable Long id){
+    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id){
         return commentService.findCommentsOfAPost(id);
     }
+
+    @Override
+    @PostMapping
+    public CommentEntity createComment(@RequestBody CommentInputDTO comment){
+        return commentService.createComment(comment);
+    }
+
 }
 
