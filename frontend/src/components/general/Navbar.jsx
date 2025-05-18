@@ -5,7 +5,7 @@ import { Landmark } from 'lucide-react';
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
-    const {user, setUser, logout} = useState(null);
+    const {user, setUser, logout} = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -33,13 +33,13 @@ export default function Navbar() {
                             />
                         )}
                         <Link href="/profile">
-                            <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                            <button className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition">
                                 Perfil
                             </button>
                         </Link>
                         <button
                             onClick={handleLogout}
-                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                            className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-700 transition"
                         >
                             Logout
                         </button>
