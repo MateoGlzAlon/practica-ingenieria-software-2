@@ -32,7 +32,7 @@ public class CommentEntity {
     private UserEntity user;
 
     private String content;
-    private int likes = 0;
+    private int likes;
 
     @Column(name = "created_at")
     private Date createdAt;
