@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.util.Date;
 
 @Data
@@ -20,7 +21,7 @@ public class CommentOutputDTO {
         private Long postId;
         private Long userId;
         private String content;
-        private int likes;
+        private int votes;
         private Date createdAt;
 
 }

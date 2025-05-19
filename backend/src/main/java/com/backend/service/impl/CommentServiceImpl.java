@@ -32,16 +32,18 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentOutputDTO> findCommentsOfAPost(Long id) {
         List<CommentEntity> comments = commentRepository.findByPostId(id);
 
+
         return comments.stream()
                 .map(comment -> CommentOutputDTO.builder()
                         .id(comment.getId())
                         .postId(comment.getPost().getId())
                         .userId(comment.getUser().getId())
                         .content(comment.getContent())
-                        .likes(comment.getLikes())
+                        .votes(comment.getVotes())
                         .createdAt(comment.getCreatedAt())
                         .build())
                 .toList();
+
     }
 
     @Override
@@ -60,8 +62,8 @@ public class CommentServiceImpl implements CommentService {
                 //id no se pone, se asigna solo
                 .post(postRepository.findById(comment.getPostId()).orElse(null))
                 .user(userRepository.findById(comment.getUserId()).orElse(null))
-                //los likes se inician a 0
-                .likes(0)
+                //los votes se inician a 0
+                .votes(0)
                 .content(comment.getContent())
                 //setteo el date actual
                 .createdAt(new Date())

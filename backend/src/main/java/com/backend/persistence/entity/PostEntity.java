@@ -26,7 +26,7 @@ public class PostEntity {
 
     private String title;
     private String content;
-    private int likes;
+    private int votes;
     private String state;
 
     @Column(name = "created_at")

@@ -14,7 +14,7 @@ public class PostOutputDTO {
     private Long id;
     private String title;
     private String content;
-    private int likes;
+    private int votes;
     private Long answers;
     private Date date;
     private List<String> imageLinks;
