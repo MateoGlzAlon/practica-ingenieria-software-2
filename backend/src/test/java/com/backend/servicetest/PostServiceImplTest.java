@@ -61,6 +61,12 @@ public class PostServiceImplTest {
                 .posts(new HashSet<>())
                 .build();
 
+        mockPostImageEntity = PostImageEntity.builder()
+                .id(1L)
+                .imageUrl("https://placehold.co/600x400?text=Post90")
+                .post(mockPostEntity)
+                .build();
+        
         mockPostEntity = PostEntity.builder()
                 .id(1L)
                 .title("Test Title")
@@ -68,17 +74,13 @@ public class PostServiceImplTest {
                 .user(mockUserEntity)
                 .tag(mockTagEntity)
                 .votes(5)
-                .images(new ArrayList<>())
+                .images(Arrays.asList(mockPostImageEntity))
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
                 .build();
 
-        mockPostImageEntity = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=Post90")
-                .post(mockPostEntity)
-                .build();
+        
     }
 
     @Test
@@ -94,6 +96,34 @@ public class PostServiceImplTest {
         verify(userRepository).findById(1L);
         verify(tagRepository).findById(1L);
         verify(postRepository).save(any(PostEntity.class));
+    }
+
+      @Test
+    public void testCreatePost_Success_ImagesNull() {
+        mockPostEntity.setImages(null);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+        when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
+        when(postRepository.save(any(PostEntity.class))).thenReturn(mockPostEntity);
+
+        PostEntity result = postService.createPost(mockPostInput);
+
+        assertNotNull(result);
+        assertEquals("Test Title", result.getTitle());
+        verify(userRepository).findById(1L);
+        verify(tagRepository).findById(1L);
+        verify(postRepository).save(any(PostEntity.class));
+    }
+
+    @Test
+    public void testCreatePost_UserNotFound() {
+        when(userRepository.findById(1L)).thenThrow(RuntimeException.class);
+        when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
+        when(postRepository.save(any(PostEntity.class))).thenReturn(mockPostEntity);
+
+        assertThrows(RuntimeException.class, () -> {
+            postService.createPost(mockPostInput);
+        });        
     }
 
     @Test
@@ -126,7 +156,6 @@ public class PostServiceImplTest {
 
     @Test
     public void testGetPostDetails_ReturnsCorrectData() {
-        mockPostEntity.getImages().add(mockPostImageEntity);
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
 
         PostDetailsDTO details = postService.getPostDetails(1L);
