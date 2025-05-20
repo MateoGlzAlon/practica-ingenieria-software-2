@@ -9,8 +9,7 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Data
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity {

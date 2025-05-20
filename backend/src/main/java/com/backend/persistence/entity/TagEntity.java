@@ -12,8 +12,7 @@ import lombok.*;
 @Entity
 @Table(name = "tags")
 @Data
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TagEntity {
