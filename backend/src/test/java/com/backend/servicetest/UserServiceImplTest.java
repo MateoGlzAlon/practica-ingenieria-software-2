@@ -112,122 +112,122 @@ class UserServiceImplTest {
                 .build();
     }
 
-@Test
-void testFindUserById_UserExists() {
-    when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+    @Test
+    void testFindUserById_UserExists() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
 
-    UserEntity result = userService.findUserById(1L);
+        UserEntity result = userService.findUserById(1L);
 
-    assertNotNull(result);
-    assertEquals(mockUserEntity.getUsername(), result.getUsername());
-    assertEquals(mockUserEntity.getEmail(), result.getEmail());
-    verify(userRepository).findById(1L);
-}
+        assertNotNull(result);
+        assertEquals(mockUserEntity.getUsername(), result.getUsername());
+        assertEquals(mockUserEntity.getEmail(), result.getEmail());
+        verify(userRepository).findById(1L);
+    }
 
-@Test
-void testFindUserById_UserDoesNotExist() {
-    when(userRepository.findById(999L)).thenReturn(Optional.empty());
+    @Test
+    void testFindUserById_UserDoesNotExist() {
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-    UserEntity result = userService.findUserById(999L);
+        UserEntity result = userService.findUserById(999L);
 
-    assertNull(result);
-    verify(userRepository).findById(999L);
-}
+        assertNull(result);
+        verify(userRepository).findById(999L);
+    }
 
-@Test
-void testFindInputUserById_UserExists() {
-    when(userRepository.findInputUserById(1L)).thenReturn(mockUserInputDto);
+    @Test
+    void testFindInputUserById_UserExists() {
+        when(userRepository.findInputUserById(1L)).thenReturn(mockUserInputDto);
 
-    UserInputDTO result = userService.findUserInputByID(1L);
+        UserInputDTO result = userService.findUserInputByID(1L);
 
-    assertNotNull(result);
-    assertEquals(mockUserInputDto.getUsername(), result.getUsername());
-    assertEquals(mockUserInputDto.getEmail(), result.getEmail());
-    verify(userRepository).findInputUserById(1L);
-}
+        assertNotNull(result);
+        assertEquals(mockUserInputDto.getUsername(), result.getUsername());
+        assertEquals(mockUserInputDto.getEmail(), result.getEmail());
+        verify(userRepository).findInputUserById(1L);
+    }
 
-@Test
-@Disabled("Test disabled due to missing implementation")
-void testGetProfileByUserId_ReturnsProfileDTO() {
-    Long userId = 1L;
+    @Test
+    @Disabled("Test disabled due to missing implementation")
+    void testGetProfileByUserId_ReturnsProfileDTO() {
+        Long userId = 1L;
 
-    // Comentario de prueba relacionado con el post
-    CommentEntity comment = CommentEntity.builder()
-            .id(100L)
-            .content("Comentario de prueba")
-            .user(mockUserEntity)
-            .post(mockPostEntity)
-            .createdAt(new Date())
-            .build();
+        // Comentario de prueba relacionado con el post
+        CommentEntity comment = CommentEntity.builder()
+                .id(100L)
+                .content("Comentario de prueba")
+                .user(mockUserEntity)
+                .post(mockPostEntity)
+                .createdAt(new Date())
+                .build();
 
-    // Tip enviado
-    TipEntity tipSent = TipEntity.builder()
-            .id(1L)
-            .amount(10)
-            .sender(mockUserEntity)
-            .receiver(UserEntity.builder().id(2L).build()) // diferente receiver
-            .post(mockPostEntity)
-            .comment(comment)
-            .createdAt(new Date())
-            .build();
+        // Tip enviado
+        TipEntity tipSent = TipEntity.builder()
+                .id(1L)
+                .amount(10)
+                .sender(mockUserEntity)
+                .receiver(UserEntity.builder().id(2L).build()) // diferente receiver
+                .post(mockPostEntity)
+                .comment(comment)
+                .createdAt(new Date())
+                .build();
 
-    // Tip recibido
-    TipEntity tipReceived = TipEntity.builder()
-            .id(2L)
-            .amount(20)
-            .sender(UserEntity.builder().id(3L).build()) // diferente sender
-            .receiver(mockUserEntity)
-            .post(mockPostEntity)
-            .comment(comment)
-            .createdAt(new Date())
-            .build();
+        // Tip recibido
+        TipEntity tipReceived = TipEntity.builder()
+                .id(2L)
+                .amount(20)
+                .sender(UserEntity.builder().id(3L).build()) // diferente sender
+                .receiver(mockUserEntity)
+                .post(mockPostEntity)
+                .comment(comment)
+                .createdAt(new Date())
+                .build();
 
-    Object[] postCount = new Object[]{"Jan", 2};
-    Object[] commentCount = new Object[]{"Jan", 3};
+        Object[] postCount = new Object[] { "Jan", 2 };
+        Object[] commentCount = new Object[] { "Jan", 3 };
 
-    when(userRepository.findById(userId)).thenReturn(Optional.of(mockUserEntity));
-    when(postRepository.findPostsByUserId(userId)).thenReturn(List.of(mockPostEntity));
-    when(tipRepository.findTipsSentByUserId(userId)).thenReturn(List.of(tipSent));
-    when(tipRepository.findTipsReceivedByUserId(userId)).thenReturn(List.of(tipReceived));
-    when(commentRepository.findByUserId(userId)).thenReturn(List.of(comment));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUserEntity));
+        when(postRepository.findPostsByUserId(userId)).thenReturn(List.of(mockPostEntity));
+        when(tipRepository.findTipsSentByUserId(userId)).thenReturn(List.of(tipSent));
+        when(tipRepository.findTipsReceivedByUserId(userId)).thenReturn(List.of(tipReceived));
+        when(commentRepository.findByUserId(userId)).thenReturn(List.of(comment));
 
-    // TODO: Uncomment when fixed
-    // when(postRepository.findPostCountsByMonth(userId)).thenReturn(List.of(postCount));
-    // when(commentRepository.findCommentCountsByMonth(userId)).thenReturn(List.of(commentCount));
+        // TODO: Uncomment when fixed
+        // when(postRepository.findPostCountsByMonth(userId)).thenReturn(List.of(postCount));
+        // when(commentRepository.findCommentCountsByMonth(userId)).thenReturn(List.of(commentCount));
 
-    ProfileDTO result = userService.getProfileByUserId(userId);
+        ProfileDTO result = userService.getProfileByUserId(userId);
 
-    assertNotNull(result);
-    assertNotNull(result.getUser());
-    assertEquals(mockUserEntity.getUsername(), result.getUser().getUsername());
-    assertEquals(1, result.getPosts().size());
-    assertEquals(1, result.getUser().getTipsSent().size());
-    assertEquals(1, result.getUser().getTipsReceived().size());
-    assertEquals(12, result.getActivityData().size());
+        assertNotNull(result);
+        assertNotNull(result.getUser());
+        assertEquals(mockUserEntity.getUsername(), result.getUser().getUsername());
+        assertEquals(1, result.getPosts().size());
+        assertEquals(1, result.getUser().getTipsSent().size());
+        assertEquals(1, result.getUser().getTipsReceived().size());
+        assertEquals(12, result.getActivityData().size());
 
-    assertTrue(result.getActivityData().stream()
-            .anyMatch(a -> a.getMonth().equals("Jan") && a.getContributions() == 5));
+        assertTrue(result.getActivityData().stream()
+                .anyMatch(a -> a.getMonth().equals("Jan") && a.getContributions() == 5));
 
-    verify(userRepository).findById(userId);
-    verify(postRepository).findPostsByUserId(userId);
-    verify(tipRepository).findTipsSentByUserId(userId);
-    verify(tipRepository).findTipsReceivedByUserId(userId);
-    verify(commentRepository).findByUserId(userId);
-    verify(postRepository).findPostCountsByMonth(userId);
-    verify(commentRepository).findCommentCountsByMonth(userId);
-}
+        verify(userRepository).findById(userId);
+        verify(postRepository).findPostsByUserId(userId);
+        verify(tipRepository).findTipsSentByUserId(userId);
+        verify(tipRepository).findTipsReceivedByUserId(userId);
+        verify(commentRepository).findByUserId(userId);
+        verify(postRepository).findPostCountsByMonth(userId);
+        verify(commentRepository).findCommentCountsByMonth(userId);
+    }
 
-@Test
-@Disabled("Test disabled due to missing implementation")
-void testGetProfileByUserId_UserDoesNotExist() {
-    Long userId = 999L;
+    @Test
+    @Disabled("Test disabled due to missing implementation")
+    void testGetProfileByUserId_UserDoesNotExist() {
+        Long userId = 999L;
 
-    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-    ProfileDTO result = userService.getProfileByUserId(userId);
+        ProfileDTO result = userService.getProfileByUserId(userId);
 
-    assertNull(result);
-    verify(userRepository).findById(userId);
-}
+        assertNull(result);
+        verify(userRepository).findById(userId);
+    }
 
 }
