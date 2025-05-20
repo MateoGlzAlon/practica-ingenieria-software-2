@@ -5,5 +5,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/commentvotes")
 public interface CommentVoteController {
-    CommentVoteEntity findCommentById(Long id);
+    CommentVoteEntity findCommentVoteById(Long id);
 }

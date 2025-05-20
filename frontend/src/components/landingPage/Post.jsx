@@ -6,6 +6,14 @@ import { format } from 'date-fns';
 
 export default function Post({ postData }) {
 
+
+    function handleVote() {
+
+        // TODO : VOTE FUNCTION
+
+
+    }
+
     return (
 
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col gap-6 mb-4">
@@ -31,17 +39,11 @@ export default function Post({ postData }) {
                     <div className="flex flex-row w-1/4 items-center justify-between ">
                         <button
                             onClick={() => { }}
-                            className="text-gray-600 hover:text-green-500"
+                            className={`${postData.voted ? "text-green-600" : ""} hover:text-pink-500`}
                         >
                             <ArrowUp size={28} />
                         </button>
                         <span className="font-semibold text-lg text-gray-900">{postData.likes}</span>
-                        <button
-                            onClick={() => { }}
-                            className="text-gray-600 hover:text-red-500"
-                        >
-                            <ArrowDown size={28} />
-                        </button>
                         <button
                             onClick={() => { }}
                             className="text-gray-400 hover:text-yellow-500"

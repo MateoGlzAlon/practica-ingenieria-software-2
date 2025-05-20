@@ -14,7 +14,7 @@ export default function MainFeed() {
 
     const fetchPosts = async (pageNumber) => {
         try {
-            const data = await getFeedPosts(pageNumber, PAGE_SIZE)
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE, 1) // TODO : GET USERID FROM CONTEXT
             if (data.length < PAGE_SIZE) {
                 setHasMore(false)
             }

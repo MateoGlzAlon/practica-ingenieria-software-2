@@ -12,7 +12,7 @@ public interface PostService {
 
     PostEntity findPostById(Long id);
 
-    List<FeedPostDTO> getFeedPosts(int page, int size);
+    List<FeedPostDTO> getFeedPosts(int page, int size, Long userId);
 
     PostOutputDTO getPostIndividual(Long id);
 
