@@ -10,7 +10,8 @@ import lombok.*;
 @Entity
 @Table(name = "comment_votes")
 @Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentVoteEntity {
