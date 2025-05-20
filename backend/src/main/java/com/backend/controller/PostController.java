@@ -4,6 +4,7 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.inputDTO.VoteInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,8 @@ public interface PostController {
 
     @PostMapping
     PostEntity createPost(@RequestBody PostInputDTO post);
+
+    @PostMapping("/comment/vote")
+    PostEntity updateLikePost(@RequestBody VoteInputDTO postVote);
 
 }

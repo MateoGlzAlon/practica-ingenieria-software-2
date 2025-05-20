@@ -7,6 +7,7 @@ import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.inputDTO.VoteInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.PostRepository;
 import com.backend.repository.TagRepository;
@@ -158,6 +159,17 @@ public class PostServiceImpl implements PostService {
         }
 
         return postRepository.save(newPost);
+    }
+
+
+    @Override
+    public PostEntity updateLikePost(VoteInputDTO postVote){
+        Optional<PostEntity> optionalPost = postRepository.findById(postVote.getPostId());
+
+        PostEntity post = optionalPost.get();
+
+        post.setVotes(post.getVotes() + postVote.getActionVote());
+        return postRepository.save(post);
     }
 
 
