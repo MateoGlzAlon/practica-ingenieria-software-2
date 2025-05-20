@@ -17,18 +17,25 @@ import org.springframework.data.domain.Pageable;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class PostServiceImplTest {
 
-    @Mock private UserRepository userRepository;
-    @Mock private PostRepository postRepository;
-    @Mock private TipRepository tipRepository;
-    @Mock private CommentRepository commentRepository;
-    @Mock private PostVoteRepository postVoteRepository;
-    @Mock private CommentVoteRepository commentVoteRepository;
-    @Mock private TagRepository tagRepository;
-    @Mock private PostImageRepository postImageRepository;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private PostRepository postRepository;
+    @Mock
+    private TipRepository tipRepository;
+    @Mock
+    private CommentRepository commentRepository;
+    @Mock
+    private PostVoteRepository postVoteRepository;
+    @Mock
+    private CommentVoteRepository commentVoteRepository;
+    @Mock
+    private TagRepository tagRepository;
 
     @InjectMocks private PostServiceImpl postService;
 
@@ -79,7 +86,6 @@ public class PostServiceImplTest {
                 .state("open")
                 .createdAt(new Date())
                 .build();
-
         
     }
 
