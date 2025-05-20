@@ -26,7 +26,6 @@ public class PostEntity {
 
     private String title;
     private String content;
-
     private int votes;
     private String state;
 

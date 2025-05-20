@@ -61,6 +61,21 @@ CREATE TABLE IF NOT EXISTS tips (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- PROPINAS
+CREATE TABLE IF NOT EXISTS post_votes (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+-- PROPINAS
+CREATE TABLE IF NOT EXISTS comment_votes (
+    id SERIAL PRIMARY KEY,
+    comment_id INTEGER REFERENCES comments(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+
 -- =====================
 -- DATOS DE EJEMPLO
 -- =====================
@@ -143,3 +158,37 @@ INSERT INTO tips (sender_id, receiver_id, post_id, comment_id, amount) VALUES
 (9, 8, 8, 9, 130),
 (10, 9, 9, 10, 170),
 (1, 10, 10, 10, 220);
+
+-- POST VOTES
+INSERT INTO post_votes (post_id, user_id) VALUES
+(1, 2),
+(1, 3),
+(2, 1),
+(3, 4),
+(4, 5),
+(5, 6),
+(6, 7),
+(7, 8),
+(8, 9),
+(9, 10),
+(10, 1),
+(2, 3),
+(4, 2),
+(5, 4);
+
+-- COMMENT VOTES
+INSERT INTO comment_votes (comment_id, user_id) VALUES
+(1, 1),
+(1, 3),
+(2, 4),
+(3, 2),
+(4, 1),
+(5, 6),
+(6, 7),
+(7, 5),
+(8, 9),
+(9, 10),
+(10, 1),
+(2, 5),
+(3, 6),
+(8, 2);

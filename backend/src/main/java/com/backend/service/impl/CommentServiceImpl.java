@@ -32,6 +32,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentOutputDTO> findCommentsOfAPost(Long id) {
         List<CommentEntity> comments = commentRepository.findByPostId(id);
 
+
         return comments.stream()
                 .map(comment -> CommentOutputDTO.builder()
                         .id(comment.getId())
@@ -42,6 +43,7 @@ public class CommentServiceImpl implements CommentService {
                         .createdAt(comment.getCreatedAt())
                         .build())
                 .toList();
+
     }
 
     @Override

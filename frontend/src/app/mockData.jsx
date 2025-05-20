@@ -1,5 +1,5 @@
 export const mockData = {
-    //landingPage mockData 
+    //landingPage mockData DONE     <---- /posts/landingPageFeed
     postExamples: [
         {
             id: 1,
@@ -20,9 +20,10 @@ export const mockData = {
 
     ],
 
+    //done      <--- /tags/all
     postSideBarTags: ["javascript", "react", "node.js", "css", "python"],
 
-    //individual comments
+    //individual comments   <---   /comments/post/{id}
     commentsExamples: [
         {
             id: 1,
@@ -57,7 +58,7 @@ export const mockData = {
     ],
 
 
-    //individual initial block
+    //individual initial block      <--- /posts/details/{id}
     postExampleDetails: {
         id: 1,
         author: "Percy",
@@ -82,11 +83,12 @@ export const mockData = {
         createdAt: "17-4-2025",
     },
 
+    //done          <--- /users/profile/{id}
     profilePageExample: {
         user: {
             name: "UPDATE-DB",
             username: "alice",
-            avatar: "https://placehold.co/400x400?text=Post1",
+            avatar: "https://placehold.co/400x400?text=User1",
             role: "UPDATE-DB-IF-WANTED",
             memberSince: "April 2021",
             stats: {
@@ -174,7 +176,6 @@ export const mockData = {
 
 
     }
-
 
 
 

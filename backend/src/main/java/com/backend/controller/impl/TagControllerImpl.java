@@ -4,10 +4,9 @@ import com.backend.controller.TagController;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.service.TagService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.backend.persistence.outputdto.TagOutputDTO;
+
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -23,6 +22,15 @@ public class TagControllerImpl implements TagController {
 
         TagEntity tag = tagService.findTagById(id);
         return tag;
+    }
+
+    @Override
+    @GetMapping("/all")
+    public TagOutputDTO findTags(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        return tagService.findTags(page, size);
     }
 
 }
