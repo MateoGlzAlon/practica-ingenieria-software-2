@@ -1,10 +1,13 @@
 import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
 import { mockData } from "@/app/mockData"
+import { useState } from 'react'
 import MarkdownRenderer from "./MarkDownRenderer"
 
 
-export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments }) {
-    const data = mockData.postExampleDetails
+export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, data }) {
+    //const data = mockData.postExampleDetails
+
+    const [voteStatus, setVoteStatus] = useState(0)
 
     return (
         <div className="bg-white p-6 border border-gray-200 rounded-md">
@@ -66,7 +69,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                                 />
                                 <div className="text-sm">
                                     <div className="font-medium text-blue-600">{data.author || "N/A"}</div>
-                                    <div className="text-gray-500">Created {data.createdAt || "N/A"}</div>
+                                    <div className="text-gray-500">Created {data.date || "N/A"}</div>
                                 </div>
                             </div>
                         </div>
