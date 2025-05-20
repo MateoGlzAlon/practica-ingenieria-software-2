@@ -14,40 +14,16 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
             <div className="flex gap-4">
                 <div className="flex flex-col items-center">
                     <button
-                        onClick={() => {
-                            if (voteStatus === 1) {
-                                setQuestionVotes(q => q - 1)
-                                setVoteStatus(0)
-                            } else {
-                                setQuestionVotes(q => q + (voteStatus === -1 ? 2 : 1))
-                                setVoteStatus(1)
-                            }
-                        }}
-                        className={`transition ${
-                        voteStatus === 1
-                            ? 'text-orange-500'
-                            : 'text-gray-400 hover:text-orange-500'
-                        }`}
+                        onClick={() => setQuestionVotes(questionVotes + 1)}
+                        className="text-gray-400 hover:text-orange-500 transition"
                         aria-label="Upvote"
                     >
                         <ArrowUp size={32} />
                     </button>
                     <span className="text-xl font-bold my-2 text-gray-700">{questionVotes}</span>
                     <button
-                        onClick={() => {
-                            if (voteStatus === -1) {
-                                setQuestionVotes(q => q + 1)
-                                setVoteStatus(0)
-                            } else {
-                                setQuestionVotes(q => q - (voteStatus === 1 ? 2 : 1))
-                                setVoteStatus(-1)
-                            }
-                        }}
-                        className={`transition ${
-                          voteStatus === -1
-                            ? 'text-orange-500'
-                            : 'text-gray-400 hover:text-gray-600'
-                        }`}
+                        onClick={() => setQuestionVotes(questionVotes - 1)}
+                        className="text-gray-400 hover:text-gray-600 transition"
                         aria-label="Downvote"
                     >
                         <ArrowDown size={32} />
