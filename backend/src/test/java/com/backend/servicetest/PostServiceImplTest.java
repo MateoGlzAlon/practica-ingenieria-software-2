@@ -2,13 +2,11 @@ package com.backend.servicetest;
 
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.entity.*;
-import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.repository.PostRepository;
 import com.backend.repository.TagRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.impl.PostServiceImpl;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
