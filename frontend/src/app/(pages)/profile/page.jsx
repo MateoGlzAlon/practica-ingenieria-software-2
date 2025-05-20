@@ -3,15 +3,12 @@
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
-//import { mockData } from "@/app/mockData"
 import getProfileUser from "@/api/getProfileUser"
 
-// All necessary data for the page is in this variable
-//const pageData = mockData.profilePageExample
 
 export default function ProfilePage() {
 
-    //for now we search for userId=1, change this later
+    //TO-DO: for now we search for userId=1, change this later
     const idUser = 1
 
     const [profileData, setProfileData] = useState(null)
@@ -38,8 +35,6 @@ export default function ProfilePage() {
 
     const { user, activityData, posts } = profileData
 
-    //const [activeTab, setActiveTab] = useState("profile")
-    //const { user, activityData, posts } = pageData
 
     return (
         <div className="min-h-screen bg-gray-50">

@@ -4,7 +4,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.VoteInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 
 import java.util.List;
@@ -20,8 +19,6 @@ public interface PostService {
     PostDetailsDTO getPostDetails(Long id);
 
     PostEntity createPost(PostInputDTO post);
-
-    PostEntity updateLikePost(VoteInputDTO postVote);
 
 }
 
