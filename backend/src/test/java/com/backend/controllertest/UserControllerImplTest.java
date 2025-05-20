@@ -40,8 +40,6 @@ import com.backend.repository.TipRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.UserService;
 
-import jakarta.inject.Inject;
-
 public class UserControllerImplTest {
 
     @Mock
