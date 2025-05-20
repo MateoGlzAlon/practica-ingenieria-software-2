@@ -19,6 +19,7 @@ public interface PostService {
     PostDetailsDTO getPostDetails(Long id);
 
     PostEntity createPost(PostInputDTO post);
+
 }
 
 
