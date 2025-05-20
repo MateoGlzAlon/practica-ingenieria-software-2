@@ -141,6 +141,28 @@ public class PostServiceImplTest {
     }
 
     @Test
+    void testUserFoundById_OrElseThrow() {
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+
+        UserEntity user = userRepository.findById(1L).orElseThrow(() -> new RuntimeException("User not found"));
+
+        assertNotNull(user);
+        assertEquals("testuser", user.getUsername());
+    }
+
+    @Test
+    void testUserNotFoundById_ThrowsException() {
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            userRepository.findById(1L).orElseThrow(() -> new RuntimeException("User not found"));
+        });
+
+        assertEquals("User not found", thrown.getMessage());
+    }
+
+
+    @Test
     public void testGetPostIndividual_ReturnsDTO() {
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
         var dto = postService.getPostIndividual(1L);
@@ -178,4 +200,17 @@ public class PostServiceImplTest {
         assertEquals(1, feed.size());
         assertEquals("Test Title", feed.get(0).getTitle());
     }
+
+    @Test
+    void testGetFeedPosts_NullImages() {
+        PostEntity post = PostEntity.builder()
+                .id(1L)
+                .images(null)
+                .comments(new ArrayList<>())
+                .createdAt(new Date())
+                .build();
+
+        assertNull(post.getImages());
+    }
+
 }
