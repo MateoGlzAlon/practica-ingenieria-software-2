@@ -19,7 +19,7 @@ public class CommentVoteControllerImpl implements CommentVoteController {
     private final CommentVoteService commentVoteService;
 
     @GetMapping("/{id}")
-    public CommentVoteEntity findCommentById(@PathVariable Long id){
-        return commentVoteService.findCommentById(id);
+    public CommentVoteEntity findCommentVoteById(@PathVariable Long id){
+        return commentVoteService.findCommentVoteById(id);
     }
 }

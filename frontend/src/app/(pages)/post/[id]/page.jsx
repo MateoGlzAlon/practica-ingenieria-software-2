@@ -18,30 +18,36 @@ export default function Post({ params }) {
     //this is for post information
     const { id } = useParams()
 
-    const [dataPost, setDataPost] = useState(null)
+    const [postData, setDataPost] = useState(null)
 
     const [questionVotes, setQuestionVotes] = useState(0)
     const [answerVotes, setAnswerVotes] = useState([125, 37, 12])
     const [acceptedAnswer, setAcceptedAnswer] = useState(0)
     const [showComments, setShowComments] = useState(false)
 
+
+
     useEffect(() => {
         if (!id) return
 
         const fetchPost = async () => {
-        try {
-            const post = await getIndividualPost(id)
-            setDataPost(post)
-            setQuestionVotes(post.votes)
-        } catch (error) {
-            console.error('Error fetching post:', error)
+            try {
+                const post = await getIndividualPost(id)
+                setDataPost(post)
+                setQuestionVotes(post.votes)
+
+                console.log("Post data", post)
+            } catch (error) {
+                console.error('Error fetching post:', error)
+            }
         }
-        }
+
+
 
         fetchPost()
     }, [id])
 
-    if (!dataPost) {
+    if (!postData) {
         return <p className="text-center py-10">Loading post...</p>
     }
 
@@ -55,16 +61,17 @@ export default function Post({ params }) {
                     <div className="flex-1">
                         <div className="mb-4 flex flex-wrap items-center justify-between">
                             <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
-                                {dataPost.title || "N/A"}
+                                {postData.title || "N/A"}
                             </h1>
                         </div>
+
 
                         <PostContent
                             questionVotes={questionVotes}
                             setQuestionVotes={setQuestionVotes}
                             showComments={showComments}
                             setShowComments={setShowComments}
-                            data={dataPost}
+                            postData={postData}
                         />
 
                         <div className="flex items-center justify-between my-8">
@@ -112,8 +119,8 @@ export default function Post({ params }) {
 function RightSidebar() {
 
     const [hotQuestions, setHotQuestions] = useState([])
-    
-    
+
+
     const fetchHotQuestions = async () => {
         try {
             const data = await getHotQuestionPosts()
@@ -134,20 +141,20 @@ function RightSidebar() {
                 <div className="bg-white p-4 border border-gray-200 rounded-md">
                     <h3 className="text-sm font-semibold mb-3">Hot Network Questions</h3>
                     {hotQuestions.length === 0 ? (
-                    <p className="text-sm text-gray-500">Cargando preguntas populares…</p>
+                        <p className="text-sm text-gray-500">Cargando preguntas populares…</p>
                     ) : (
-                    <ul className="space-y-2 text-sm">
-                        {hotQuestions.map((q) => (
-                        <li key={q.id}>
-                            <Link
-                            href={`/post/${q.id}`}
-                            className="text-blue-600 hover:text-blue-800"
-                            >
-                            {q.title}
-                            </Link>
-                        </li>
-                        ))}
-                    </ul>
+                        <ul className="space-y-2 text-sm">
+                            {hotQuestions.map((q) => (
+                                <li key={q.id}>
+                                    <Link
+                                        href={`/post/${q.id}`}
+                                        className="text-blue-600 hover:text-blue-800"
+                                    >
+                                        {q.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </div>
 
@@ -156,7 +163,7 @@ function RightSidebar() {
                     <p className="text-sm text-orange-700 mb-3">
                         Get access to exclusive content and connect with other developers.
                     </p>
-                    <button className="w-full px-3 py-1.5 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition text-sm">
+                    <button className="w-full px-3 py-1.5Get access to exclusive content and connect with other developers. bg-orange-500 text-white rounded-md hover:bg-orange-600 transition text-sm">
                         Sign Up
                     </button>
                 </div>

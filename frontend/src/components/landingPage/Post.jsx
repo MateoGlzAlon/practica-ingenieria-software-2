@@ -1,10 +1,37 @@
+import { useState } from "react";
 import { ArrowUp, ArrowDown, Bookmark } from "lucide-react";
 import Link from "next/link"
 import { format } from 'date-fns';
+import createPostVotes from "@/api/post/postCreatePostVote";
+import getIsVoted from "@/api/getIsVoted";
+import MarkdownRenderer from "@/components/general/MarkDownRenderer"
+
 
 
 
 export default function Post({ postData }) {
+
+    const userId = 1 // TODO : GET USERID FROM CONTEXT
+
+    const [votedStatus, setVotedStatus] = useState()
+
+    async function handleVote() {
+
+        try {
+            const data = await createPostVotes(userId, postData.id)
+            const voted = await getIsVoted(userId, postData.id)
+            setVotedStatus(voted)
+            console.log("Post data", data)
+
+            console.log("Postdata.voted ", postData)
+
+        } catch (error) {
+            console.error("Error voting:", error)
+        }
+
+        console.log("votedStatus", votedStatus)
+
+    }
 
     return (
 
@@ -24,24 +51,24 @@ export default function Post({ postData }) {
                 </Link>
 
                 {/* TODO SHORT VERSION OF THE CONTENT (WE CAN JUST TAKE THE 100 FIRST CHARACTERS)*/}
-                <p className="text-gray-700 mb-4 line-clamp-3 py-4">{postData.content}</p>
+                <div className="py-5">
+                    <MarkdownRenderer
+                        className="text-gray-700 mb-4 line-clamp-3 py-4"
+                        content={postData.content}
+                    />
+                </div>
+
 
                 <div className=" flex flex-row justify-between">
 
                     <div className="flex flex-row w-1/4 items-center justify-between ">
                         <button
-                            onClick={() => { }}
-                            className="text-gray-600 hover:text-green-500"
+                            onClick={() => handleVote()}
+                            className={`${votedStatus ? "text-green-600" : ""} hover:text-pink-500`}
                         >
                             <ArrowUp size={28} />
                         </button>
-                        <span className="font-semibold text-lg text-gray-900">{postData.likes}</span>
-                        <button
-                            onClick={() => { }}
-                            className="text-gray-600 hover:text-red-500"
-                        >
-                            <ArrowDown size={28} />
-                        </button>
+                        <span className="font-semibold text-lg text-gray-900">{postData.votes}</span>
                         <button
                             onClick={() => { }}
                             className="text-gray-400 hover:text-yellow-500"
