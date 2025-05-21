@@ -9,16 +9,14 @@ import getIsVoted from "@/api/getIsVoted";
 
 export default function Post({ postData }) {
 
-    const userId = 1
+    const userId = 1 // TODO : GET USERID FROM CONTEXT
 
     const [votedStatus, setVotedStatus] = useState()
 
     async function handleVote() {
 
-        // TODO : VOTE FUNCTION
-
         try {
-            const data = await createPostVotes(userId, postData.id) // TODO : GET USERID FROM CONTEXT
+            const data = await createPostVotes(userId, postData.id)
             const voted = await getIsVoted(userId, postData.id)
             setVotedStatus(voted)
             console.log("Post data", data)
