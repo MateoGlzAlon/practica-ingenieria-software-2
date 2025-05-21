@@ -4,6 +4,8 @@ import Link from "next/link"
 import { format } from 'date-fns';
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
+import MarkdownRenderer from "@/components/general/MarkDownRenderer"
+
 
 
 
@@ -49,7 +51,13 @@ export default function Post({ postData }) {
                 </Link>
 
                 {/* TODO SHORT VERSION OF THE CONTENT (WE CAN JUST TAKE THE 100 FIRST CHARACTERS)*/}
-                <p className="text-gray-700 mb-4 line-clamp-3 py-4">{postData.content}</p>
+                <div className="py-5">
+                    <MarkdownRenderer
+                        className="text-gray-700 mb-4 line-clamp-3 py-4"
+                        content={postData.content}
+                    />
+                </div>
+
 
                 <div className=" flex flex-row justify-between">
 
@@ -60,7 +68,7 @@ export default function Post({ postData }) {
                         >
                             <ArrowUp size={28} />
                         </button>
-                        <span className="font-semibold text-lg text-gray-900">{postData.likes}</span>
+                        <span className="font-semibold text-lg text-gray-900">{postData.votes}</span>
                         <button
                             onClick={() => { }}
                             className="text-gray-400 hover:text-yellow-500"
