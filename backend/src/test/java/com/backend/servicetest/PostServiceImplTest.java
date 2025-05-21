@@ -200,7 +200,7 @@ public class PostServiceImplTest {
         when(mockPage.getContent()).thenReturn(postList);
         when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
 
-        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10);
+        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L);
 
         assertNotNull(feed);
         assertEquals(1, feed.size());
