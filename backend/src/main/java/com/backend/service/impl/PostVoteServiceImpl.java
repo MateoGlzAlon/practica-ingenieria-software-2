@@ -2,10 +2,9 @@ package com.backend.service.impl;
 
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostVoteEntity;
+import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.PostVoteInputDTO;
-import com.backend.repository.PostRepository;
-import com.backend.repository.PostVoteRepository;
-import com.backend.repository.UserRepository;
+import com.backend.repository.*;
 import com.backend.service.PostVoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,8 @@ public class PostVoteServiceImpl implements PostVoteService {
     private final PostVoteRepository postVoteRepository;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+
 
     @Override
     public PostVoteEntity findPostVoteById(Long id) {
@@ -27,17 +28,40 @@ public class PostVoteServiceImpl implements PostVoteService {
 
     @Override
     public PostVoteEntity createPostVote(PostVoteInputDTO postVote) {
+        Long userId = postVote.getUserId();
+        Long postId = postVote.getPostId();
 
-        PostVoteEntity postVoteEntity = PostVoteEntity.builder()
-                .user(userRepository.findById(postVote.getUserId()).orElse(null))
-                .post(postRepository.findById(postVote.getPostId()).orElse(null))
-                .build();
+        boolean hasVoted = postVoteRepository.isPostVoted(userId, postId);
 
-        PostEntity postEntity = postRepository.findById(postVote.getPostId()).orElse(null);
+        UserEntity user = userRepository.findById(userId).orElse(null);
+        PostEntity post = postRepository.findById(postId).orElse(null);
 
-        postEntity.setVotes(postEntity.getVotes() + 1);
-        postRepository.save(postEntity);
+        if (post == null) {
+            // TODO: Consider throwing an exception or handling the null case
+            return null;
+        }
 
-        return postVoteRepository.save(postVoteEntity);
+        if (hasVoted) {
+            postVoteRepository.deleteByUserIDProjectId(userId, postId);
+            post.decreaseVotes();
+            postRepository.save(post);
+            return null;
+        } else {
+            post.increaseVotes();
+            postRepository.save(post);
+
+            PostVoteEntity postVoteEntity = PostVoteEntity.builder()
+                    .user(user)
+                    .post(post)
+                    .build();
+
+            return postVoteRepository.save(postVoteEntity);
+        }
     }
+
+    @Override
+    public boolean isPostVoted(Long userId, Long postId) {
+        return postVoteRepository.isPostVoted(userId, postId);
+    }
+
 }

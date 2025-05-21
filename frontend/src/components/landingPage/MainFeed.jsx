@@ -19,6 +19,8 @@ export default function MainFeed() {
                 setHasMore(false)
             }
             setPosts(prev => [...prev, ...data])
+
+            console.log("Mainfeed data", data)
         } catch (error) {
             console.error("Error fetching feed posts:", error)
         } finally {

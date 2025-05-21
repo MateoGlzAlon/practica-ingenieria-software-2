@@ -42,7 +42,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<FeedPostDTO> getFeedPosts(int page, int size, Long userId) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        // TODO: change this for createdAt
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         Page<PostEntity> postsPage = postRepository.findAll(pageable);
 
         List<FeedPostDTO> feedPostDTOs = new ArrayList<>();
@@ -64,6 +65,7 @@ public class PostServiceImpl implements PostService {
                     .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
                     .voted(postVoteRepository.isPostVoted(userId, post.getId()))
                     .build();
+
 
             feedPostDTOs.add(feedPostDTO);
         }

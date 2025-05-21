@@ -25,4 +25,9 @@ public class PostVoteControllerImpl implements PostVoteController {
     public PostVoteEntity createPostVote(@RequestBody PostVoteInputDTO postVote) {
         return postVoteService.createPostVote(postVote);
     }
+
+    @GetMapping("/check")
+    public boolean isPostVoted(@RequestParam Long userId, @RequestParam Long postId){
+        return postVoteService.isPostVoted(userId,postId);
+    }
 }

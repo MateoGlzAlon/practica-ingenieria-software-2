@@ -1,16 +1,35 @@
+import { useState } from "react";
 import { ArrowUp, ArrowDown, Bookmark } from "lucide-react";
 import Link from "next/link"
 import { format } from 'date-fns';
+import createPostVotes from "@/api/post/postCreatePostVote";
+import getIsVoted from "@/api/getIsVoted";
 
 
 
 export default function Post({ postData }) {
 
+    const userId = 1
 
-    function handleVote() {
+    const [votedStatus, setVotedStatus] = useState()
+
+    async function handleVote() {
 
         // TODO : VOTE FUNCTION
 
+        try {
+            const data = await createPostVotes(userId, postData.id) // TODO : GET USERID FROM CONTEXT
+            const voted = await getIsVoted(userId, postData.id)
+            setVotedStatus(voted)
+            console.log("Post data", data)
+
+            console.log("Postdata.voted ", postData)
+
+        } catch (error) {
+            console.error("Error voting:", error)
+        }
+
+        console.log("votedStatus", votedStatus)
 
     }
 
@@ -38,8 +57,8 @@ export default function Post({ postData }) {
 
                     <div className="flex flex-row w-1/4 items-center justify-between ">
                         <button
-                            onClick={() => { }}
-                            className={`${postData.voted ? "text-green-600" : ""} hover:text-pink-500`}
+                            onClick={() => handleVote()}
+                            className={`${votedStatus ? "text-green-600" : ""} hover:text-pink-500`}
                         >
                             <ArrowUp size={28} />
                         </button>
