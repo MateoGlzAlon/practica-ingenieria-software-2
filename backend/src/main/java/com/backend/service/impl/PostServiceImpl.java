@@ -8,10 +8,7 @@ import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.repository.PostRepository;
-import com.backend.repository.TagRepository;
-import com.backend.repository.PostImageRepository;
-import com.backend.repository.UserRepository;
+import com.backend.repository.*;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,6 +31,8 @@ public class PostServiceImpl implements PostService {
     private final TagRepository tagRepository;
     private final PostImageRepository postImageRepository;
     private final UserRepository userRepository;
+    private final PostVoteRepository postVoteRepository;
+
 
 
     @Override
@@ -42,7 +41,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<FeedPostDTO> getFeedPosts(int page, int size) {
+    public List<FeedPostDTO> getFeedPosts(int page, int size, Long userId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<PostEntity> postsPage = postRepository.findAll(pageable);
 
@@ -63,8 +62,9 @@ public class PostServiceImpl implements PostService {
                     .commentCount(post.getComments().size())
                     .createdAt(post.getCreatedAt())
                     .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
+                    .voted(postVoteRepository.isPostVoted(userId, post.getId()))
                     .build();
-
+            
             feedPostDTOs.add(feedPostDTO);
         }
 
@@ -124,7 +124,7 @@ public class PostServiceImpl implements PostService {
         {
             "title":"test2",
             "content":"this a test2",
-            "userId": 1
+            "userId": 1,
             "tagId": 1,
             "imageLinks":[
                 "https://placehold.co/600x400?text=Post90",
@@ -159,8 +159,5 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(newPost);
     }
-
-
-
 
 }

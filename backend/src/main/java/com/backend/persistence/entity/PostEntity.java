@@ -50,6 +50,14 @@ public class PostEntity {
     }
 
 
+    public void increaseVotes() {
+        this.votes++;
+    }
+
+    public void decreaseVotes() {
+        this.votes--;
+    }
+
 }
 
 

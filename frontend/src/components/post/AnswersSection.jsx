@@ -2,13 +2,34 @@
 import { Award } from "lucide-react"
 import { mockData } from "@/app/mockData"
 import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
-export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAnswer, setAcceptedAnswer }) {
+export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAnswer, setAcceptedAnswer, idPost }) {
 
-    const data = mockData.commentsExamples
+    //const data = mockData.commentsExamples
 
+    const [commentsData, setCommentsData] = useState(null)
     const [expandedComments, setExpandedComments] = useState({})
+
+    useEffect(() => {
+        if (!idPost) return
+        const fetchComments = async () => {
+            try {
+                const comments = await getCommentsOfAPost(idPost)
+                setCommentsData(comments)
+            } catch (error) {
+                console.error('Error fetching comments:', error)
+            }
+        }
+        fetchComments()
+    }, [idPost])
+
+
+    if (!commentsData) {
+        return <p className="text-center py-10">Loading comments...</p>
+    }
+
 
     const toggleComments = (index) => {
         setExpandedComments({
@@ -19,7 +40,7 @@ export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAn
 
     return (
         <div className="space-y-6">
-            {data.map((answer, index) => (
+            {commentsData.map((answer, index) => (
                 <div
                     key={answer.id}
                     className={`bg-white p-6 border ${acceptedAnswer === index ? "border-green-500" : "border-gray-200"

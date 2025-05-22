@@ -10,8 +10,7 @@ import java.util.*;
 @Entity
 @Table(name = "post_images")
 @Data
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostImageEntity {

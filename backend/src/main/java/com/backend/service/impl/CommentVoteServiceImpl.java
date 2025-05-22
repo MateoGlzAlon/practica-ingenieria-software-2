@@ -14,7 +14,7 @@ public class CommentVoteServiceImpl implements CommentVoteService {
     private final CommentVoteRepository commentVoteRepository;
 
     @Override
-    public CommentVoteEntity findCommentById(Long id) {
+    public CommentVoteEntity findCommentVoteById(Long id) {
         return commentVoteRepository.findById(id).orElse(null);
     }
 }

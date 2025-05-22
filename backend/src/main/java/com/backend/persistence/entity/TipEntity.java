@@ -10,8 +10,7 @@ import lombok.*;
 @Entity
 @Table(name = "tips")
 @Data
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TipEntity {
