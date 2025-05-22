@@ -21,7 +21,6 @@ public class FeedPostDTO {
     private int votes;
     private String authorUsername;
     private int commentCount;
-    private int votes;
     private Date createdAt;
     private String content;
 
