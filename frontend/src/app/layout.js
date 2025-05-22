@@ -1,7 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,11 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-          <AuthProvider>
+        <GoogleOAuthProvider clientId="api google">
             <Navbar />
-              {children}
-          </AuthProvider>
+            {children}
         </GoogleOAuthProvider>
       </body>
     </html>

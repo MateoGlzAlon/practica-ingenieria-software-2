@@ -18,7 +18,6 @@ public class FeedPostDTO {
     private String title;
     private String imageURL;
     private String state;
-    private int votes;
     private String authorUsername;
     private int commentCount;
     private int votes;
