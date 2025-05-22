@@ -5,7 +5,7 @@ import com.backend.persistence.outputdto.TipReceivedOutputDTO;
 import com.backend.persistence.outputdto.TipSentOutputDTO;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.*;
 
 @Data

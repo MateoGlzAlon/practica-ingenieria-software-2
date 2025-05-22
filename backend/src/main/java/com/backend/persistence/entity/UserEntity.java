@@ -3,7 +3,7 @@ package com.backend.persistence.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.*;
 
 @Entity
@@ -17,16 +17,16 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column(nullable = false, unique = true)
     private String role;
 
     @Column(nullable = false, length = 500)
