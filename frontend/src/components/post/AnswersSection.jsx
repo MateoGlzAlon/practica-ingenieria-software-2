@@ -5,7 +5,7 @@ import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
 import { useState, useEffect } from "react"
 import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
-export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAnswer, setAcceptedAnswer, idPost }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
 
     //const data = mockData.commentsExamples
 
@@ -23,7 +23,7 @@ export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAn
             }
         }
         fetchComments()
-    }, [idPost])
+    }, [idPost, refreshTrigger])
 
 
     if (!commentsData) {
@@ -48,23 +48,25 @@ export default function AnswersSection({ answerVotes, setAnswerVotes, acceptedAn
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
+                            {/*TO-DO change buttons (also answerVotes is removed)*/}
                             <button
                                 onClick={() => {
-                                    const newVotes = [...answerVotes]
-                                    newVotes[index] += 1
-                                    setAnswerVotes(newVotes)
+                                    //const newVotes = [...answer.votes]
+                                    //newVotes[index] += 1
+                                    //setAnswerVotes(newVotes)
                                 }}
                                 className="text-gray-400 hover:text-orange-500 transition"
                                 aria-label="Upvote"
                             >
                                 <ArrowUp size={32} />
                             </button>
-                            <span className="text-xl font-bold my-2 text-gray-700">{answerVotes[index]}</span>
+                            <span className="text-xl font-bold my-2 text-gray-700">{answer.votes}</span>
+                            {/*TO-DO change buttons (also answerVotes is removed)*/}
                             <button
                                 onClick={() => {
-                                    const newVotes = [...answerVotes]
-                                    newVotes[index] -= 1
-                                    setAnswerVotes(newVotes)
+                                    //const newVotes = [...answer.votes]
+                                    //newVotes[index] -= 1
+                                    //setAnswerVotes(newVotes)
                                 }}
                                 className="text-gray-400 hover:text-gray-600 transition"
                                 aria-label="Downvote"
