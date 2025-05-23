@@ -1,7 +1,10 @@
 package com.backend.controllertest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,17 +12,26 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.backend.controller.impl.CommentControllerImpl;
 import com.backend.controller.impl.CommentVoteControllerImpl;
-import com.backend.controller.impl.GoogleAuthControllerImpl;
+import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.entity.CommentVoteEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
+import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
@@ -27,19 +39,15 @@ import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
+import com.backend.service.CommentService;
 import com.backend.service.CommentVoteService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-public class CommentVoteControllerImplTest {
-    
+
+public class CommentControllerImplTest {
     @Mock
-    private CommentVoteService commentVoteService;
+    private CommentService commentService;
 
     @InjectMocks
-    private CommentVoteControllerImpl commentVoteController;
+    private CommentControllerImpl commentController;
 
     private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
@@ -59,8 +67,9 @@ public class CommentVoteControllerImplTest {
     private FeedPostDTO mockFeedPost;
     private GoogleLoginDTO mockLoginDTO;
     private CommentVoteEntity mockVote;
-
-
+    private CommentEntity mockComment;
+    private CommentOutputDTO mockCommentOutput;
+    private CommentInputDTO mockCommentInput;
 
     @BeforeEach
     public void setup() {
@@ -184,17 +193,57 @@ public class CommentVoteControllerImplTest {
         mockVote = CommentVoteEntity.builder()
                 .id(1L)
                 .build();
+
+        mockComment = CommentEntity.builder()
+                .id(1L)
+                .content("Test comment")
+                .build();
+
+        mockCommentOutput = CommentOutputDTO.builder()
+                .id(1L)
+                .content("Test comment output")
+                .build();
+
+        mockCommentInput = CommentInputDTO.builder()
+                .content("New comment")
+                .userId(1L)
+                .postId(1L)
+                .build();
     }
 
     @Test
-    public void testFindCommentVoteById_ReturnsVote() {
-        when(commentVoteService.findCommentVoteById(1L)).thenReturn(mockVote);
+    public void testFindCommentById_ReturnsCommentEntity() {
+        when(commentService.findCommentById(1L)).thenReturn(mockComment);
 
-        CommentVoteEntity result = commentVoteController.findCommentVoteById(1L);
+        CommentEntity result = commentController.findCommentById(1L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
-        verify(commentVoteService, times(1)).findCommentVoteById(1L);
+        assertEquals("Test comment", result.getContent());
+        verify(commentService, times(1)).findCommentById(1L);
     }
 
+    @Test
+    public void testFindCommentsOfAPost_ReturnsListOfDTOs() {
+        when(commentService.findCommentsOfAPost(1L)).thenReturn(List.of(mockCommentOutput));
+
+        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test comment output", result.get(0).getContent());
+        verify(commentService, times(1)).findCommentsOfAPost(1L);
+    }
+
+    @Test
+    public void testCreateComment_ReturnsCreatedEntity() {
+        when(commentService.createComment(mockCommentInput)).thenReturn(mockComment);
+
+        CommentEntity result = commentController.createComment(mockCommentInput);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Test comment", result.getContent());
+        verify(commentService, times(1)).createComment(mockCommentInput);
+    }
 }
