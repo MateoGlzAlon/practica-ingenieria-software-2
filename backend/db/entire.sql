@@ -1,14 +1,28 @@
--- Volcando estructura para tabla public.comments
-CREATE TABLE IF NOT EXISTS "comments" (
+-- Volcando estructura para tabla public.users
+CREATE TABLE IF NOT EXISTS "users" (
 	"id" SERIAL NOT NULL,
-	"post_id" INTEGER DEFAULT NULL,
-	"user_id" INTEGER DEFAULT NULL,
-	"content" TEXT NOT NULL,
-	"votes" INTEGER DEFAULT 0,
+	"name" VARCHAR(50) NOT NULL,
+	"username" VARCHAR(50) NOT NULL,
+	"email" VARCHAR(100) NOT NULL,
+	"password" VARCHAR(500) NOT NULL,
+	"github_link" VARCHAR(200),
+	"twitter_link" VARCHAR(200),
+	"website_link" VARCHAR(200),
+	"about" TEXT,
+	"avatar_url" TEXT,
+	"role" VARCHAR(50) NOT NULL,
 	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY ("id"),
-	CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts" ("id") ON DELETE CASCADE,
-	CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
+	CONSTRAINT users_username_key UNIQUE ("username"),
+	CONSTRAINT users_email_key UNIQUE ("email")
+);
+
+-- Volcando estructura para tabla public.tags
+CREATE TABLE IF NOT EXISTS "tags" (
+	"id" SERIAL NOT NULL,
+	"name" VARCHAR(50) NOT NULL,
+	PRIMARY KEY ("id"),
+	CONSTRAINT tags_name_key UNIQUE ("name")
 );
 
 -- Volcando estructura para tabla public.posts
@@ -24,6 +38,19 @@ CREATE TABLE IF NOT EXISTS "posts" (
 	PRIMARY KEY ("id"),
 	CONSTRAINT "posts_tag_id_fkey" FOREIGN KEY ("tag_id") REFERENCES "tags" ("id") ON DELETE SET NULL,
 	CONSTRAINT "posts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
+);
+
+-- Volcando estructura para tabla public.comments
+CREATE TABLE IF NOT EXISTS "comments" (
+	"id" SERIAL NOT NULL,
+	"post_id" INTEGER DEFAULT NULL,
+	"user_id" INTEGER DEFAULT NULL,
+	"content" TEXT NOT NULL,
+	"votes" INTEGER DEFAULT 0,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("id"),
+	CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts" ("id") ON DELETE CASCADE,
+	CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
 );
 
 -- Volcando estructura para tabla public.post_images
@@ -46,12 +73,14 @@ CREATE TABLE IF NOT EXISTS "post_votes" (
 	CONSTRAINT "post_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
 );
 
--- Volcando estructura para tabla public.tags
-CREATE TABLE IF NOT EXISTS "tags" (
+-- Volcando estructura para tabla public.comment_votes
+CREATE TABLE IF NOT EXISTS "comment_votes" (
 	"id" SERIAL NOT NULL,
-	"name" VARCHAR(50) NOT NULL,
+	"comment_id" INTEGER DEFAULT NULL,
+	"user_id" INTEGER DEFAULT NULL,
 	PRIMARY KEY ("id"),
-	CONSTRAINT tags_name_key UNIQUE ("name")
+	CONSTRAINT "comment_votes_comment_id_fkey" FOREIGN KEY ("comment_id") REFERENCES "comments" ("id") ON DELETE CASCADE,
+	CONSTRAINT "comment_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
 );
 
 -- Volcando estructura para tabla public.tips
@@ -68,35 +97,6 @@ CREATE TABLE IF NOT EXISTS "tips" (
 	CONSTRAINT "tips_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts" ("id") ON DELETE CASCADE,
 	CONSTRAINT "tips_receiver_id_fkey" FOREIGN KEY ("receiver_id") REFERENCES "users" ("id") ON DELETE CASCADE,
 	CONSTRAINT "tips_sender_id_fkey" FOREIGN KEY ("sender_id") REFERENCES "users" ("id") ON DELETE CASCADE
-);
-
--- Volcando estructura para tabla public.users
-CREATE TABLE IF NOT EXISTS "users" (
-	"id" SERIAL NOT NULL,
-	"name" VARCHAR(50) NOT NULL,
-	"username" VARCHAR(50) NOT NULL,
-	"email" VARCHAR(100) NOT NULL,
-	"password" VARCHAR(500) NOT NULL,
-	"github_link" VARCHAR(200),
-	"twitter_link" VARCHAR(200),
-	"website_link" VARCHAR(200),
-	"about" TEXT,
-	"avatar_url" TEXT,
-	"role" VARCHAR(50) NOT NULL,
-	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY ("id"),
-	CONSTRAINT users_username_key UNIQUE ("username"),
-	CONSTRAINT users_email_key UNIQUE ("email")
-);
-
--- Volcando estructura para tabla public.comment_votes
-CREATE TABLE IF NOT EXISTS "comment_votes" (
-	"id" SERIAL NOT NULL,
-	"comment_id" INTEGER DEFAULT NULL,
-	"user_id" INTEGER DEFAULT NULL,
-	PRIMARY KEY ("id"),
-	CONSTRAINT "comment_votes_comment_id_fkey" FOREIGN KEY ("comment_id") REFERENCES "comments" ("id") ON DELETE CASCADE,
-	CONSTRAINT "comment_votes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
 );
 
 -- INSERTS: tags
