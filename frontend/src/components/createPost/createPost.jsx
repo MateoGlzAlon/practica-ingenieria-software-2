@@ -6,8 +6,9 @@ import createPost from "@/api/post/postCreatePost"
 
 export default function CreatePost() {
     const [formData, setFormData] = useState({
-        title: "titleChrome",
-        content: "contentChrome",
+        title: "",
+        content: "",
+        // TODO : GET TAGID FROM API (available tags)
         tagId: 1,
         // TODO : GET USERID FROM CONTEXT
         userId: 1,
@@ -138,7 +139,7 @@ export default function CreatePost() {
                     onClick={() => setIsFormVisible(!isFormVisible)}
                     className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                 >
-                    {isFormVisible ? "Hide Form" : "Show Form"}
+                    {isFormVisible ? "Close" : "Create post"}
                 </button>
             </div>
 
