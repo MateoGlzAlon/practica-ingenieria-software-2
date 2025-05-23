@@ -1,9 +1,7 @@
 package com.backend.controllertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,30 +18,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.backend.controller.impl.PostImageControllerImpl;
 import com.backend.controller.impl.PostVoteControllerImpl;
-import com.backend.controller.impl.StatsControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
-import com.backend.persistence.entity.PostVoteEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.PostVoteInputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
+import com.backend.service.PostImageService;
 import com.backend.service.PostVoteService;
-import com.backend.service.impl.StatsServiceImpl;
 
-public class PostVoteControllerImplTest {
+public class PostImageControllerImplTest {
     @Mock
-    private PostVoteService postVoteService;
+    private PostImageService postImageService;
 
     @InjectMocks
-    private PostVoteControllerImpl postVoteController;
+    private PostImageControllerImpl postImageController;
 
     private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
@@ -56,7 +52,7 @@ public class PostVoteControllerImplTest {
     private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
     private CommunityStatsDTO mockStats;
-    private PostVoteEntity mockVote;
+    private PostImageEntity mockImage;
 
     @BeforeEach
     public void setup() {
@@ -142,64 +138,25 @@ public class PostVoteControllerImplTest {
                 .questions(200L)
                 .answers (300L)
                 .build();
-        
-        mockVote = PostVoteEntity.builder().id(1L).build();
 
-    }
-
-    @Test
-    public void testFindPostVoteById_ReturnsPostVoteEntity() {
-        when(postVoteService.findPostVoteById(1L)).thenReturn(mockVote);
-
-        PostVoteEntity result = postVoteController.findPostVoteById(1L);
-
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-        verify(postVoteService, times(1)).findPostVoteById(1L);
-    }
-
-    @Test
-    public void testCreatePostVote_ReturnsCreatedEntity() {
-        PostVoteInputDTO inputDTO = PostVoteInputDTO.builder()
-                .postId(10L)
-                .userId(5L)
+        mockImage = PostImageEntity.builder()
+                .id(1L)
+                .imageUrl("https://placehold.co/600x400?text=PostImage")
                 .build();
+    }
 
-        PostVoteEntity createdVote = PostVoteEntity.builder().id(1L).build();
+    @Test
+    public void testFindPostImageById_ReturnsImage() {
+        Long imageId = 1L;
+        
+        when(postImageService.findPostImageById(imageId)).thenReturn(mockImage);
 
-        when(postVoteService.createPostVote(inputDTO)).thenReturn(createdVote);
-
-        PostVoteEntity result = postVoteController.createPostVote(inputDTO);
+        PostImageEntity result = postImageController.findPostImageById(imageId);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        verify(postVoteService, times(1)).createPostVote(inputDTO);
+        assertEquals(imageId, result.getId());
+        assertEquals("https://placehold.co/600x400?text=PostImage", result.getImageUrl());
+
+        verify(postImageService, times(1)).findPostImageById(imageId);
     }
-
-    @Test
-    public void testIsPostVoted_ReturnsTrue() {
-        Long userId = 2L;
-        Long postId = 3L;
-
-        when(postVoteService.isPostVoted(userId, postId)).thenReturn(true);
-
-        boolean result = postVoteController.isPostVoted(userId, postId);
-
-        assertTrue(result);
-        verify(postVoteService, times(1)).isPostVoted(userId, postId);
-    }
-
-    @Test
-    public void testIsPostVoted_ReturnsFalse() {
-        Long userId = 2L;
-        Long postId = 3L;
-
-        when(postVoteService.isPostVoted(userId, postId)).thenReturn(false);
-
-        boolean result = postVoteController.isPostVoted(userId, postId);
-
-        assertFalse(result);
-        verify(postVoteService, times(1)).isPostVoted(userId, postId);
-    }
-
 }
