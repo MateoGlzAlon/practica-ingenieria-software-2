@@ -2,27 +2,39 @@
 
 import { useState, useRef, useEffect } from "react"
 import { Upload, X, Search, ChevronDown } from "lucide-react"
-import { DATA } from "@/app/data"
-import { handle } from "express/lib/application"
+import createPost from "@/api/post/postCreatePost"
 
 export default function CreatePost() {
     const [formData, setFormData] = useState({
-        title: "",
-        content: "",
-        tag: "",
-        images: [],
+        title: "titleChrome",
+        content: "contentChrome",
+        tagId: 1,
+        // TODO : GET USERID FROM CONTEXT
+        userId: 1,
+        imageLinks: [],
     })
     const [isFormVisible, setIsFormVisible] = useState(false)
+    const [uploadedImages, setUploadedImages] = useState([])
 
     const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false)
     const [tagSearchQuery, setTagSearchQuery] = useState("")
     const tagDropdownRef = useRef(null)
 
-    // TODO: Fetch tags from API
-    const availableTags = DATA.tags
+    const availableTags = [
+        { id: 1, name: "tag1" },
+        { id: 2, name: "tag2" },
+        { id: 3, name: "tag3" },
+        { id: 4, name: "tag4" },
+        { id: 5, name: "tag5" },
+        { id: 6, name: "tag6" },
+        { id: 7, name: "tag7" },
+        { id: 8, name: "tag8" },
+        { id: 9, name: "tag9" },
+        { id: 10, name: "tag10" },
+    ]
 
     const filteredTags = tagSearchQuery
-        ? availableTags.filter((tag) => tag.toLowerCase().includes(tagSearchQuery.toLowerCase()))
+        ? availableTags.filter((tag) => tag.name.toLowerCase().includes(tagSearchQuery.toLowerCase()))
         : availableTags
 
     useEffect(() => {
@@ -46,10 +58,10 @@ export default function CreatePost() {
         }))
     }
 
-    const selectTag = (tag) => {
+    const selectTag = (tagId, tagName) => {
         setFormData((prev) => ({
             ...prev,
-            tag,
+            tagId: tagId,
         }))
         setIsTagDropdownOpen(false)
         setTagSearchQuery("")
@@ -58,36 +70,63 @@ export default function CreatePost() {
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files)
         if (files.length > 0) {
-            const newImages = files.map((file) => ({
-                file,
-                preview: URL.createObjectURL(file),
-            }))
+            // For each new image, create a placeholder URL
+            const newImages = files.map((file, index) => {
+                const imageNumber = uploadedImages.length + index + 90 // Starting from 90 as in example
+                return {
+                    file,
+                    preview: URL.createObjectURL(file),
+                    // TODO: replace with actual upload URL
+                    placeholderUrl: `https://placehold.co/600x400?text=Post${imageNumber}`,
+                }
+            })
 
+            setUploadedImages((prev) => [...prev, ...newImages])
+
+            const newImageLinks = newImages.map((img) => img.placeholderUrl)
             setFormData((prev) => ({
                 ...prev,
-                images: [...prev.images, ...newImages],
+                imageLinks: [...prev.imageLinks, ...newImageLinks],
             }))
         }
     }
 
     const removeImage = (indexToRemove) => {
+        setUploadedImages((prev) => prev.filter((_, index) => index !== indexToRemove))
+
         setFormData((prev) => ({
             ...prev,
-            images: prev.images.filter((_, index) => index !== indexToRemove),
+            imageLinks: prev.imageLinks.filter((_, index) => index !== indexToRemove),
         }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // Print form data to console
         console.log("Post data:", formData)
 
+        try {
 
-        setFormData({
-            title: "",
-            content: "",
-            tag: "",
-            images: [],
-        })
+            await createPost(formData)
+
+            // Reset form after submission
+            setFormData({
+                title: "",
+                content: "",
+                tagId: "",
+                imageLinks: [],
+            })
+            setUploadedImages([])
+
+        } catch (error) {
+            console.error("Error creating post:", error)
+        }
+    }
+
+    const getTagNameById = (id) => {
+        const tag = availableTags.find((tag) => tag.id === id)
+        return tag ? tag.name : ""
     }
 
     return (
@@ -99,7 +138,7 @@ export default function CreatePost() {
                     onClick={() => setIsFormVisible(!isFormVisible)}
                     className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                 >
-                    {isFormVisible ? "Close" : "Create post"}
+                    {isFormVisible ? "Hide Form" : "Show Form"}
                 </button>
             </div>
 
@@ -161,9 +200,7 @@ export default function CreatePost() {
                                             autoFocus
                                         />
                                     ) : (
-                                        <span className={formData.tag ? "text-gray-900" : "text-gray-400"}>
-                                            {formData.tag || "Select a tag"}
-                                        </span>
+                                        <span className="text-gray-900">{getTagNameById(formData.tagId) || "Select a tag"}</span>
                                     )}
                                 </div>
                                 <div className="flex items-center">
@@ -180,12 +217,12 @@ export default function CreatePost() {
                                     {filteredTags.length > 0 ? (
                                         filteredTags.map((tag) => (
                                             <div
-                                                key={tag}
-                                                className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${formData.tag === tag ? "bg-blue-50 text-blue-600" : ""
+                                                key={tag.id}
+                                                className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${formData.tagId === tag.id ? "bg-blue-50 text-blue-600" : ""
                                                     }`}
-                                                onClick={() => selectTag(tag)}
+                                                onClick={() => selectTag(tag.id, tag.name)}
                                             >
-                                                {tag}
+                                                {tag.name}
                                             </div>
                                         ))
                                     ) : (
@@ -199,9 +236,9 @@ export default function CreatePost() {
                     {/* Image upload */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Images</label>
-                        {formData.images.length > 0 && (
+                        {uploadedImages.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                                {formData.images.map((image, index) => (
+                                {uploadedImages.map((image, index) => (
                                     <div key={index} className="relative">
                                         <img
                                             src={image.preview || "/placeholder.svg"}
@@ -215,6 +252,9 @@ export default function CreatePost() {
                                         >
                                             <X className="h-5 w-5 text-gray-700" />
                                         </button>
+                                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 truncate">
+                                            {image.placeholderUrl}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
