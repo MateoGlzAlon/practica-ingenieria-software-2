@@ -5,12 +5,15 @@ import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
 import { useState, useEffect } from "react"
 import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
+import createCommentVote from "@/api/comment/createCommentVote"
+import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
 
-    //const data = mockData.commentsExamples
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
 
     const [commentsData, setCommentsData] = useState(null)
     const [expandedComments, setExpandedComments] = useState({})
+    const [votedComments, setVotedComments] = useState({})
+    const [commentVotes, setCommentVotes] = useState({})
 
     useEffect(() => {
         if (!idPost) return
@@ -38,6 +41,28 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         })
     }
 
+    const handleCommentVote = async (commentId) => {
+        const userId = 10 // TO-DO
+
+        try {
+            await createCommentVote({ userId, commentId })
+            const isVoted = await getIsCommentVoted({ userId, commentId })
+
+            setVotedComments(prev => ({
+                ...prev,
+                [commentId]: isVoted
+            }))
+
+            setCommentVotes(prev => ({
+                ...prev,
+                [commentId]: prev[commentId] + (isVoted ? 1 : -1)
+            }))
+        } catch (error) {
+            console.error("Error voting comment:", error)
+        }
+    }
+
+
     return (
         <div className="space-y-6">
             {commentsData.map((answer, index) => (
@@ -48,31 +73,19 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
-                            {/*TO-DO change buttons (also answerVotes is removed)*/}
                             <button
-                                onClick={() => {
-                                    //const newVotes = [...answer.votes]
-                                    //newVotes[index] += 1
-                                    //setAnswerVotes(newVotes)
-                                }}
+                                onClick={() => handleCommentVote(answer.id)}
                                 className="text-gray-400 hover:text-orange-500 transition"
                                 aria-label="Upvote"
                             >
-                                <ArrowUp size={32} />
+                                <ArrowUp
+                                    size={32}
+                                    className={`${votedComments[answer.id] ? "text-green-600" : ""} hover:text-pink-500`}
+                                />
                             </button>
-                            <span className="text-xl font-bold my-2 text-gray-700">{answer.votes}</span>
-                            {/*TO-DO change buttons (also answerVotes is removed)*/}
-                            <button
-                                onClick={() => {
-                                    //const newVotes = [...answer.votes]
-                                    //newVotes[index] -= 1
-                                    //setAnswerVotes(newVotes)
-                                }}
-                                className="text-gray-400 hover:text-gray-600 transition"
-                                aria-label="Downvote"
-                            >
-                                <ArrowDown size={32} />
-                            </button>
+                            <span className="text-xl font-bold my-2 text-gray-700">
+                                {Number(commentVotes[answer.id] ?? answer.votes) || 0}
+                            </span>
                             <button
                                 onClick={() => setAcceptedAnswer(index)}
                                 className={`mt-4 ${acceptedAnswer === index ? "text-green-500" : "text-gray-400 hover:text-green-500"
