@@ -1,5 +1,5 @@
-import Link from "next/link";  // Make sure to import Link for navigation
-import { Landmark } from 'lucide-react';
+import Link from "next/link";
+import { Landmark } from "lucide-react";
 
 export default function Navbar() {
     return (
@@ -8,7 +8,7 @@ export default function Navbar() {
                 <div />
 
                 <Link href="/" className="flex items-center">
-                    <div className="flex items-center text-2xl font-bold text-black  hover:cursor-pointer">
+                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
                         <Landmark size={28} />
                         <span className="pl-2 text-2xl">Stoa</span>
                     </div>
@@ -19,7 +19,6 @@ export default function Navbar() {
                         Login
                     </button>
                 </Link>
-
             </nav>
 
             <div className="mt-[72px]"></div>

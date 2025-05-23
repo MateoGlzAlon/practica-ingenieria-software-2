@@ -132,7 +132,9 @@ public class PostServiceImpl implements PostService {
             ]
         }
          */
-        UserEntity user = userRepository.findById(post.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        UserEntity user = userRepository.findById(post.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         TagEntity tag = tagRepository.findById(post.getTagId()).orElse(null);
 
         PostEntity newPost = PostEntity.builder()
@@ -143,21 +145,26 @@ public class PostServiceImpl implements PostService {
                 .votes(0)
                 .state("open")
                 .createdAt(new Date())
-                .images(new ArrayList<>()) // inicializamos vacío para luego agregar
-                .comments(new ArrayList<>()) // si quisieras manejar comentarios también
+                .images(new ArrayList<>())
+                .comments(new ArrayList<>())
                 .build();
 
-        // Convertir imageLinks a PostImageEntity
+        // Primero guardamos el Post
+        newPost = postRepository.save(newPost);
+
+        // Ahora guardamos las imágenes que lo referencian
         if (post.getImageLinks() != null) {
             for (String link : post.getImageLinks()) {
                 PostImageEntity image = new PostImageEntity();
                 image.setImageUrl(link);
                 image.setPost(newPost);
+                image.setCreatedAt(new Date());
+                postImageRepository.save(image);
                 newPost.getImages().add(image);
             }
         }
 
-        return postRepository.save(newPost);
+        return newPost;
     }
 
 }
