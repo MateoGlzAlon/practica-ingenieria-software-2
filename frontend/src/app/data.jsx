@@ -1,7 +1,6 @@
 export const DATA = {
-    apiURL: "http://localhost:8080",
-    shortApiURL: "localhost:8080",
-
+    apiURL: process.env.NEXT_PUBLIC_API_URL,
+    shortApiURL: process.env.NEXT_PUBLIC_SHORT_API_URL,
 
     // TODO : UPDATE THIS TO THE REAL API URL
     tags: [
@@ -16,4 +15,5 @@ export const DATA = {
         "tag9",
         "tag10",
     ]
+
 };
