@@ -30,7 +30,7 @@ public class UserIntegrationTest {
 
 
     @Test
-    void find_project_by_id_endpoint() throws Exception {
+    void testFindUserById() throws Exception {
         // Mock GET request to the endpoint /users/1
         mockMvc.perform(get("/users/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
