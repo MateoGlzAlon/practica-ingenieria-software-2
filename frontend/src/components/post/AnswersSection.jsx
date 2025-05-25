@@ -7,6 +7,7 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
+import setClosedComment from "@/api/comment/setClosedComment"
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
 
@@ -15,16 +16,17 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     const [votedComments, setVotedComments] = useState({})
     const [commentVotes, setCommentVotes] = useState({})
 
+    const fetchComments = async () => {
+        try {
+            const comments = await getCommentsOfAPost(idPost);
+            setCommentsData(comments);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    };
+
     useEffect(() => {
         if (!idPost) return
-        const fetchComments = async () => {
-            try {
-                const comments = await getCommentsOfAPost(idPost)
-                setCommentsData(comments)
-            } catch (error) {
-                console.error('Error fetching comments:', error)
-            }
-        }
         fetchComments()
     }, [idPost, refreshTrigger])
 
@@ -46,7 +48,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
         try {
             await createCommentVote({ userId, commentId })
-            const isVoted = await getIsCommentVoted({ userId, commentId })
+            /*const isVoted = await getIsCommentVoted({ userId, commentId })
 
             setVotedComments(prev => ({
                 ...prev,
@@ -56,11 +58,23 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             setCommentVotes(prev => ({
                 ...prev,
                 [commentId]: prev[commentId] + (isVoted ? 1 : -1)
-            }))
+            }))*/
+           await fetchComments();
         } catch (error) {
             console.error("Error voting comment:", error)
         }
     }
+
+    const handleAcceptComment = async (commentId) => {
+        const userId = 1; // TO-DO: Replace with real user
+        try {
+            await setClosedComment({ postId: idPost, userId, commentId });
+            setAcceptedAnswer(commentId);
+            await fetchComments();
+        } catch (error) {
+            console.error("Failed to accept comment:", error);
+        }
+    };
 
 
     return (
@@ -88,7 +102,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                 {Number(commentVotes[answer.id] ?? answer.votes) || 0}
                             </span>
                             <button
-                                onClick={() => setAcceptedAnswer(answer.id)}
+                                onClick={() => handleAcceptComment(answer.id)}
                                 className={`mt-4 ${answer.accepted ? "text-green-500" : "text-gray-400 hover:text-green-500"} transition`}
                                 aria-label="Accept answer"
                             >

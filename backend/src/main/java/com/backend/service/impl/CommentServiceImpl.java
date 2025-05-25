@@ -13,6 +13,8 @@ import com.backend.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Sort;
+
 import java.util.*;
 
 @Service
@@ -30,9 +32,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentOutputDTO> findCommentsOfAPost(Long id) {
-        List<CommentEntity> comments = commentRepository.findByPostId(id);
-
+    public List<CommentOutputDTO> findCommentsOfAPost(Long postId) {
+        Sort sort = Sort.by(Sort.Order.desc("votes"), Sort.Order.asc("id"));
+        List<CommentEntity> comments = commentRepository.findByPostId(postId, sort);
 
         return comments.stream()
                 .map(comment -> CommentOutputDTO.builder()
