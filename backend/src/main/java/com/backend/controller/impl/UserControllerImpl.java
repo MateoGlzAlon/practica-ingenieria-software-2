@@ -37,6 +37,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
+    @GetMapping("/dummy/dummyendpoint")
     public String getDummy() {
         return "Dummy";
     }
