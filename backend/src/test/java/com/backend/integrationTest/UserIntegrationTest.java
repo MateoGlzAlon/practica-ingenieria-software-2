@@ -39,5 +39,14 @@ public class UserIntegrationTest {
                 .andExpect(jsonPath("$.email", is("alice@example.com")))
                 .andExpect(jsonPath("$.role", is("ADMIN")));
     }
+
+    @Test
+    void testFindInputUserById() throws Exception {
+        mockMvc.perform(get("/users/input/1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is("alice")))
+                .andExpect(jsonPath("$.email", is("alice@example.com")))
+                .andExpect(jsonPath("$.about", is("Philosopher and writer")));
+    }
 }
 
