@@ -41,6 +41,7 @@ public class CommentServiceImpl implements CommentService {
                         .content(comment.getContent())
                         .votes(comment.getVotes())
                         .createdAt(comment.getCreatedAt())
+                        .accepted(comment.isAccepted())
                         .build())
                 .toList();
 

@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS "comments" (
 	"content" TEXT NOT NULL,
 	"votes" INTEGER DEFAULT 0,
 	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	"accepted" BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY ("id"),
 	CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts" ("id") ON DELETE CASCADE,
 	CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
