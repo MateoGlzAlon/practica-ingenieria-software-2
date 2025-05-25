@@ -19,5 +19,10 @@ public interface UserController {
     @GetMapping("/profile/{id}")
     ProfileDTO getProfileByUserId(@PathVariable Long id);
 
+
+
+    @GetMapping("/dummy")
+    String getDummy();
+
 }
 

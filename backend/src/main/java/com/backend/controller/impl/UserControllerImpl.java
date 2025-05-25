@@ -35,4 +35,9 @@ public class UserControllerImpl implements UserController {
     public ProfileDTO getProfileByUserId(@PathVariable Long id) {
         return userService.getProfileByUserId(id);
     }
+
+    @Override
+    public String getDummy() {
+        return "Dummy";
+    }
 }
