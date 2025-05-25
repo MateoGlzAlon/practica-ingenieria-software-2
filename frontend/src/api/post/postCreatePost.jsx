@@ -1,19 +1,12 @@
 import axios from 'axios';
-import { DATA } from "@/app/data"
+import { DATA } from "@/app/data";
 
 export default async function createPost(postData) {
     try {
-        const bodyData = postData
-
-        console.log("bodyData", bodyData)
-
-        const response = await axios.post(`${DATA.apiURL}/posts`,
-            bodyData
-        );
-
+        const response = await axios.post(`${DATA.apiURL}/posts`, postData);
         return response.data;
     } catch (error) {
-        console.error("Error fetching community stats:", error);
+        console.error("Error creating post:", error);
         throw error;
     }
 }
