@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Post from "./Post"
 import getFeedPosts from "@/api/getLandingPageFeedPosts"
+import CreatePost from "@/components/createPost/createPost"
 
 export default function MainFeed() {
     const [posts, setPosts] = useState([])
@@ -54,6 +55,8 @@ export default function MainFeed() {
                 </div>
             ) : (
                 <>
+                    <CreatePost />
+
                     {posts.map((post) => (
                         <Post postData={post} key={post.id} />
                     ))}
