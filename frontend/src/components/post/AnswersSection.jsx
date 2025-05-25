@@ -12,7 +12,6 @@ import setClosedComment from "@/api/comment/setClosedComment"
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
 
     const [commentsData, setCommentsData] = useState(null)
-    const [expandedComments, setExpandedComments] = useState({})
     const [votedComments, setVotedComments] = useState({})
     const [commentVotes, setCommentVotes] = useState({})
 
@@ -36,13 +35,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     }
 
 
-    const toggleComments = (index) => {
-        setExpandedComments({
-            ...expandedComments,
-            [index]: !expandedComments[index],
-        })
-    }
-
     const handleCommentVote = async (commentId) => {
         const userId = 10 // TO-DO
 
@@ -59,7 +51,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 ...prev,
                 [commentId]: prev[commentId] + (isVoted ? 1 : -1)
             }))*/
-           await fetchComments();
+            await fetchComments();
         } catch (error) {
             console.error("Error voting comment:", error)
         }
@@ -82,9 +74,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             {commentsData.map((answer, index) => (
                 <div
                     key={answer.id}
-                    className={`bg-white p-6 border ${
-                    answer.accepted ? "border-green-500 ring-1 ring-green-500" : "border-gray-200"
-                    } rounded-md`}
+                    className={`bg-white p-6 border ${answer.accepted ? "border-green-500 ring-1 ring-green-500" : "border-gray-200"
+                        } rounded-md`}
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
@@ -128,7 +119,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                                     <div className="flex space-x-4">
                                         <button
-                                            onClick={() => toggleComments(index)}
                                             className="flex items-center text-sm text-gray-500 hover:text-gray-700"
                                         >
                                             <MessageSquare size={16} className="mr-1" />
@@ -151,31 +141,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                     </div>
                                 </div>
 
-                                {expandedComments[index] && (
-                                    <div className="mt-4 pt-4 border-t border-gray-200">
-                                        <h4 className="text-sm font-medium mb-2">Comments</h4>
-                                        <ul className="space-y-3">
-                                            <li className="text-sm flex">
-                                                <span className="text-gray-500 mr-2">@user4:</span>
-                                                <span className="text-gray-700">This solution worked perfectly for me!</span>
-                                            </li>
-                                            <li className="text-sm flex">
-                                                <span className="text-gray-500 mr-2">@user5:</span>
-                                                <span className="text-gray-700">Could you explain the second part in more detail?</span>
-                                            </li>
-                                        </ul>
-                                        <div className="mt-3 flex">
-                                            <input
-                                                type="text"
-                                                placeholder="Add a comment..."
-                                                className="flex-1 border border-gray-300 rounded-l-md px-3 py-1.5 text-sm"
-                                            />
-                                            <button className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-r-md border border-l-0 border-gray-300 text-sm hover:bg-gray-200">
-                                                Add
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
