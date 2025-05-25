@@ -7,6 +7,7 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
+import setClosedComment from "@/api/comment/setClosedComment"
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
 
@@ -15,16 +16,17 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     const [votedComments, setVotedComments] = useState({})
     const [commentVotes, setCommentVotes] = useState({})
 
+    const fetchComments = async () => {
+        try {
+            const comments = await getCommentsOfAPost(idPost);
+            setCommentsData(comments);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    };
+
     useEffect(() => {
         if (!idPost) return
-        const fetchComments = async () => {
-            try {
-                const comments = await getCommentsOfAPost(idPost)
-                setCommentsData(comments)
-            } catch (error) {
-                console.error('Error fetching comments:', error)
-            }
-        }
         fetchComments()
     }, [idPost, refreshTrigger])
 
@@ -46,7 +48,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
         try {
             await createCommentVote({ userId, commentId })
-            const isVoted = await getIsCommentVoted({ userId, commentId })
+            /*const isVoted = await getIsCommentVoted({ userId, commentId })
 
             setVotedComments(prev => ({
                 ...prev,
@@ -56,11 +58,23 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             setCommentVotes(prev => ({
                 ...prev,
                 [commentId]: prev[commentId] + (isVoted ? 1 : -1)
-            }))
+            }))*/
+           await fetchComments();
         } catch (error) {
             console.error("Error voting comment:", error)
         }
     }
+
+    const handleAcceptComment = async (commentId) => {
+        const userId = 1; // TO-DO: Replace with real user
+        try {
+            await setClosedComment({ postId: idPost, userId, commentId });
+            setAcceptedAnswer(commentId);
+            await fetchComments();
+        } catch (error) {
+            console.error("Failed to accept comment:", error);
+        }
+    };
 
 
     return (
@@ -68,8 +82,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             {commentsData.map((answer, index) => (
                 <div
                     key={answer.id}
-                    className={`bg-white p-6 border ${acceptedAnswer === index ? "border-green-500" : "border-gray-200"
-                        } rounded-md ${acceptedAnswer === index ? "ring-1 ring-green-500" : ""}`}
+                    className={`bg-white p-6 border ${
+                    answer.accepted ? "border-green-500 ring-1 ring-green-500" : "border-gray-200"
+                    } rounded-md`}
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
@@ -87,9 +102,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                 {Number(commentVotes[answer.id] ?? answer.votes) || 0}
                             </span>
                             <button
-                                onClick={() => setAcceptedAnswer(index)}
-                                className={`mt-4 ${acceptedAnswer === index ? "text-green-500" : "text-gray-400 hover:text-green-500"
-                                    } transition`}
+                                onClick={() => handleAcceptComment(answer.id)}
+                                className={`mt-4 ${answer.accepted ? "text-green-500" : "text-gray-400 hover:text-green-500"} transition`}
                                 aria-label="Accept answer"
                             >
                                 <Award size={18} />
@@ -130,7 +144,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                         />
                                         <div className="text-sm">
                                             <div className="font-medium text-blue-600">{answer.author || "N/A"}</div>
-                                            <div className="text-gray-500">Answered {answer.createdAt || "N/A"}</div>
+                                            <div className="text-gray-500">
+                                                Answered {new Date(answer.createdAt).toLocaleDateString("en-GB")}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
