@@ -5,6 +5,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
+import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import com.backend.repository.CommentRepository;
 import com.backend.repository.PostRepository;
 import com.backend.repository.UserRepository;
@@ -71,7 +72,42 @@ public class CommentServiceImpl implements CommentService {
                 .build();
 
         return commentRepository.save(newComment);
-     }
+    }
+
+    public CommentEntity acceptComment(CommentAcceptDTO comment){
+
+        //TO-DO: DELETE COMMENTS LATER, NOW IS IMPLEMENTED FOR DEBUGGING
+        /*
+        List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
+        
+        boolean isValidUserVerification = false;
+
+        for(PostEntity newPost : posts){
+            if(newPost.getPostId() == comment.getPostId()){
+                isValidUserVerification = true;
+                break;
+            }
+        }
+
+        if(isValidUserVerification == false){
+            return null;
+        }
+        */
+
+        CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
+
+        //CommentEntity updateComment = optionalComment.get();
+
+        if(updateComment == null){
+            return null;
+        }
+
+        //change the value
+        updateComment.setAccepted(!updateComment.isAccepted());
+
+        return commentRepository.save(updateComment);
+
+    }
 
 }
 
