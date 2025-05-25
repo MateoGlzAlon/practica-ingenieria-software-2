@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import PostContent from "@/components/post/PostContent"
 import SidebarLeft from "@/components/post/SideBarLeft"
 import AnswersSection from "@/components/post/AnswersSection"
+import postAnswer from "@/api/comment/postAnswers"
 
 import Link from "next/link"
 import { mockData } from "@/app/mockData"
@@ -19,9 +20,10 @@ export default function Post({ params }) {
     const { id } = useParams()
 
     const [postData, setDataPost] = useState(null)
+    const [content, setContent] = useState("");
+    const [refreshComments, setRefreshComments] = useState(false);
 
     const [questionVotes, setQuestionVotes] = useState(0)
-    const [answerVotes, setAnswerVotes] = useState([125, 37, 12])
     const [acceptedAnswer, setAcceptedAnswer] = useState(0)
     const [showComments, setShowComments] = useState(false)
 
@@ -50,6 +52,23 @@ export default function Post({ params }) {
     if (!postData) {
         return <p className="text-center py-10">Loading post...</p>
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await postAnswer({
+                postId: parseInt(id),
+                userId: 10, // TO-DO CHANGE THIS WITH THE REAL USER
+                content: content.trim(),
+            });
+
+            setRefreshComments(prev => !prev);
+            setContent("");
+        } catch (error) {
+            console.error("Error submitting answer:", error);
+        }
+    };
 
 
     return (
@@ -87,25 +106,29 @@ export default function Post({ params }) {
                         </div>
 
                         <AnswersSection
-                            answerVotes={answerVotes}
-                            setAnswerVotes={setAnswerVotes}
                             acceptedAnswer={acceptedAnswer}
                             setAcceptedAnswer={setAcceptedAnswer}
                             idPost={id}
+                            refreshTrigger={refreshComments}
                         />
 
-                        <div className="mt-8 bg-white p-6 border border-gray-200 rounded-md">
+                        <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 border border-gray-200 rounded-md">
                             <h3 className="text-lg font-bold mb-4">Your Answer</h3>
                             <textarea
                                 className="w-full border border-gray-300 rounded-md p-3 min-h-[200px]"
                                 placeholder="Write your answer here..."
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
                             ></textarea>
                             <div className="mt-4">
-                                <button className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition">
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition"
+                                >
                                     Post Your Answer
                                 </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     <RightSidebar />
