@@ -68,8 +68,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             {commentsData.map((answer, index) => (
                 <div
                     key={answer.id}
-                    className={`bg-white p-6 border ${acceptedAnswer === index ? "border-green-500" : "border-gray-200"
-                        } rounded-md ${acceptedAnswer === index ? "ring-1 ring-green-500" : ""}`}
+                    className={`bg-white p-6 border ${
+                    answer.accepted ? "border-green-500 ring-1 ring-green-500" : "border-gray-200"
+                    } rounded-md`}
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
@@ -87,9 +88,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                 {Number(commentVotes[answer.id] ?? answer.votes) || 0}
                             </span>
                             <button
-                                onClick={() => setAcceptedAnswer(index)}
-                                className={`mt-4 ${acceptedAnswer === index ? "text-green-500" : "text-gray-400 hover:text-green-500"
-                                    } transition`}
+                                onClick={() => setAcceptedAnswer(answer.id)}
+                                className={`mt-4 ${answer.accepted ? "text-green-500" : "text-gray-400 hover:text-green-500"} transition`}
                                 aria-label="Accept answer"
                             >
                                 <Award size={18} />
@@ -130,7 +130,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                                         />
                                         <div className="text-sm">
                                             <div className="font-medium text-blue-600">{answer.author || "N/A"}</div>
-                                            <div className="text-gray-500">Answered {answer.createdAt || "N/A"}</div>
+                                            <div className="text-gray-500">
+                                                Answered {new Date(answer.createdAt).toLocaleDateString("en-GB")}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

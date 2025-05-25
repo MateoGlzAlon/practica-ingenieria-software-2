@@ -76,7 +76,17 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentEntity acceptComment(CommentAcceptDTO comment){
 
-        //TO-DO: DELETE COMMENTS LATER, NOW IS IMPLEMENTED FOR DEBUGGING
+        /*
+        EXAMPLE FOR CHANGING ACCEPT STATUS
+        {
+            "userId":1,
+            "postId":1,
+            "commentId":1
+        }
+
+        */
+
+        // TO-DO: Uncomment this later – just disabled for now while debugging.
         /*
         List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
         
@@ -95,8 +105,6 @@ public class CommentServiceImpl implements CommentService {
         */
 
         CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
-
-        //CommentEntity updateComment = optionalComment.get();
 
         if(updateComment == null){
             return null;
