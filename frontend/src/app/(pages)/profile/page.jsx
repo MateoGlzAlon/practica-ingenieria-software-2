@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import Link from "next/link";
-import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
+import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote, Pencil } from "lucide-react"
 import getProfileUser from "@/api/getProfileUser"
+import changeLinksProfile from '@/api/changeLinksProfile';
 
 
 export default function ProfilePage() {
@@ -15,6 +16,15 @@ export default function ProfilePage() {
     const [profileData, setProfileData] = useState(null)
     const [activeTab, setActiveTab] = useState('profile')
 
+    const [editing, setEditing] = useState({
+        github: false,
+        twitter: false,
+        website: false,
+    });
+
+    const [links, setLinks] = useState(null);
+
+
     useEffect(() => {
         if (!idUser) return
 
@@ -22,6 +32,13 @@ export default function ProfilePage() {
         try {
             const data = await getProfileUser(idUser)
             setProfileData(data)
+
+            const { user } = data;
+            setLinks({
+                github: user.githubLink,
+                twitter: user.twitterLink,
+                website: user.websiteLink,
+            });
         } catch (err) {
             console.error('Error fetching profile:', err)
         }
@@ -35,6 +52,42 @@ export default function ProfilePage() {
     }
 
     const { user, activityData, posts } = profileData
+
+    const EditableLinkField = ({ field, Icon, initialValue, onSave }) => {
+        const [isEditing, setIsEditing] = useState(false);
+        const [value, setValue] = useState(initialValue);
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            await onSave(field, value);
+            setIsEditing(false);
+        };
+
+        return (
+            <div className="flex items-center text-sm text-blue-600">
+            <Icon className="h-4 w-4 mr-2" />
+            {isEditing ? (
+                <form onSubmit={handleSubmit} className="flex-1">
+                <input
+                    type="text"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-1 text-sm w-full text-gray-800"
+                    autoFocus
+                />
+                </form>
+            ) : (
+                <a href={value} className="hover:underline flex-1 text-gray-700">
+                {value}
+                </a>
+            )}
+            <Pencil
+                className="h-4 w-4 ml-2 cursor-pointer text-gray-500 hover:text-gray-700"
+                onClick={() => setIsEditing(true)}
+            />
+            </div>
+        );
+    };
 
 
     return (
@@ -67,31 +120,49 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-200 p-4">
-                            <h3 className="font-medium mb-3">Links</h3>
-                            <div className="space-y-2">
-                                <a
-                                    href={`${user.githubLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <GitHub className="h-4 w-4 mr-2" />
-                                    {user.githubLink}
-                                </a>
-                                <a
-                                    href={`${user.twitterLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <Twitter className="h-4 w-4 mr-2" />
-                                    {user.twitterLink}
-                                </a>
-                                <a
-                                    href={`${user.websiteLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <Globe className="h-4 w-4 mr-2" />
-                                    {user.websiteLink}
-                                </a>
-                            </div>
+                        <div className="space-y-2">
+                            <EditableLinkField
+                                field="github"
+                                Icon={GitHub}
+                                initialValue={user.githubLink}
+                                onSave={async (field, newValue) => {
+                                const updatedLinks = {
+                                    userId: 1, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : user.githubLink,
+                                    twitter: field === "twitter" ? newValue : user.twitterLink,
+                                    website: field === "website" ? newValue : user.websiteLink,
+                                };
+                                await changeLinksProfile(updatedLinks);
+                                }}
+                            />
+                            <EditableLinkField
+                                field="twitter"
+                                Icon={Twitter}
+                                initialValue={user.twitterLink}
+                                onSave={async (field, newValue) => {
+                                const updatedLinks = {
+                                    userId: 1, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : user.githubLink,
+                                    twitter: field === "twitter" ? newValue : user.twitterLink,
+                                    website: field === "website" ? newValue : user.websiteLink,
+                                };
+                                await changeLinksProfile(updatedLinks);
+                                }}
+                            />
+                            <EditableLinkField
+                                field="website"
+                                Icon={Globe}
+                                initialValue={user.websiteLink}
+                                onSave={async (field, newValue) => {
+                                const updatedLinks = {
+                                    userId: 1, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : user.githubLink,
+                                    twitter: field === "twitter" ? newValue : user.twitterLink,
+                                    website: field === "website" ? newValue : user.websiteLink,
+                                };
+                                await changeLinksProfile(updatedLinks);
+                                }}
+                            />
                         </div>
 
                         <div className="border-t border-gray-200 p-4">
