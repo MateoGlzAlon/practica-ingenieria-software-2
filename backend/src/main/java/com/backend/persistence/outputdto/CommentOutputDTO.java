@@ -22,6 +22,7 @@ public class CommentOutputDTO {
         private String authorProfilePicture;
         private String author;
         private String content;
+        private long authorId;
         private int votes;
         private Date createdAt;
 

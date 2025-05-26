@@ -26,8 +26,8 @@ export default function Post({ params }) {
     const [questionVotes, setQuestionVotes] = useState(0)
     const [acceptedAnswer, setAcceptedAnswer] = useState(0)
     const [showComments, setShowComments] = useState(false)
-    const [tipAmounts, setTipAmounts] = useState({})
-    const currentUserId = 10 // TO-DO: Replace with the real user ID
+
+
 
     useEffect(() => {
         if (!id) return
@@ -59,7 +59,7 @@ export default function Post({ params }) {
         try {
             await postAnswer({
                 postId: parseInt(id),
-                userId: currentUserId, 
+                userId: 10, // TO-DO CHANGE THIS WITH THE REAL USER
                 content: content.trim(),
             });
 
@@ -67,22 +67,6 @@ export default function Post({ params }) {
             setContent("");
         } catch (error) {
             console.error("Error submitting answer:", error);
-        }
-    };
-
-    const handleSendTip = async () => {
-        try {
-        await axios.post("http://localhost:8080/tips/send", {
-            senderId: currentUserId,
-            receiverId: comment.user.id,
-            amount: parseInt(tipAmount)
-        });
-        setTipStatus("Tip sent successfully!");
-        setTipAmount("");
-        } catch (error) {
-        setTipStatus(
-            error.response?.data || "Error sending tip."
-        );
         }
     };
 
@@ -110,30 +94,16 @@ export default function Post({ params }) {
                         />
 
                         <div className="flex items-center justify-between my-8">
-                            <h2 className="text-xl font-bold text-gray-900 mb-4">Comentarios</h2>
-                            {postData.comments?.map((comment) => (
-                                <div key={comment.id} className="bg-white border p-4 rounded mb-4">
-                                <p className="text-gray-800">{comment.content}</p>
-                                <p className="text-sm text-gray-500">- {comment.user.username}</p>
-
-                                <div className="mt-2 flex items-center gap-2">
-                                    <input
-                                    type="number"
-                                    placeholder="Propina"
-                                    className="border px-2 py-1 rounded text-sm"
-                                    value={tipAmounts[comment.user.id] || ""}
-                                    onChange={(e) => setTipAmounts({ ...tipAmounts, [comment.user.id]: e.target.value })}
-                                    />
-                                    <button
-                                    className="bg-green-500 text-white px-2 py-1 rounded text-sm"
-                                    onClick={() => handleSendTip(comment.user.id)}
-                                    >
-                                    Enviar propina
-                                    </button>
-                                </div>
-                                </div>
-                            ))}
+                            <h2 className="text-xl font-bold text-gray-900">{mockData.commentsExamples.length} Answers</h2>
+                            <div className="flex items-center space-x-2">
+                                <span className="text-sm text-gray-500">Sort by:</span>
+                                <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm">
+                                    <option>Votes</option>
+                                    <option>Newest</option>
+                                    <option>Oldest</option>
+                                </select>
                             </div>
+                        </div>
 
                         <AnswersSection
                             acceptedAnswer={acceptedAnswer}

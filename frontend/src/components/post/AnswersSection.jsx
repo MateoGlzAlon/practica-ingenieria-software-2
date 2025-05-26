@@ -14,6 +14,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     const [expandedComments, setExpandedComments] = useState({})
     const [votedComments, setVotedComments] = useState({})
     const [commentVotes, setCommentVotes] = useState({})
+    const [tipAmounts, setTipAmounts] = useState({})
+    const currentUserId = 10 // TO-DO
 
     useEffect(() => {
         if (!idPost) return
@@ -42,11 +44,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     }
 
     const handleCommentVote = async (commentId) => {
-        const userId = 10 // TO-DO
-
         try {
-            await createCommentVote({ userId, commentId })
-            const isVoted = await getIsCommentVoted({ userId, commentId })
+            await createCommentVote({ currentUserId, commentId })
+            const isVoted = await getIsCommentVoted({ currentUserId, commentId })
 
             setVotedComments(prev => ({
                 ...prev,
@@ -62,14 +62,41 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         }
     }
 
+    const handleSendTip = async (receiverId, amount) => {
+        if (!receiverId || !amount) {
+            console.error("Receiver ID "+ receiverId +" or amount "+ amount +" is missing")
+            return
+        }
+        try {
+        const response = await fetch("http://localhost:8080/tips/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                senderId: currentUserId,
+                receiverId: receiverId,
+                amount: parseInt(amount),
+            }),
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+    } catch (error) {
+        console.error("Error sending tip:", error);
+    }
+};
 
     return (
         <div className="space-y-6">
             {commentsData.map((answer, index) => (
                 <div
                     key={answer.id}
-                    className={`bg-white p-6 border ${acceptedAnswer === index ? "border-green-500" : "border-gray-200"
-                        } rounded-md ${acceptedAnswer === index ? "ring-1 ring-green-500" : ""}`}
+                    className={`bg-white p-6 border border-gray-200 rounded-md"
+                        } rounded-md ${acceptedAnswer === index ? "ring-1 ring-orange-500" : ""}`}
                 >
                     <div className="flex gap-4">
                         <div className="flex flex-col items-center">
@@ -80,7 +107,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                             >
                                 <ArrowUp
                                     size={32}
-                                    className={`${votedComments[answer.id] ? "text-green-600" : ""} hover:text-pink-500`}
+                                    className={`${votedComments[answer.id] ? "text-orange-600" : ""} hover:text-pink-500`}
                                 />
                             </button>
                             <span className="text-xl font-bold my-2 text-gray-700">
@@ -88,7 +115,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                             </span>
                             <button
                                 onClick={() => setAcceptedAnswer(index)}
-                                className={`mt-4 ${acceptedAnswer === index ? "text-green-500" : "text-gray-400 hover:text-green-500"
+                                className={`mt-4 ${acceptedAnswer === index ? "text-orange-500" : "text-gray-400 hover:text-orange-500"
                                     } transition`}
                                 aria-label="Accept answer"
                             >
@@ -100,66 +127,35 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                             <div className="prose max-w-none">
                                 <p className="text-gray-700 leading-relaxed mb-4">{answer.content}</p>
 
-                                {answer.code && (
-                                    <div className="bg-gray-50 rounded-md border border-gray-200 mb-6">
-                                        <div className="bg-gray-100 px-4 py-2 border-b border-gray-200 text-sm font-medium text-gray-700">
-                                            Solution
-                                        </div>
-                                        <pre className="p-4 overflow-x-auto text-sm">
-                                            <code className="language-javascript">{answer.code}</code>
-                                        </pre>
-                                    </div>
-                                )}
-
-                                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                                    <div className="flex space-x-4">
-                                        <button
-                                            onClick={() => toggleComments(index)}
-                                            className="flex items-center text-sm text-gray-500 hover:text-gray-700"
-                                        >
-                                            <MessageSquare size={16} className="mr-1" />
-                                            <span>{answer.commentCount || "N/A"} comments</span>
-                                        </button>
+                                <div className="mt-4 flex gap-2">
+                                    <input
+                                        type="number"
+                                        placeholder="Cantidad"
+                                        value={tipAmounts[answer.id] || ""}
+                                        onChange={(e) =>
+                                        setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
+                                        }
+                                        className="border px-2 py-1 rounded text-sm w-24"
+                                    />
+                                    <button
+                                        className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
+                                        onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
+                                    >
+                                        Send tip
+                                    </button>
                                     </div>
 
-                                    <div className="flex items-center bg-blue-50 p-2 rounded-md">
-                                        <img
-                                            src={answer.authorProfilePicture || "https://placehold.co/600x400?text=Error"}
-                                            alt="User avatar"
-                                            className="w-10 h-10 rounded-full mr-2 border-[0.5px] border-gray-600 object-contain"
-                                        />
-                                        <div className="text-sm">
-                                            <div className="font-medium text-blue-600">{answer.author || "N/A"}</div>
-                                            <div className="text-gray-500">Answered {answer.createdAt || "N/A"}</div>
-                                        </div>
+                                <div className="mt-4 flex items-center bg-blue-50 p-2 rounded-md">
+                                    <img
+                                        src={answer.authorProfilePicture || "https://placehold.co/600x400?text=User"}
+                                        alt="User avatar"
+                                        className="w-10 h-10 rounded-full mr-2 border border-gray-400 object-cover"
+                                    />
+                                    <div className="text-sm">
+                                        <div className="font-medium text-blue-600">{answer.author || "N/A"}</div>
+                                        <div className="text-gray-500">Answered {answer.createdAt || "N/A"}</div>
                                     </div>
                                 </div>
-
-                                {expandedComments[index] && (
-                                    <div className="mt-4 pt-4 border-t border-gray-200">
-                                        <h4 className="text-sm font-medium mb-2">Comments</h4>
-                                        <ul className="space-y-3">
-                                            <li className="text-sm flex">
-                                                <span className="text-gray-500 mr-2">@user4:</span>
-                                                <span className="text-gray-700">This solution worked perfectly for me!</span>
-                                            </li>
-                                            <li className="text-sm flex">
-                                                <span className="text-gray-500 mr-2">@user5:</span>
-                                                <span className="text-gray-700">Could you explain the second part in more detail?</span>
-                                            </li>
-                                        </ul>
-                                        <div className="mt-3 flex">
-                                            <input
-                                                type="text"
-                                                placeholder="Add a comment..."
-                                                className="flex-1 border border-gray-300 rounded-l-md px-3 py-1.5 text-sm"
-                                            />
-                                            <button className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-r-md border border-l-0 border-gray-300 text-sm hover:bg-gray-200">
-                                                Add
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
