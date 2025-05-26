@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS "comments" (
 	"content" TEXT NOT NULL,
 	"votes" INTEGER DEFAULT 0,
 	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY ("id"),
+    "accepted" BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY ("id"),
 	CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "posts" ("id") ON DELETE CASCADE,
 	CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE
 );
@@ -185,27 +186,27 @@ kind: Pod
 
 
 -- INSERTS: comments
-INSERT INTO "comments" ("id", "post_id", "user_id", "content", "votes", "created_at") VALUES
-(1, 1, 1, 'Very helpful.', 0, '2025-05-21 21:17:36.030344'),
-(2, 1, 2, 'I learned something new!', 0, '2025-05-21 21:17:36.030344'),
-(3, 2, 3, 'I learned something new!', 0, '2025-05-21 21:17:36.030344'),
-(4, 2, 4, 'Thanks for sharing.', 0, '2025-05-21 21:17:36.030344'),
-(5, 3, 5, 'Thanks for sharing.', 0, '2025-05-21 21:17:36.030344'),
-(6, 3, 6, 'Awesome tips!', 0, '2025-05-21 21:17:36.030344'),
-(7, 4, 7, 'Awesome tips!', 0, '2025-05-21 21:17:36.030344'),
-(8, 4, 8, 'Clean and clear explanation.', 0, '2025-05-21 21:17:36.030344'),
-(9, 5, 9, 'Clean and clear explanation.', 0, '2025-05-21 21:17:36.030344'),
-(10, 5, 10, 'Nice code snippet.', 0, '2025-05-21 21:17:36.030344'),
-(11, 6, 1, 'Nice code snippet.', 0, '2025-05-21 21:17:36.030344'),
-(12, 6, 2, 'This is gold.', 0, '2025-05-21 21:17:36.030344'),
-(13, 7, 3, 'This is gold.', 0, '2025-05-21 21:17:36.030344'),
-(14, 7, 4, 'Exactly what I needed.', 0, '2025-05-21 21:17:36.030344'),
-(15, 8, 5, 'Exactly what I needed.', 0, '2025-05-21 21:17:36.030344'),
-(16, 8, 6, 'Love it!', 0, '2025-05-21 21:17:36.030344'),
-(17, 9, 7, 'Love it!', 0, '2025-05-21 21:17:36.030344'),
-(18, 9, 8, 'Great post!', 0, '2025-05-21 21:17:36.030344'),
-(19, 10, 9, 'Great post!', 0, '2025-05-21 21:17:36.030344'),
-(20, 10, 10, 'Very helpful.', 0, '2025-05-21 21:17:36.030344');
+INSERT INTO "comments" ("id", "post_id", "user_id", "content", "votes", "created_at", "accepted") VALUES
+(1, 1, 1, 'Very helpful.', 0, '2025-05-21 21:17:36.030344', true),
+(2, 1, 2, 'I learned something new!', 0, '2025-05-21 21:17:36.030344', true),
+(3, 2, 3, 'I learned something new!', 0, '2025-05-21 21:17:36.030344', false),
+(4, 2, 4, 'Thanks for sharing.', 0, '2025-05-21 21:17:36.030344', false),
+(5, 3, 5, 'Thanks for sharing.', 0, '2025-05-21 21:17:36.030344', false),
+(6, 3, 6, 'Awesome tips!', 0, '2025-05-21 21:17:36.030344', false),
+(7, 4, 7, 'Awesome tips!', 0, '2025-05-21 21:17:36.030344', false),
+(8, 4, 8, 'Clean and clear explanation.', 0, '2025-05-21 21:17:36.030344', false),
+(9, 5, 9, 'Clean and clear explanation.', 0, '2025-05-21 21:17:36.030344', false),
+(10, 5, 10, 'Nice code snippet.', 0, '2025-05-21 21:17:36.030344', false),
+(11, 6, 1, 'Nice code snippet.', 0, '2025-05-21 21:17:36.030344', false),
+(12, 6, 2, 'This is gold.', 0, '2025-05-21 21:17:36.030344', false),
+(13, 7, 3, 'This is gold.', 0, '2025-05-21 21:17:36.030344', false),
+(14, 7, 4, 'Exactly what I needed.', 0, '2025-05-21 21:17:36.030344', false),
+(15, 8, 5, 'Exactly what I needed.', 0, '2025-05-21 21:17:36.030344', false),
+(16, 8, 6, 'Love it!', 0, '2025-05-21 21:17:36.030344', false),
+(17, 9, 7, 'Love it!', 0, '2025-05-21 21:17:36.030344', false),
+(18, 9, 8, 'Great post!', 0, '2025-05-21 21:17:36.030344', false),
+(19, 10, 9, 'Great post!', 0, '2025-05-21 21:17:36.030344', false),
+(20, 10, 10, 'Very helpful.', 0, '2025-05-21 21:17:36.030344', false);
 
 -- INSERTS: post_images
 INSERT INTO "post_images" ("id", "post_id", "image_url", "created_at") VALUES

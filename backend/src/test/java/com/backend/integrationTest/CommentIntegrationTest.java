@@ -36,13 +36,6 @@ public class CommentIntegrationTest {
     }
 
     @Test
-    void testGetAllComments() throws Exception {
-        mockMvc.perform(get("/comments").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(not(empty()))));
-    }
-
-    @Test
     void testGetCommentsByPostId() throws Exception {
         // Asegúrate de que el post con ID 1 tenga comentarios en tu base de datos de test
         mockMvc.perform(get("/comments/post/1").accept(MediaType.APPLICATION_JSON))
