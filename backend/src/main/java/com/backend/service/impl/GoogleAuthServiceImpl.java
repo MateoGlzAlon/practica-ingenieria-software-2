@@ -29,6 +29,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
             newUser.setPassword("");
             newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());
             newUser.setCreatedAt(new Date());
+            newUser.setWallet(1000.0);
             return userRepository.save(newUser);
         });
 
