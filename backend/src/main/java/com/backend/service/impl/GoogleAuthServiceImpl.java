@@ -20,18 +20,28 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
 
     @Override
     public ResponseEntity<?> authenticateWithGoogle(GoogleLoginDTO googleLoginDTO) {
-        Optional<UserEntity> optionalUser = userRepository.findByEmail(googleLoginDTO.getEmail());
+        if (googleLoginDTO.getEmail() == null || googleLoginDTO.getUsername() == null || googleLoginDTO.getAvatarUrl() == null) {
+            return ResponseEntity.badRequest().body("Faltan campos en los datos de Google");
+        }
+        try{
+            Optional<UserEntity> optionalUser = userRepository.findByEmail(googleLoginDTO.getEmail());
 
-        UserEntity user = optionalUser.orElseGet(() -> {
-            UserEntity newUser = new UserEntity();
-            newUser.setUsername(googleLoginDTO.getUsername());
-            newUser.setEmail(googleLoginDTO.getEmail());
-            newUser.setPassword("");
-            newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());
-            newUser.setCreatedAt(new Date());
-            return userRepository.save(newUser);
-        });
+            UserEntity user = optionalUser.orElseGet(() -> {
+                UserEntity newUser = new UserEntity();
+                newUser.setName(googleLoginDTO.getUsername());
+                newUser.setUsername(googleLoginDTO.getUsername());
+                newUser.setEmail(googleLoginDTO.getEmail());
+                newUser.setPassword("");
+                newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());
+                newUser.setRole("USER");
+                newUser.setCreatedAt(new Date());
+                return userRepository.save(newUser);
+            });
 
-        return ResponseEntity.ok(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error interno al autenticar con Google");
+        }
     }
 }

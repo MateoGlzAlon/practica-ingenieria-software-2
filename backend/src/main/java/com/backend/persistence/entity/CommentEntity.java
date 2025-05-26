@@ -36,4 +36,16 @@ public class CommentEntity {
 
     @Column(name = "created_at")
     private Date createdAt;
+
+    private boolean accepted;
+
+
+    //this is for commentVotes
+    public void increaseVotes() {
+        this.votes++;
+    }
+
+    public void decreaseVotes() {
+        this.votes--;
+    }
 }

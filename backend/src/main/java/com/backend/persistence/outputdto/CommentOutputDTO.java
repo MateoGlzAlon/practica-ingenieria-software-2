@@ -17,11 +17,13 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class CommentOutputDTO {
+        
         private Long id;
-        private Long postId;
-        private Long userId;
+        private String authorProfilePicture;
+        private String author;
         private String content;
         private int votes;
         private Date createdAt;
+        private boolean accepted;
 
 }

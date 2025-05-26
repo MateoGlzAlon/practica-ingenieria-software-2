@@ -74,11 +74,10 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                             <div className="flex space-x-4">
                                 <button
-                                    onClick={() => setShowComments(!showComments)}
                                     className="flex items-center text-sm text-gray-500 hover:text-gray-700"
                                 >
                                     <MessageSquare size={16} className="mr-1" />
-                                    <span>5 comments</span>
+                                    <span>{postData.commentCount || "N/A"} comments</span>
                                 </button>
                             </div>
 
@@ -94,38 +93,6 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                                 </div>
                             </div>
                         </div>
-
-                        {showComments && (
-                            <div className="mt-4 pt-4 border-t border-gray-200">
-                                <h4 className="text-sm font-medium mb-2">Comments</h4>
-                                <ul className="space-y-3">
-                                    <li className="text-sm flex">
-                                        <span className="text-gray-500 mr-2">@user1:</span>
-                                        <span className="text-gray-700">Have you tried using useEffect for this?</span>
-                                    </li>
-                                    <li className="text-sm flex">
-                                        <span className="text-gray-500 mr-2">@user2:</span>
-                                        <span className="text-gray-700">
-                                            I had a similar issue and fixed it by updating React to the latest version.
-                                        </span>
-                                    </li>
-                                    <li className="text-sm flex">
-                                        <span className="text-gray-500 mr-2">@user3:</span>
-                                        <span className="text-gray-700">Check the React docs about controlled components.</span>
-                                    </li>
-                                </ul>
-                                <div className="mt-3 flex">
-                                    <input
-                                        type="text"
-                                        placeholder="Add a comment..."
-                                        className="flex-1 border border-gray-300 rounded-l-md px-3 py-1.5 text-sm"
-                                    />
-                                    <button className="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-r-md border border-l-0 border-gray-300 text-sm hover:bg-gray-200">
-                                        Add
-                                    </button>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
