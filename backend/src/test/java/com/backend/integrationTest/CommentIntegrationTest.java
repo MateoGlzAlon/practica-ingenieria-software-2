@@ -32,7 +32,8 @@ public class CommentIntegrationTest {
         mockMvc.perform(get("/comments/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.content", not(emptyOrNullString())));
+                .andExpect(jsonPath("$.content", not(emptyOrNullString())))
+                .andExpect(jsonPath("$.accepted", is(true)));
     }
 
     @Test
