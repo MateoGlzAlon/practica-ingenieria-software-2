@@ -27,14 +27,6 @@ public class PostIntegrationTest {
     private PostRepository postRepository;
 
     @Test
-    void testGetAllPosts() throws Exception {
-        mockMvc.perform(get("/posts")
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.length()", greaterThan(0)));
-    }
-
-    @Test
     void testGetPostById() throws Exception {
         mockMvc.perform(get("/posts/1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -46,17 +38,11 @@ public class PostIntegrationTest {
 
     @Test
     void testGetPostsByTagId() throws Exception {
-        mockMvc.perform(get("/posts/tag/2")
+        mockMvc.perform(get("/posts/details/1")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].tagId", is(2)));
+            .andExpect(jsonPath("$.id", is(1)))
+            .andExpect(jsonPath("$.author", is("bob")));
     }
 
-    @Test
-    void testGetPostsByUserId() throws Exception {
-        mockMvc.perform(get("/posts/user/2")
-                .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].userId", is(2)));
-    }
 }

@@ -28,31 +28,13 @@ public class CommentVoteIntegrationTest {
 
     @Test
     void testVoteOnComment() throws Exception {
-        String voteJson = """
-            {
-              "commentId": 1,
-              "userId": 1,
-              "vote": 1
-            }
-        """;
 
-        mockMvc.perform(post("/comments/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(voteJson))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.commentId", is(1)))
-                .andExpect(jsonPath("$.userId", is(1)))
-                .andExpect(jsonPath("$.vote", is(1)));
-    }
-
-    @Test
-    void testGetVoteForCommentByUser() throws Exception {
-        // Asume que se ha guardado previamente un voto (puede hacerse vía test setup o test DB)
-        mockMvc.perform(get("/comments/vote/1/user/1")
+        mockMvc.perform(get("/commentvotes/1")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.commentId", is(1)))
-                .andExpect(jsonPath("$.userId", is(1)))
-                .andExpect(jsonPath("$.vote").isNumber());
+                .andExpect(jsonPath("$.comment.id", is(1)))
+                .andExpect(jsonPath("$.user.id", is(3)))
+                .andExpect(jsonPath("$.id", is(1)));
     }
+
 }

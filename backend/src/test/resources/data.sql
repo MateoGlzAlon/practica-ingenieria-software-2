@@ -218,3 +218,27 @@ INSERT INTO tips (id, sender_id, receiver_id, post_id, comment_id, amount, creat
 (9, 10, 9, 9, 10, 170, '2025-05-21 21:17:44.032979'),
 (10, 1, 10, 10, 10, 220, '2025-05-21 21:17:45.032979');
 
+INSERT INTO post_votes (id, post_id, user_id) VALUES
+(1, 1, 2),
+(2, 2, 3),
+(3, 3, 4),
+(4, 4, 5),
+(5, 5, 6),
+(6, 6, 7),
+(7, 7, 8),
+(8, 8, 9),
+(9, 9, 10),
+(10, 10, 1);
+
+INSERT INTO comment_votes (id, comment_id, user_id) VALUES
+(1, 1, 3),
+(2, 2, 4),
+(3, 3, 5),
+(4, 4, 6),
+(5, 5, 7),
+(6, 6, 8),
+(7, 7, 9),
+(8, 8, 10),
+(9, 9, 1),
+(10, 10, 2);
+
