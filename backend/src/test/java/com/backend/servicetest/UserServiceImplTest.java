@@ -166,8 +166,6 @@ class UserServiceImplTest {
                 .amount(10)
                 .sender(mockUserEntity)
                 .receiver(UserEntity.builder().id(2L).build()) // diferente receiver
-                .post(mockPostEntity)
-                .comment(comment)
                 .createdAt(new Date())
                 .build();
 
@@ -177,8 +175,6 @@ class UserServiceImplTest {
                 .amount(20)
                 .sender(UserEntity.builder().id(3L).build()) // diferente sender
                 .receiver(mockUserEntity)
-                .post(mockPostEntity)
-                .comment(comment)
                 .createdAt(new Date())
                 .build();
 

@@ -28,7 +28,8 @@ public class TipControllerImpl implements TipController {
         return tipService.findTipById(id);
     }
 
-    @PostMapping
+
+    @Override
     public ResponseEntity<String> sendTip(@RequestBody TipInputDTO dto) {
         try {
             tipService.sendTip(dto);
