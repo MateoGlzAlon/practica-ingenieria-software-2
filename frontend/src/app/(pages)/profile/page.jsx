@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import Link from "next/link";
 import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
 import getProfileUser from "@/api/getProfileUser"
 
@@ -51,9 +52,17 @@ export default function ProfilePage() {
                             <p className="text-sm text-gray-500 mb-4">{user.role}</p>
 
                             <div className="w-full border-t border-gray-200 pt-4">
+                                {/*TO-DO: change this because it is not centred */}
                                 <div className="flex items-center text-sm mb-2">
                                     <MessageSquare className="h-4 w-4 mr-2 text-gray-500" />
-                                    <span>Member since {user.memberSince}</span>
+                                    <span>
+                                        Member since{" "}
+                                        {new Date(user.memberSince).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -174,19 +183,21 @@ export default function ProfilePage() {
                                     <div className="space-y-4">
                                         {posts.map((post) => (
                                             <div key={post.id} className="border border-gray-200 rounded-lg p-4">
+                                                <Link href={`/post/${post.id}`}>
                                                 <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
                                                     {post.title}
                                                 </h3>
+                                                </Link>
                                                 <div className="flex items-center text-sm text-gray-500">
-                                                    <span className="flex items-center mr-4">
-                                                        <Vote className="h-4 w-4 mr-1" />
-                                                        {post.votes} votes
-                                                    </span>
-                                                    <span className="flex items-center mr-4">
-                                                        <MessageSquare className="h-4 w-4 mr-1" />
-                                                        {post.answers} answers
-                                                    </span>
-                                                    <span>{post.created_at}</span>
+                                                <span className="flex items-center mr-4">
+                                                    <Vote className="h-4 w-4 mr-1" />
+                                                    {post.votes} votes
+                                                </span>
+                                                <span className="flex items-center mr-4">
+                                                    <MessageSquare className="h-4 w-4 mr-1" />
+                                                    {post.answers} answers
+                                                </span>
+                                                <span>{post.created_at}</span>
                                                 </div>
                                             </div>
                                         ))}
