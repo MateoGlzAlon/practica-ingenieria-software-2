@@ -95,6 +95,8 @@ public class UserServiceImpl implements UserService {
         );
 
 
+        if (userData == null) return null;
+
         UserOutputDTO userDto = UserOutputDTO.builder()
                 .id(userData.getId())
                 .name(userData.getName())
