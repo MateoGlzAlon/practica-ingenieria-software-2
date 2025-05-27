@@ -7,8 +7,9 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
+import { sort } from "core-js/core/array"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, sortOrder}) {
 
     const [commentsData, setCommentsData] = useState(null)
     const [expandedComments, setExpandedComments] = useState({})
@@ -19,14 +20,14 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         if (!idPost) return
         const fetchComments = async () => {
             try {
-                const comments = await getCommentsOfAPost(idPost)
+                const comments = await getCommentsOfAPost(idPost, sortOrder)
                 setCommentsData(comments)
             } catch (error) {
                 console.error('Error fetching comments:', error)
             }
         }
         fetchComments()
-    }, [idPost, refreshTrigger])
+    }, [idPost, refreshTrigger, sortOrder])
 
 
     if (!commentsData) {
