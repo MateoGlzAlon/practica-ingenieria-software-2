@@ -127,6 +127,8 @@ public class CommentServiceImpl implements CommentService {
 
         List<UserCommentDTO> listAllCommentsUser = new ArrayList<>();
 
+        searchComments.sort(Comparator.comparingInt(CommentEntity::getVotes).reversed());
+
         for(CommentEntity comm : searchComments){
 
             UserCommentDTO newComment = UserCommentDTO.builder()
