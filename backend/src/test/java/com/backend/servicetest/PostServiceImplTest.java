@@ -27,6 +27,8 @@ public class PostServiceImplTest {
     @Mock
     private PostRepository postRepository;
     @Mock
+    private PostImageRepository postImageRepository;
+    @Mock
     private TipRepository tipRepository;
     @Mock
     private CommentRepository commentRepository;
@@ -37,7 +39,8 @@ public class PostServiceImplTest {
     @Mock
     private TagRepository tagRepository;
 
-    @InjectMocks private PostServiceImpl postService;
+    @InjectMocks
+    private PostServiceImpl postService;
 
     private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
@@ -73,7 +76,7 @@ public class PostServiceImplTest {
                 .imageUrl("https://placehold.co/600x400?text=Post90")
                 .post(mockPostEntity)
                 .build();
-        
+
         mockPostEntity = PostEntity.builder()
                 .id(1L)
                 .title("Test Title")
@@ -86,40 +89,69 @@ public class PostServiceImplTest {
                 .state("open")
                 .createdAt(new Date())
                 .build();
-        
+
     }
 
     @Test
     public void testCreatePost_Success() {
+        // Preparar una versión controlada del PostEntity que se devuelve tras guardar
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
         when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
-        when(postRepository.save(any(PostEntity.class))).thenReturn(mockPostEntity);
+        when(postRepository.save(any(PostEntity.class))).thenAnswer(invocation -> {
+            PostEntity postArg = invocation.getArgument(0);
+            postArg.setId(1L);
+            return postArg;
+        });
+
+        when(postImageRepository.save(any(PostImageEntity.class))).thenAnswer(invocation -> {
+            PostImageEntity image = invocation.getArgument(0);
+            image.setId(1L);
+            return image;
+        });
 
         PostEntity result = postService.createPost(mockPostInput);
 
         assertNotNull(result);
         assertEquals("Test Title", result.getTitle());
+        assertEquals(1, result.getImages().size()); // Validar que una imagen fue agregada
+        assertEquals("https://placehold.co/600x400?text=Post90", result.getImages().get(0).getImageUrl());
+
         verify(userRepository).findById(1L);
         verify(tagRepository).findById(1L);
         verify(postRepository).save(any(PostEntity.class));
+        verify(postImageRepository, times(1)).save(any(PostImageEntity.class));
     }
 
-      @Test
+
+    @Test
     public void testCreatePost_Success_ImagesNull() {
-        mockPostEntity.setImages(null);
+        PostInputDTO inputWithoutImages = PostInputDTO.builder()
+                .title("Test Title")
+                .content("Test Content")
+                .tagId(1L)
+                .userId(1L)
+                .imageLinks(null)
+                .build();
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
         when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
-        when(postRepository.save(any(PostEntity.class))).thenReturn(mockPostEntity);
+        when(postRepository.save(any(PostEntity.class))).thenAnswer(invocation -> {
+            PostEntity postArg = invocation.getArgument(0);
+            postArg.setId(1L);
+            return postArg;
+        });
 
-        PostEntity result = postService.createPost(mockPostInput);
+        PostEntity result = postService.createPost(inputWithoutImages);
 
         assertNotNull(result);
         assertEquals("Test Title", result.getTitle());
+        assertEquals(0, result.getImages().size());
+
         verify(userRepository).findById(1L);
         verify(tagRepository).findById(1L);
         verify(postRepository).save(any(PostEntity.class));
     }
+
 
     @Test
     public void testCreatePost_UserNotFound() {
@@ -129,7 +161,6 @@ public class PostServiceImplTest {
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
             postService.createPost(mockPostInput);
         });
-
         assertEquals("User not found", thrown.getMessage());
     }
 
@@ -202,7 +233,7 @@ public class PostServiceImplTest {
         when(mockPage.getContent()).thenReturn(postList);
         when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
 
-        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10);
+        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L);
 
         assertNotNull(feed);
         assertEquals(1, feed.size());

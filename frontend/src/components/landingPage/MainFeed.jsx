@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Post from "./Post"
 import getFeedPosts from "@/api/getLandingPageFeedPosts"
+import CreatePost from "@/components/createPost/createPost"
 
 export default function MainFeed() {
     const [posts, setPosts] = useState([])
@@ -14,11 +15,13 @@ export default function MainFeed() {
 
     const fetchPosts = async (pageNumber) => {
         try {
-            const data = await getFeedPosts(pageNumber, PAGE_SIZE)
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE, 1) // TODO : GET USERID FROM CONTEXT
             if (data.length < PAGE_SIZE) {
                 setHasMore(false)
             }
             setPosts(prev => [...prev, ...data])
+
+            console.log("Mainfeed data", data)
         } catch (error) {
             console.error("Error fetching feed posts:", error)
         } finally {
@@ -52,6 +55,8 @@ export default function MainFeed() {
                 </div>
             ) : (
                 <>
+                    <CreatePost />
+
                     {posts.map((post) => (
                         <Post postData={post} key={post.id} />
                     ))}

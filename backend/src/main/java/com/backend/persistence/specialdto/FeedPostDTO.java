@@ -24,4 +24,6 @@ public class FeedPostDTO {
     private Date createdAt;
     private String content;
 
+    private boolean voted;
+
 }

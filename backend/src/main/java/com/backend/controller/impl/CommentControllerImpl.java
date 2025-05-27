@@ -6,6 +6,7 @@ import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.service.CommentService;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
+import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,12 @@ public class CommentControllerImpl implements CommentController {
     @PostMapping
     public CommentEntity createComment(@RequestBody CommentInputDTO comment){
         return commentService.createComment(comment);
+    }
+
+    @Override
+    @PostMapping("/accept")
+    public CommentEntity acceptComment(@RequestBody CommentAcceptDTO comment){
+        return commentService.acceptComment(comment);
     }
 
 }

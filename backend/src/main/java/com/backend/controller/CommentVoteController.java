@@ -1,9 +1,17 @@
 package com.backend.controller;
 
 import com.backend.persistence.entity.CommentVoteEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.backend.persistence.inputDTO.CommentVoteInputDTO;
+
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/commentvotes")
 public interface CommentVoteController {
-    CommentVoteEntity findCommentById(Long id);
+    CommentVoteEntity findCommentVoteById(Long id);
+
+    @GetMapping("/check")
+    boolean isCommentVoted(@RequestParam Long userId,@RequestParam Long commentId);
+
+    @PostMapping
+    CommentVoteEntity createCommentVote(CommentVoteInputDTO commentVote);
 }

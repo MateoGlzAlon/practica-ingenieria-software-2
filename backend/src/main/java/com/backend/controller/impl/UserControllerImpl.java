@@ -4,12 +4,16 @@ import com.backend.controller.UserController;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
+import com.backend.persistence.inputDTO.UserLinksInputDTO;
 import com.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/users")
@@ -34,5 +38,11 @@ public class UserControllerImpl implements UserController {
     @GetMapping("/profile/{id}")
     public ProfileDTO getProfileByUserId(@PathVariable Long id) {
         return userService.getProfileByUserId(id);
+    }
+
+    @Override
+    @PostMapping("/change-links")
+    public UserEntity changeUserLinks(@RequestBody UserLinksInputDTO userLinks){
+        return userService.changeUserLinks(userLinks);
     }
 }
