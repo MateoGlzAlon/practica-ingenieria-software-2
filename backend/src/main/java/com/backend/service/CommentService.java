@@ -10,7 +10,14 @@ public interface CommentService {
 
     CommentEntity findCommentById(Long id);
 
-    List<CommentOutputDTO> findCommentsOfAPost(Long id);
+    List<CommentOutputDTO> findCommentsOfAPost(Long id, String sort);
 
     CommentEntity createComment(CommentInputDTO comment);
+
+    List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId);
+
+    List<CommentEntity> getCommentsByPostIdOrderByNewest(Long postId);
+
+    List<CommentEntity> getCommentsByPostIdOrderByOldest(Long postId);
+
 }

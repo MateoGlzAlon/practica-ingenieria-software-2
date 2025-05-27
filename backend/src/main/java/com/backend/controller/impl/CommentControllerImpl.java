@@ -7,6 +7,8 @@ import com.backend.service.CommentService;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
 import lombok.AllArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +28,10 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/post/{id}")
-    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id){
-        return commentService.findCommentsOfAPost(id);
+    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id, @RequestParam(required = false, defaultValue = "newest") String sort) {
+        return commentService.findCommentsOfAPost(id, sort);
     }
+
 
     @Override
     @PostMapping

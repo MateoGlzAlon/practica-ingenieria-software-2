@@ -30,4 +30,14 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
       "FUNCTION('TO_CHAR', c.createdAt, 'Mon') " +
       "ORDER BY MONTH(c.createdAt)")
     List<Object[]> findCommentCountsByMonth(@Param("userId") Long userId);
+
+        @Query("FROM CommentEntity c WHERE c.post.id = :postId ORDER BY c.votes DESC")
+        List<CommentEntity> findByPostIdOrderByVotesDesc(@Param("postId") Long postId);
+
+        @Query("FROM CommentEntity c WHERE c.post.id = :postId ORDER BY c.createdAt DESC")
+        List<CommentEntity> findByPostIdOrderByCreatedAtDesc(@Param("postId") Long postId);
+
+        @Query("FROM CommentEntity c WHERE c.post.id = :postId ORDER BY c.createdAt ASC")
+        List<CommentEntity> findByPostIdOrderByCreatedAtAsc(@Param("postId") Long postId);
+
 }
