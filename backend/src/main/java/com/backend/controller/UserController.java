@@ -25,5 +25,8 @@ public interface UserController {
     @PostMapping("/change-links")
     UserEntity changeUserLinks(@RequestBody UserLinksInputDTO userLinks);
 
+    @GetMapping("/getId")
+    Long getUserIdByEmail(String email);
+
 }
 
