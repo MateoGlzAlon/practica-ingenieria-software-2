@@ -1,6 +1,6 @@
 package com.backend.integrationTest;
 
-import com.backend.repository.CommentRepository;
+import com.backend.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -18,27 +18,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-public class CommentIntegrationTest {
+public class TagIntegrationTest {
+
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private TagRepository TagRepository;
+
+
 
     @Test
-    void testGetCommentById() throws Exception {
-        mockMvc.perform(get("/comments/1").accept(MediaType.APPLICATION_JSON))
+    void testFindUserById() throws Exception {
+        // Mock GET request to the endpoint /users/1
+        mockMvc.perform(get("/tags/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.content", not(emptyOrNullString())))
-                .andExpect(jsonPath("$.accepted", is(true)));
+                .andExpect(jsonPath("$.name", is("web development")));
     }
 
-    @Test
-    void testGetCommentsByPostId() throws Exception {
-        mockMvc.perform(get("/comments/post/1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(not(empty()))));
-    }
 }
