@@ -7,12 +7,13 @@ import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote, Pe
 import getProfileUser from "@/api/getProfileUser"
 import changeLinksProfile from '@/api/changeLinksProfile';
 import getCommentsOfAUser from '@/api/getCommentsOfAUser';
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 
 export default function ProfilePage() {
 
     //TO-DO: for now we search for userId=1, change this later
-    const idUser = 2
+    const idUser = getUserIdFromLocalStorage();
 
     const [profileData, setProfileData] = useState(null)
     const [comments, setComments] = useState([]);
@@ -48,6 +49,7 @@ export default function ProfilePage() {
         } catch (err) {
             console.error('Error fetching profile:', err)
         }
+
         }
 
         fetchProfile()
@@ -142,14 +144,14 @@ export default function ProfilePage() {
                                 Icon={GitHub}
                                 initialValue={links?.github}
                                 onSave={async (field, newValue) => {
-                                const updatedLinks = {
-                                    userId: 2, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : links.github,
-                                    twitter: field === "twitter" ? newValue : links.twitter,
-                                    website: field === "website" ? newValue : links.website,
-                                };
-                                await changeLinksProfile(updatedLinks);
-                                setLinks(updatedLinks);
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
                                 }}
                             />
                             <EditableLinkField
@@ -157,14 +159,14 @@ export default function ProfilePage() {
                                 Icon={Twitter}
                                 initialValue={links?.twitter}
                                 onSave={async (field, newValue) => {
-                                const updatedLinks = {
-                                    userId: 2, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : links.github,
-                                    twitter: field === "twitter" ? newValue : links.twitter,
-                                    website: field === "website" ? newValue : links.website,
-                                };
-                                await changeLinksProfile(updatedLinks);
-                                setLinks(updatedLinks);
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
                                 }}
                             />
                             <EditableLinkField
@@ -172,14 +174,14 @@ export default function ProfilePage() {
                                 Icon={Globe}
                                 initialValue={links?.website}
                                 onSave={async (field, newValue) => {
-                                const updatedLinks = {
-                                    userId: 2, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : links.github,
-                                    twitter: field === "twitter" ? newValue : links.twitter,
-                                    website: field === "website" ? newValue : links.website,
-                                };
-                                await changeLinksProfile(updatedLinks);
-                                setLinks(updatedLinks);
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
                                 }}
                             />
                         </div>
@@ -274,20 +276,20 @@ export default function ProfilePage() {
                                         {posts.map((post) => (
                                             <div key={post.id} className="border border-gray-200 rounded-lg p-4">
                                                 <Link href={`/post/${post.id}`}>
-                                                <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
-                                                    {post.title}
-                                                </h3>
+                                                    <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
+                                                        {post.title}
+                                                    </h3>
                                                 </Link>
                                                 <div className="flex items-center text-sm text-gray-500">
-                                                <span className="flex items-center mr-4">
-                                                    <Vote className="h-4 w-4 mr-1" />
-                                                    {post.votes} votes
-                                                </span>
-                                                <span className="flex items-center mr-4">
-                                                    <MessageSquare className="h-4 w-4 mr-1" />
-                                                    {post.answers} answers
-                                                </span>
-                                                <span>{post.created_at}</span>
+                                                    <span className="flex items-center mr-4">
+                                                        <Vote className="h-4 w-4 mr-1" />
+                                                        {post.votes} votes
+                                                    </span>
+                                                    <span className="flex items-center mr-4">
+                                                        <MessageSquare className="h-4 w-4 mr-1" />
+                                                        {post.answers} answers
+                                                    </span>
+                                                    <span>{post.created_at}</span>
                                                 </div>
                                             </div>
                                         ))}
