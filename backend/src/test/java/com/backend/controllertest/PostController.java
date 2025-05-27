@@ -108,7 +108,7 @@ public class PostController {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
+        mockPost = PostEntity.builder()
                 .id(1L)
                 .title("Post Title")
                 .build();
@@ -116,7 +116,7 @@ public class PostController {
         mockTipEntity = TipEntity.builder()
                 .id(1L)
                 .amount(100)
-                .post(post)
+                .post(mockPost)
                 .createdAt(new Date())
                 .build();
 
@@ -181,7 +181,7 @@ public class PostController {
         PostEntity result = postController.findPostById(1L);
 
         assertNotNull(result);
-        assertEquals("Mock Post", result.getTitle());
+        assertEquals("Post Title", result.getTitle());
         verify(postService).findPostById(1L);
     }
 
@@ -226,7 +226,7 @@ public class PostController {
         PostEntity result = postController.createPost(mockPostInput);
 
         assertNotNull(result);
-        assertEquals("Mock Post", result.getTitle());
+        assertEquals("Post Title", result.getTitle());
         verify(postService).createPost(mockPostInput);
     }
 }
