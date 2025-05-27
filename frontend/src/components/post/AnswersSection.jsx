@@ -7,7 +7,7 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
-import { sort } from "core-js/core/array"
+import { sort } from "core-js/features/array"
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, sortOrder}) {
 
