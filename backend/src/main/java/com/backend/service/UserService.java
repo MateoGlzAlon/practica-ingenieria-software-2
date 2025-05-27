@@ -14,4 +14,6 @@ public interface UserService {
     ProfileDTO getProfileByUserId(Long id);
 
     UserEntity changeUserLinks(UserLinksInputDTO userLinks);
+
+    Long getUserIdByEmail(String email);
 }

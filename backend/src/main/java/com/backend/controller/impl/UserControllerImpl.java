@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -44,5 +45,11 @@ public class UserControllerImpl implements UserController {
     @PostMapping("/change-links")
     public UserEntity changeUserLinks(@RequestBody UserLinksInputDTO userLinks){
         return userService.changeUserLinks(userLinks);
+    }
+
+    @Override
+    @GetMapping("/getId")
+    public Long getUserIdByEmail(@RequestParam String email){
+        return userService.getUserIdByEmail(email);
     }
 }

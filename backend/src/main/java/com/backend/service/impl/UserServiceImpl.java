@@ -177,4 +177,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
 
     }
+
+    public Long getUserIdByEmail(String email){
+        return userRepository.findByEmail(email).get().getId();
+    }
+    
 }
