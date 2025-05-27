@@ -130,7 +130,7 @@ public class TagServiceImplTest {
         Page<TagEntity> mockPage = new PageImpl<>(tags);
         Pageable pageable = PageRequest.of(0, 10);
 
-        when(tagRepository.findAll(pageable)).thenReturn(mockPage);
+        when(tagRepository.findAllRandom(pageable)).thenReturn(mockPage);
 
         TagOutputDTO result = tagService.findTags(0, 10);
 

@@ -108,7 +108,7 @@ public class PostController {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
+        mockPost = PostEntity.builder()
                 .id(1L)
                 .title("Post Title")
                 .build();
@@ -116,7 +116,7 @@ public class PostController {
         mockTipEntity = TipEntity.builder()
                 .id(1L)
                 .amount(100)
-                .post(post)
+                .post(mockPost)
                 .createdAt(new Date())
                 .build();
 
@@ -151,7 +151,7 @@ public class PostController {
                 .build();
 
         mockPostInput = PostInputDTO.builder()
-                .title("Mock Post")
+                .title("Post Title")
                 .content("Content")
                 .tagId(1L)
                 .userId(1L)
@@ -159,7 +159,7 @@ public class PostController {
 
         mockPostOutput = PostOutputDTO.builder()
                 .id(1L)
-                .title("Mock Post")
+                .title("Post Title")
                 .content("Content")
                 .build();
 
@@ -181,7 +181,7 @@ public class PostController {
         PostEntity result = postController.findPostById(1L);
 
         assertNotNull(result);
-        assertEquals("Mock Post", result.getTitle());
+        assertEquals("Post Title", result.getTitle());
         verify(postService).findPostById(1L);
     }
 
@@ -204,7 +204,7 @@ public class PostController {
         PostOutputDTO result = postController.getPostIndividual(1L);
 
         assertNotNull(result);
-        assertEquals("Mock Post", result.getTitle());
+        assertEquals("Post Title", result.getTitle());
         verify(postService).getPostIndividual(1L);
     }
 
@@ -226,7 +226,7 @@ public class PostController {
         PostEntity result = postController.createPost(mockPostInput);
 
         assertNotNull(result);
-        assertEquals("Mock Post", result.getTitle());
+        assertEquals("Post Title", result.getTitle());
         verify(postService).createPost(mockPostInput);
     }
 }

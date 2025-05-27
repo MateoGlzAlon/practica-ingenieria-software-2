@@ -12,6 +12,7 @@ import com.backend.service.impl.CommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -46,6 +47,7 @@ public class CommentServiceImplTest {
         mockPost = PostEntity.builder()
                 .id(1L)
                 .title("post1")
+                .comments(new ArrayList<>())
                 .build();
 
         mockComment = CommentEntity.builder()
@@ -56,6 +58,9 @@ public class CommentServiceImplTest {
                 .post(mockPost)
                 .createdAt(new Date())
                 .build();
+
+        mockPost.getComments().add(mockComment);
+
     }
 
     @Test
@@ -81,7 +86,8 @@ public class CommentServiceImplTest {
 
     @Test
     void testFindCommentsOfAPost_ReturnsListOfDTOs() {
-        when(commentRepository.findByPostId(1L)).thenReturn(List.of(mockComment));
+        Sort sort = Sort.by(Sort.Order.desc("votes"), Sort.Order.asc("id"));
+        when(commentRepository.findByPostId(1L, sort)).thenReturn(List.of(mockComment));
 
         List<CommentOutputDTO> result = commentService.findCommentsOfAPost(1L);
 

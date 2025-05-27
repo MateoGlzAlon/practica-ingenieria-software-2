@@ -6,6 +6,7 @@ import com.backend.service.impl.CommentVoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class CommentVoteServiceImplTest {
 
     private CommentVoteEntity mockVote;
 
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -35,7 +37,7 @@ public class CommentVoteServiceImplTest {
     void testFindCommentById_ReturnsVote() {
         when(commentVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
 
-        CommentVoteEntity result = commentVoteService.findCommentById(1L);
+        CommentVoteEntity result = commentVoteService.findCommentVoteById(1L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
@@ -46,7 +48,7 @@ public class CommentVoteServiceImplTest {
     void testFindCommentById_NotFound_ReturnsNull() {
         when(commentVoteRepository.findById(99L)).thenReturn(Optional.empty());
 
-        CommentVoteEntity result = commentVoteService.findCommentById(99L);
+        CommentVoteEntity result = commentVoteService.findCommentVoteById(99L);
 
         assertNull(result);
         verify(commentVoteRepository).findById(99L);

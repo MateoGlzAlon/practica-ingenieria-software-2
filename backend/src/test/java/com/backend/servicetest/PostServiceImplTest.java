@@ -316,7 +316,7 @@ public class PostServiceImplTest {
         when(mockPage.getContent()).thenReturn(List.of(postWithNullImages));
         when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
 
-        List<FeedPostDTO> result = postService.getFeedPosts(0, 10);
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -341,7 +341,7 @@ public class PostServiceImplTest {
         when(mockPage.getContent()).thenReturn(List.of(postWithEmptyImages));
         when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
 
-        List<FeedPostDTO> result = postService.getFeedPosts(0, 10);
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L);
 
         assertNotNull(result);
         assertEquals(1, result.size());

@@ -38,7 +38,7 @@ public class PostVoteServiceImplTest {
     public void testFindPostById_ReturnsPostVote() {
         when(postVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
 
-        PostVoteEntity result = postVoteService.findPostById(1L);
+        PostVoteEntity result = postVoteService.findPostVoteById(1L);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
@@ -49,7 +49,7 @@ public class PostVoteServiceImplTest {
     public void testFindPostById_ReturnsNullWhenNotFound() {
         when(postVoteRepository.findById(2L)).thenReturn(Optional.empty());
 
-        PostVoteEntity result = postVoteService.findPostById(2L);
+        PostVoteEntity result = postVoteService.findPostVoteById(2L);
 
         assertNull(result);
         verify(postVoteRepository).findById(2L);
