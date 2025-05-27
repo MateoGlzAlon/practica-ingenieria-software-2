@@ -7,6 +7,7 @@ import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import com.backend.repository.CommentRepository;
+import com.backend.persistence.outputdto.UserCommentDTO;
 import com.backend.repository.PostRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.CommentService;
@@ -117,6 +118,32 @@ public class CommentServiceImpl implements CommentService {
 
         return commentRepository.save(updateComment);
 
+    }
+
+
+    public List<UserCommentDTO> getCommentsOfAUser(Long idUser){
+
+        List<CommentEntity> searchComments = commentRepository.findByUserId(idUser);
+
+        List<UserCommentDTO> listAllCommentsUser = new ArrayList<>();
+
+        searchComments.sort(Comparator.comparingInt(CommentEntity::getVotes).reversed());
+
+        for(CommentEntity comm : searchComments){
+
+            UserCommentDTO newComment = UserCommentDTO.builder()
+                .idPost(comm.getPost().getId())
+                .content(comm.getContent())
+                .votes(comm.getVotes())
+                .build();
+
+            listAllCommentsUser.add(newComment);
+
+        }
+
+        return listAllCommentsUser;
+
+        
     }
 
 }

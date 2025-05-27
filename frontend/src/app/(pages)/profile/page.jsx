@@ -6,6 +6,7 @@ import Link from "next/link";
 import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote, Pencil } from "lucide-react"
 import getProfileUser from "@/api/getProfileUser"
 import changeLinksProfile from '@/api/changeLinksProfile';
+import getCommentsOfAUser from '@/api/getCommentsOfAUser';
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 
@@ -15,6 +16,7 @@ export default function ProfilePage() {
     const idUser = getUserIdFromLocalStorage();
 
     const [profileData, setProfileData] = useState(null)
+    const [comments, setComments] = useState([]);
     const [activeTab, setActiveTab] = useState('profile')
 
     const [editing, setEditing] = useState({
@@ -30,23 +32,29 @@ export default function ProfilePage() {
         if (!idUser) return
 
         const fetchProfile = async () => {
-            try {
-                const data = await getProfileUser(idUser)
-                setProfileData(data)
+        try {
+            const data = await getProfileUser(idUser)
+            setProfileData(data)
 
-                const { user } = data;
-                setLinks({
-                    github: user.githubLink,
-                    twitter: user.twitterLink,
-                    website: user.websiteLink,
-                });
-            } catch (err) {
-                console.error('Error fetching profile:', err)
-            }
+            const { user } = data;
+            setLinks({
+                github: user.githubLink,
+                twitter: user.twitterLink,
+                website: user.websiteLink,
+            });
+
+            //part of comments
+            const response = await getCommentsOfAUser(idUser);
+            setComments(response);
+        } catch (err) {
+            console.error('Error fetching profile:', err)
+        }
+
         }
 
         fetchProfile()
     }, [idUser])
+
 
     if (!profileData) {
         return <p className="text-center py-10">Loading profile...</p>
@@ -291,10 +299,23 @@ export default function ProfilePage() {
 
                             {activeTab === "answers" && (
                                 <div>
-                                    <h2 className="text-xl font-bold mb-4">My answers</h2>
-                                    <div className="bg-gray-100 rounded-lg p-6 text-center">
-                                        <BookOpen className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                                        <p className="text-gray-600">Select this tab to view all your answers</p>
+                                    <h2 className="text-xl font-bold mb-4">Top comments</h2>
+                                    <div className="space-y-4">
+                                        {comments.map((comment) => (
+                                            <div key={comment.idPost} className="border border-gray-200 rounded-lg p-4">
+                                                <Link href={`/post/${comment.idPost}`}>
+                                                <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
+                                                    {comment.content}
+                                                </h3>
+                                                </Link>
+                                                <div className="flex items-center text-sm text-gray-500">
+                                                <span className="flex items-center mr-4">
+                                                    <Vote className="h-4 w-4 mr-1" />
+                                                    {comment.votes} votes
+                                                </span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
