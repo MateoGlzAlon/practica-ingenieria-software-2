@@ -11,7 +11,7 @@ import changeLinksProfile from '@/api/changeLinksProfile';
 export default function ProfilePage() {
 
     //TO-DO: for now we search for userId=1, change this later
-    const idUser = 1
+    const idUser = 2
 
     const [profileData, setProfileData] = useState(null)
     const [activeTab, setActiveTab] = useState('profile')
@@ -57,6 +57,10 @@ export default function ProfilePage() {
         const [isEditing, setIsEditing] = useState(false);
         const [value, setValue] = useState(initialValue);
 
+        useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
+
         const handleSubmit = async (e) => {
             e.preventDefault();
             await onSave(field, value);
@@ -64,28 +68,33 @@ export default function ProfilePage() {
         };
 
         return (
-            <div className="flex items-center text-sm text-blue-600">
-            <Icon className="h-4 w-4 mr-2" />
-            {isEditing ? (
-                <form onSubmit={handleSubmit} className="flex-1">
-                <input
-                    type="text"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="border border-gray-300 rounded px-2 py-1 text-sm w-full text-gray-800"
-                    autoFocus
-                />
+            isEditing ? (
+                <form onSubmit={handleSubmit} className="flex items-center gap-2 text-sm text-blue-600 mb-3">
+                    <Icon className="h-4 w-4 ml-2" />
+                    <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-sm w-48 text-gray-800"
+                        autoFocus
+                    />
+                    <Pencil
+                        className="h-4 w-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        onClick={() => setIsEditing(true)}
+                    />
                 </form>
             ) : (
-                <a href={value} className="hover:underline flex-1 text-gray-700">
-                {value}
-                </a>
-            )}
-            <Pencil
-                className="h-4 w-4 ml-2 cursor-pointer text-gray-500 hover:text-gray-700"
-                onClick={() => setIsEditing(true)}
-            />
-            </div>
+                <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
+                    <Icon className="h-4 w-4 ml-2" />
+                    <a href={value} className="hover:underline text-gray-700">
+                        {value}
+                    </a>
+                    <Pencil
+                        className="h-4 w-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        onClick={() => setIsEditing(true)}
+                    />
+                </div>
+            )
         );
     };
 
@@ -124,43 +133,46 @@ export default function ProfilePage() {
                             <EditableLinkField
                                 field="github"
                                 Icon={GitHub}
-                                initialValue={user.githubLink}
+                                initialValue={links?.github}
                                 onSave={async (field, newValue) => {
                                 const updatedLinks = {
-                                    userId: 1, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : user.githubLink,
-                                    twitter: field === "twitter" ? newValue : user.twitterLink,
-                                    website: field === "website" ? newValue : user.websiteLink,
+                                    userId: 2, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : links.github,
+                                    twitter: field === "twitter" ? newValue : links.twitter,
+                                    website: field === "website" ? newValue : links.website,
                                 };
                                 await changeLinksProfile(updatedLinks);
+                                setLinks(updatedLinks);
                                 }}
                             />
                             <EditableLinkField
                                 field="twitter"
                                 Icon={Twitter}
-                                initialValue={user.twitterLink}
+                                initialValue={links?.twitter}
                                 onSave={async (field, newValue) => {
                                 const updatedLinks = {
-                                    userId: 1, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : user.githubLink,
-                                    twitter: field === "twitter" ? newValue : user.twitterLink,
-                                    website: field === "website" ? newValue : user.websiteLink,
+                                    userId: 2, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : links.github,
+                                    twitter: field === "twitter" ? newValue : links.twitter,
+                                    website: field === "website" ? newValue : links.website,
                                 };
                                 await changeLinksProfile(updatedLinks);
+                                setLinks(updatedLinks);
                                 }}
                             />
                             <EditableLinkField
                                 field="website"
                                 Icon={Globe}
-                                initialValue={user.websiteLink}
+                                initialValue={links?.website}
                                 onSave={async (field, newValue) => {
                                 const updatedLinks = {
-                                    userId: 1, //TO-DO: CHANGE THIS
-                                    github: field === "github" ? newValue : user.githubLink,
-                                    twitter: field === "twitter" ? newValue : user.twitterLink,
-                                    website: field === "website" ? newValue : user.websiteLink,
+                                    userId: 2, //TO-DO: CHANGE THIS
+                                    github: field === "github" ? newValue : links.github,
+                                    twitter: field === "twitter" ? newValue : links.twitter,
+                                    website: field === "website" ? newValue : links.website,
                                 };
                                 await changeLinksProfile(updatedLinks);
+                                setLinks(updatedLinks);
                                 }}
                             />
                         </div>
