@@ -184,12 +184,10 @@ kind: Pod
 }
 ```', 0, 'open', '2025-05-21 21:17:36.026944');
 
-
--- INSERTS: comments
 -- INSERTS: comments
 INSERT INTO "comments" ("post_id", "user_id", "content", "votes", "created_at", "accepted") VALUES
-(1, 1, 'Very helpful.', 0, '2025-05-21 21:17:36.030344', FALSE),
-(1, 2, 'I learned something new!', 0, '2025-05-21 21:17:36.030344', FALSE),
+(1, 1, 'Very helpful.', 0, '2025-05-21 21:17:36.030344', TRUE),
+(1, 2, 'I learned something new!', 0, '2025-05-21 21:17:36.030344', TRUE),
 (2, 3, 'I learned something new!', 0, '2025-05-21 21:17:37.030344', FALSE),
 (2, 4, 'Thanks for sharing.', 0, '2025-05-21 21:17:38.030344', FALSE),
 (3, 5, 'Thanks for sharing.', 0, '2025-05-21 21:17:39.030344', FALSE),
