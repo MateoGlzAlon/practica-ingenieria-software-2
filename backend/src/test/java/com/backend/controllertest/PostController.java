@@ -187,14 +187,18 @@ public class PostController {
 
     @Test
     public void testGetFeedPosts_ReturnsListOfFeedPostDTO() {
-        when(postService.getFeedPosts(0, 10, 1L)).thenReturn(List.of(mockFeedPost));
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
 
-        List<FeedPostDTO> result = postController.getFeedPosts(0, 10, 1L);
+        when(postService.getFeedPosts(0, 10, 1L, tags)).thenReturn(List.of(mockFeedPost));
+
+
+        List<FeedPostDTO> result = postController.getFeedPosts(0, 10, tags, 1L);
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Feed Post", result.get(0).getTitle());
-        verify(postService).getFeedPosts(0, 10, 1L);
+        verify(postService).getFeedPosts(0, 10, 1L, tags);
     }
 
     @Test
