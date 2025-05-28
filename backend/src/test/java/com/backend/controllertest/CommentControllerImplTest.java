@@ -52,22 +52,12 @@ class CommentControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private ProfileDTO mockProfileDto;
-    private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
-    private PostImageEntity mockImage;
-    private PostEntity mockPost;
-    private PostOutputDTO mockPostOutput;
-    private PostDetailsDTO mockPostDetails;
-    private FeedPostDTO mockFeedPost;
-    private GoogleLoginDTO mockLoginDTO;
-    private CommentVoteEntity mockVote;
     private CommentEntity mockComment;
     private CommentOutputDTO mockCommentOutput;
     private CommentInputDTO mockCommentInput;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()
@@ -107,54 +97,6 @@ class CommentControllerImplTest {
                 .title("Post Title")
                 .build();
 
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
-
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
-                .build();
-
-        mockImage = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=PostImage")
-                .build();
-
-        mockPostOutput = PostOutputDTO.builder()
-                .id(1L)
-                .title("Mock Post")
-                .content("Content")
-                .build();
-
-        mockPostDetails = PostDetailsDTO.builder()
-                .id(1L)
-                .title("Detailed Post")
-                .build();
-
-        mockFeedPost = FeedPostDTO.builder()
-                .id(1L)
-                .title("Feed Post")
-                .build();
-
-        mockLoginDTO = GoogleLoginDTO.builder()
-                .email("user@example.com")
-                .username("testuser")
-                .avatarUrl("https://example.com/avatar.jpg")
-                .build();
-
-        mockVote = CommentVoteEntity.builder()
-                .id(1L)
-                .build();
-
         mockComment = CommentEntity.builder()
                 .id(1L)
                 .content("Test comment")
@@ -173,7 +115,7 @@ class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentById_ReturnsCommentEntity() {
+    void testFindCommentById_ReturnsCommentEntity() {
         when(commentService.findCommentById(1L)).thenReturn(mockComment);
 
         CommentEntity result = commentController.findCommentById(1L);
@@ -185,7 +127,7 @@ class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentsOfAPost_ReturnsListOfDTOs() {
+    void testFindCommentsOfAPost_ReturnsListOfDTOs() {
         when(commentService.findCommentsOfAPost(1L)).thenReturn(List.of(mockCommentOutput));
 
         List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L);
@@ -197,7 +139,7 @@ class CommentControllerImplTest {
     }
 
     @Test
-    public void testCreateComment_ReturnsCreatedEntity() {
+    void testCreateComment_ReturnsCreatedEntity() {
         when(commentService.createComment(mockCommentInput)).thenReturn(mockComment);
 
         CommentEntity result = commentController.createComment(mockCommentInput);
