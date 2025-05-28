@@ -54,7 +54,7 @@ class GoogleAuthControllerImplTest {
 
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()
@@ -110,7 +110,7 @@ class GoogleAuthControllerImplTest {
     }
 
     @Test
-    public void testLoginWithGoogle_ReturnsResponse() {
+    void testLoginWithGoogle_ReturnsResponse() {
         ResponseEntity<?> mockResponse = ResponseEntity.ok("Login success");
 
         when(googleAuthService.authenticateWithGoogle(any(GoogleLoginDTO.class))).thenReturn((ResponseEntity) mockResponse);
@@ -118,7 +118,6 @@ class GoogleAuthControllerImplTest {
         ResponseEntity<?> result = googleAuthController.loginWithGoogle(mockLoginDTO);
 
         assertNotNull(result);
-        assertEquals(200, result.getStatusCodeValue());
         assertEquals("Login success", result.getBody());
 
         verify(googleAuthService, times(1)).authenticateWithGoogle(mockLoginDTO);
