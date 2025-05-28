@@ -53,16 +53,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentEntity createComment(CommentInputDTO comment){
-
-        /*
-        EXAMPLE OF BODY OF REQUEST:
-            {
-              "postId": 1,
-              "userId": 1,
-              "content": "WOW!!!!!!!!!! NICE ONE LOL"
-            }
-        */
-
         CommentEntity newComment = CommentEntity.builder()
                 //id no se pone, se asigna solo
                 .post(postRepository.findById(comment.getPostId()).orElse(null))
@@ -78,46 +68,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public CommentEntity acceptComment(CommentAcceptDTO comment){
-
-        /*
-        EXAMPLE FOR CHANGING ACCEPT STATUS
-        {
-            "userId":1,
-            "postId":1,
-            "commentId":1
-        }
-
-        */
-
-        // TO-DO: Uncomment this later – just disabled for now while debugging.
-        /*
-        List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
-        
-        boolean isValidUserVerification = false;
-
-        for(PostEntity newPost : posts){
-            if(newPost.getPostId() == comment.getPostId()){
-                isValidUserVerification = true;
-                break;
-            }
-        }
-
-        if(isValidUserVerification == false){
-            return null;
-        }
-        */
-
         CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
-
         if(updateComment == null){
             return null;
         }
-
         //change the value
         updateComment.setAccepted(!updateComment.isAccepted());
-
         return commentRepository.save(updateComment);
-
     }
 
 
