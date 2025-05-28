@@ -69,17 +69,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     try {
       await setClosedComment({ postId: idPost, userId, commentId });
 
-      setAcceptedAnswer(prev => {
-
-        const current = Array.isArray(prev) ? prev : [];
-
-
-        if (current.includes(commentId)) {
-          return current.filter(id => id !== commentId);
-        }
-
-        return [...current, commentId];
-      });
+      await fetchComments();
     } catch (error) {
       console.error("Failed to accept/unaccept comment:", error);
     }
