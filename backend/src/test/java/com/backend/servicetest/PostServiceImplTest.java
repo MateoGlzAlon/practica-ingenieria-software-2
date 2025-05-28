@@ -228,11 +228,13 @@ public class PostServiceImplTest {
     public void testGetFeedPosts_ReturnsList() {
         List<PostEntity> postList = Arrays.asList(mockPostEntity);
         Page<PostEntity> mockPage = mock(Page.class);
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
 
         when(mockPage.getContent()).thenReturn(postList);
-        when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
 
-        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L);
+        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L, tags);
 
         assertNotNull(feed);
         assertEquals(1, feed.size());

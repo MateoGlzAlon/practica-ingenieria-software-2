@@ -19,18 +19,14 @@ public class TagControllerImpl implements TagController {
     @Override
     @GetMapping("/{id}")
     public TagEntity findTagById(@PathVariable Long id) {
-
         TagEntity tag = tagService.findTagById(id);
         return tag;
     }
 
     @Override
     @GetMapping("/all")
-    public TagOutputDTO findTags(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
-    ){
-        return tagService.findTags(page, size);
+    public TagOutputDTO findTags(){
+        return tagService.findTags();
     }
 
 }

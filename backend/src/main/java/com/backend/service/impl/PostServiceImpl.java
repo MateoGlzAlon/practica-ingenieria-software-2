@@ -41,9 +41,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<FeedPostDTO> getFeedPosts(int page, int size, Long userId) {
+    public List<FeedPostDTO> getFeedPosts(int page, int size, Long userId, List<String> tags) {
+
+
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<PostEntity> postsPage = postRepository.findAll(pageable);
+        Page<PostEntity> postsPage = postRepository.findAll(pageable,tags);
 
         List<FeedPostDTO> feedPostDTOs = new ArrayList<>();
         for (PostEntity post : postsPage.getContent()) {
@@ -131,7 +133,7 @@ public class PostServiceImpl implements PostService {
                 "https://placehold.co/600x400?text=Post91"
             ]
         }
-         */
+         a*/
         UserEntity user = userRepository.findById(post.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
