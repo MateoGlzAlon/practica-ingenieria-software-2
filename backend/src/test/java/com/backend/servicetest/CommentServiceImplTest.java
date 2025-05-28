@@ -86,10 +86,9 @@ public class CommentServiceImplTest {
 
     @Test
     void testFindCommentsOfAPost_ReturnsListOfDTOs() {
-        Sort sort = Sort.by(Sort.Order.desc("votes"), Sort.Order.asc("id"));
-        when(commentRepository.findByPostId(1L, sort)).thenReturn(List.of(mockComment));
+        when(commentRepository.findByPostIdOrderByVotesDesc(1L)).thenReturn(List.of(mockComment));
 
-        List<CommentOutputDTO> result = commentService.findCommentsOfAPost(1L);
+        List<CommentOutputDTO> result = commentService.findCommentsOfAPost(1L, "votes");
 
         assertNotNull(result);
         assertEquals(1, result.size());

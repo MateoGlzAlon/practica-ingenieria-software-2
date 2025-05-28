@@ -14,10 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
 import java.util.*;
 
@@ -127,12 +124,11 @@ public class TagServiceImplTest {
     @Test
     public void testFindTags_ReturnsDTO() {
         List<TagEntity> tags = Arrays.asList(tag1, tag2);
-        Page<TagEntity> mockPage = new PageImpl<>(tags);
-        Pageable pageable = PageRequest.of(0, 10);
+        Sort sort = Sort.by(Sort.Direction.DESC, "name");
 
-        when(tagRepository.findAllRandom(pageable)).thenReturn(mockPage);
+        when(tagRepository.findAll(eq(sort))).thenReturn(tags);
 
-        TagOutputDTO result = tagService.findTags(0, 10);
+        TagOutputDTO result = tagService.findTags();
 
         assertNotNull(result);
         assertEquals(2, result.getTags().size());

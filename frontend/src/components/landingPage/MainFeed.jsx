@@ -5,7 +5,7 @@ import Post from "./Post"
 import getFeedPosts from "@/api/getLandingPageFeedPosts"
 import CreatePost from "@/components/createPost/createPost"
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
-
+import { useTagFilter } from "@/hooks/tagsContext"
 
 export default function MainFeed() {
 
@@ -18,13 +18,20 @@ export default function MainFeed() {
     const [hasMore, setHasMore] = useState(true)
     const PAGE_SIZE = 5
 
-    const fetchPosts = async (pageNumber) => {
+    const { selectedTags } = useTagFilter()
+
+    const fetchPosts = async (pageNumber, tags = []) => {
         try {
-            const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId)
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags) // TODO: Get real userId
             if (data.length < PAGE_SIZE) {
                 setHasMore(false)
             }
-            setPosts(prev => [...prev, ...data])
+
+            if (pageNumber === 0) {
+                setPosts(data)
+            } else {
+                setPosts(prev => [...prev, ...data])
+            }
 
             console.log("Mainfeed data", data)
         } catch (error) {
@@ -35,17 +42,20 @@ export default function MainFeed() {
         }
     }
 
+    // Initial + tag-based fetch
     useEffect(() => {
-        fetchPosts(0)
-    }, [])
+        setPage(0)
+        setHasMore(true)
+        setIsLoading(true)
+        fetchPosts(0, selectedTags)
+    }, [selectedTags])
 
     const loadMore = () => {
-        setIsLoadingMore(true)
         const nextPage = page + 1
         setPage(nextPage)
-        fetchPosts(nextPage)
+        setIsLoadingMore(true)
+        fetchPosts(nextPage, selectedTags)
     }
-
     return (
         <div className="flex-1 flex flex-col gap-4 px-16 border-x-[1px] border-gray-300 py-2">
             {isLoading ? (

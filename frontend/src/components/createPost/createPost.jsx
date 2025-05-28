@@ -274,6 +274,10 @@ export default function CreatePost() {
                             type="button"
                             onClick={async () => {
                                 try {
+                                    if (formData.content.trim() === "") {
+                                        throw new Error("Content is empty");
+                                    }
+
                                     const result = await fetchPostMeta(formData.content);
 
                                     console.log("🧠 AI Suggestion:", result);
