@@ -90,13 +90,13 @@ public class CommentServiceImpl implements CommentService {
         */
 
         // TO-DO: Uncomment this later – just disabled for now while debugging.
-        /*
+        
         List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
         
         boolean isValidUserVerification = false;
 
         for(PostEntity newPost : posts){
-            if(newPost.getPostId() == comment.getPostId()){
+            if(newPost.getId() == comment.getPostId()){
                 isValidUserVerification = true;
                 break;
             }
@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
         if(isValidUserVerification == false){
             return null;
         }
-        */
+        
 
         CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
 

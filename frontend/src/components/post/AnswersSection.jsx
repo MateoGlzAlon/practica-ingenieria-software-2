@@ -9,7 +9,7 @@ import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
 import setClosedComment from "@/api/comment/setClosedComment"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments }) {
 
   const [commentsData, setCommentsData] = useState(null)
   const [votedComments, setVotedComments] = useState({})
@@ -19,6 +19,15 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     try {
       const comments = await getCommentsOfAPost(idPost);
       setCommentsData(comments);
+      const accepted = comments.find(c => c.accepted);
+
+      setTotalComments(comments.length);
+
+      const acceptedIds = comments
+        .filter(c => c.accepted)
+        .map(c => c.id);
+
+      setAcceptedAnswer(acceptedIds);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -36,7 +45,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
 
   const handleCommentVote = async (commentId) => {
-    const userId = 10 // TO-DO
 
     try {
       await createCommentVote({ userId, commentId })
@@ -58,13 +66,22 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   }
 
   const handleAcceptComment = async (commentId) => {
-    const userId = 1; // TO-DO: Replace with real user
     try {
       await setClosedComment({ postId: idPost, userId, commentId });
-      setAcceptedAnswer(commentId);
-      await fetchComments();
+
+      setAcceptedAnswer(prev => {
+
+        const current = Array.isArray(prev) ? prev : [];
+
+
+        if (current.includes(commentId)) {
+          return current.filter(id => id !== commentId);
+        }
+
+        return [...current, commentId];
+      });
     } catch (error) {
-      console.error("Failed to accept comment:", error);
+      console.error("Failed to accept/unaccept comment:", error);
     }
   };
 
@@ -74,7 +91,15 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       {commentsData.map((answer, index) => (
         <div
           key={answer.id}
-          className={`bg-white p-6 border ${acceptedAnswer === answer.id ? "border-green-500" : "border-gray-200"} rounded-md ${acceptedAnswer === answer.id ? "ring-1 ring-green-500" : ""}`}
+          className={`
+            bg-white p-6 rounded-md transition
+            ${
+              (acceptedAnswer === answer.id ||
+              (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+              ? "border-2 border-green-500 ring-1 ring-green-500"
+              : "border border-gray-200"
+            }
+          `}
         >
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
@@ -93,7 +118,16 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
               </span>
               <button
                 onClick={() => handleAcceptComment(answer.id)}
-                className={`mt-4 ${answer.accepted ? "text-green-500" : "text-gray-400 hover:text-green-500"} transition`}
+                className={`
+                  mt-4
+                  ${
+                    (acceptedAnswer === answer.id ||
+                    (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+                    ? "text-green-500"
+                    : "text-gray-400 hover:text-green-500"
+                  }
+                  transition
+                `}
                 aria-label="Accept answer"
               >
                 <Award size={18} />
@@ -116,14 +150,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 )}
 
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                  <div className="flex space-x-4">
-                    <button
-                      className="flex items-center text-sm text-gray-500 hover:text-gray-700"
-                    >
-                      <MessageSquare size={16} className="mr-1" />
-                      <span>{answer.commentCount || "N/A"} comments</span>
-                    </button>
-                  </div>
+                  <div className="flex space-x-4" />
+                  {/* i removed this part*/}
 
                   <div className="flex items-center bg-blue-50 p-2 rounded-md">
                     <img

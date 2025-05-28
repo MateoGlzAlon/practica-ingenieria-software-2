@@ -6,11 +6,11 @@ import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
 
 
-export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData }) {
+export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData, userId }) {
 
-    console.log("Post data IN", postData)
+    //console.log("Post data IN", postData)
 
-    const userId = 1 // TODO : GET USERID FROM CONTEXT
+    //const userId = 1 // TODO : GET USERID FROM CONTEXT
 
     const [votedStatus, setVotedStatus] = useState()
 
@@ -72,14 +72,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
 
                         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                            <div className="flex space-x-4">
-                                <button
-                                    className="flex items-center text-sm text-gray-500 hover:text-gray-700"
-                                >
-                                    <MessageSquare size={16} className="mr-1" />
-                                    <span>{postData.commentCount || "N/A"} comments</span>
-                                </button>
-                            </div>
+                            <div className="flex space-x-4" />
 
                             <div className="flex items-center bg-blue-50 p-2 rounded-md ">
                                 <img
@@ -89,7 +82,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                                 />
                                 <div className="text-sm">
                                     <div className="font-medium text-blue-600">{postData.author || "N/A"}</div>
-                                    <div className="text-gray-500">Created {postData.date || "N/A"}</div>
+                                    <div className="text-gray-500">Created {new Date(postData.date).toLocaleDateString("en-GB") || "N/A"}</div>
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ import { mockData } from "@/app/mockData"
 import getHotQuestionPosts from "@/api/getHotQuestionPosts"
 import getIndividualPost from "@/api/getIndividualPost"
 import { useParams } from 'next/navigation'
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 
 export default function Post({ params }) {
@@ -19,12 +20,15 @@ export default function Post({ params }) {
     //this is for post information
     const { id } = useParams()
 
+    const userId = getUserIdFromLocalStorage();
+
     const [postData, setDataPost] = useState(null)
     const [content, setContent] = useState("");
     const [refreshComments, setRefreshComments] = useState(false);
+    const [totalComments, setTotalComments] = useState(0);
 
     const [questionVotes, setQuestionVotes] = useState(0)
-    const [acceptedAnswer, setAcceptedAnswer] = useState(null)
+    const [acceptedAnswer, setAcceptedAnswer] = useState([])
     const [showComments, setShowComments] = useState(false)
 
 
@@ -59,7 +63,7 @@ export default function Post({ params }) {
         try {
             await postAnswer({
                 postId: parseInt(id),
-                userId: 10, // TO-DO CHANGE THIS WITH THE REAL USER
+                userId: userId,
                 content: content.trim(),
             });
 
@@ -91,10 +95,11 @@ export default function Post({ params }) {
                             showComments={showComments}
                             setShowComments={setShowComments}
                             postData={postData}
+                            userId={userId}
                         />
 
                         <div className="flex items-center justify-between my-8">
-                            <h2 className="text-xl font-bold text-gray-900">{mockData.commentsExamples.length} Answers</h2>
+                            <h2 className="text-xl font-bold text-gray-900">{totalComments} Answers</h2>
                             <div className="flex items-center space-x-2">
                                 <span className="text-sm text-gray-500">Sort by:</span>
                                 <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm">
@@ -110,6 +115,8 @@ export default function Post({ params }) {
                             setAcceptedAnswer={setAcceptedAnswer}
                             idPost={id}
                             refreshTrigger={refreshComments}
+                            userId={userId}
+                            setTotalComments={setTotalComments}
                         />
 
                         <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 border border-gray-200 rounded-md">
