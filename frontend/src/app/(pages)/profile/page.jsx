@@ -145,7 +145,7 @@ export default function ProfilePage() {
                                 initialValue={links?.github}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                                 initialValue={links?.twitter}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                                 initialValue={links?.website}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,

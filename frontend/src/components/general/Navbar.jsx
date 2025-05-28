@@ -1,7 +1,7 @@
 'use client';
 
 import { GoogleLogin } from '@react-oauth/google';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
@@ -10,7 +10,12 @@ import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 export default function Navbar() {
 
-    const [userIdLS, setUserIdLS] = useState(getUserIdFromLocalStorage());
+    const [userIdLS, setUserIdLS] = useState(null);
+
+    useEffect(() => {
+        const id = getUserIdFromLocalStorage();
+        setUserIdLS(id);
+    }, []);
 
 
     const handleSuccess = async (credentialResponse) => {
@@ -38,9 +43,7 @@ export default function Navbar() {
     return (
         <>
             <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
-                <div className='w-1/3' >
-                    {userIdLS || "N/A"}
-                </div>
+                <div className='w-1/3' />
 
                 <Link href="/" className="flex justify-center w-1/3">
                     <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
