@@ -7,9 +7,11 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
+import { sort } from "core-js/features/array"
 import setClosedComment from "@/api/comment/setClosedComment"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, sortOrder}) {
+
 
   const [commentsData, setCommentsData] = useState(null)
   const [votedComments, setVotedComments] = useState({})

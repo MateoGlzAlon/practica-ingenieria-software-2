@@ -33,9 +33,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentOutputDTO> findCommentsOfAPost(Long postId) {
-        Sort sort = Sort.by(Sort.Order.desc("votes"), Sort.Order.asc("id"));
-        List<CommentEntity> comments = commentRepository.findByPostId(postId, sort);
+    public List<CommentOutputDTO> findCommentsOfAPost(Long id, String sort) {
+        List<CommentEntity> comments;
+
+        switch (sort.toLowerCase()) {
+            case "votes":
+                comments = commentRepository.findByPostIdOrderByVotesDesc(id);
+                break;
+            case "oldest":
+                comments = commentRepository.findByPostIdOrderByCreatedAtAsc(id);
+                break;
+            case "newest":
+            default:
+                comments = commentRepository.findByPostIdOrderByCreatedAtDesc(id);
+                break;
+        }
+
 
         return comments.stream()
                 .map(comment -> CommentOutputDTO.builder()
@@ -48,7 +61,6 @@ public class CommentServiceImpl implements CommentService {
                         .accepted(comment.isAccepted())
                         .build())
                 .toList();
-
     }
 
     @Override
@@ -145,6 +157,22 @@ public class CommentServiceImpl implements CommentService {
 
         
     }
+
+    @Override
+    public List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId) {
+        return commentRepository.findByPostIdOrderByVotesDesc(postId);
+    }
+
+    @Override
+    public List<CommentEntity> getCommentsByPostIdOrderByNewest(Long postId) {
+        return commentRepository.findByPostIdOrderByCreatedAtDesc(postId);
+    }
+
+    @Override
+    public List<CommentEntity> getCommentsByPostIdOrderByOldest(Long postId) {
+        return commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
+    }
+
 
 }
 
