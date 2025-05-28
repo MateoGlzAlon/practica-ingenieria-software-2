@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class StatsServiceImplTest {
+class StatsServiceImplTest {
 
     @Mock
     private PostRepository postRepository;
@@ -29,12 +29,12 @@ public class StatsServiceImplTest {
     private StatsServiceImpl statsService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetCommunityStats_ReturnsCorrectCounts() {
+    void testGetCommunityStats_ReturnsCorrectCounts() {
         when(userRepository.count()).thenReturn(10L);
         when(commentRepository.count()).thenReturn(50L);
         when(postRepository.count()).thenReturn(20L);
