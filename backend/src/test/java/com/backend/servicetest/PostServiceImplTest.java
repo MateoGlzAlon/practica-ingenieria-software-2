@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class PostServiceImplTest {
+class PostServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ public class PostServiceImplTest {
     private PostImageEntity mockPostImageEntity;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()
@@ -93,8 +93,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testCreatePost_Success() {
-        // Preparar una versión controlada del PostEntity que se devuelve tras guardar
+    void testCreatePost_Success() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
         when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
         when(postRepository.save(any(PostEntity.class))).thenAnswer(invocation -> {
@@ -113,7 +112,7 @@ public class PostServiceImplTest {
 
         assertNotNull(result);
         assertEquals("Test Title", result.getTitle());
-        assertEquals(1, result.getImages().size()); // Validar que una imagen fue agregada
+        assertEquals(1, result.getImages().size()); 
         assertEquals("https://placehold.co/600x400?text=Post90", result.getImages().get(0).getImageUrl());
 
         verify(userRepository).findById(1L);
@@ -124,7 +123,7 @@ public class PostServiceImplTest {
 
 
     @Test
-    public void testCreatePost_Success_ImagesNull() {
+    void testCreatePost_Success_ImagesNull() {
         PostInputDTO inputWithoutImages = PostInputDTO.builder()
                 .title("Test Title")
                 .content("Test Content")
@@ -154,7 +153,7 @@ public class PostServiceImplTest {
 
 
     @Test
-    public void testCreatePost_UserNotFound() {
+    void testCreatePost_UserNotFound() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
         when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
 
@@ -166,7 +165,7 @@ public class PostServiceImplTest {
 
 
     @Test
-    public void testFindPostById_ReturnsPost() {
+    void testFindPostById_ReturnsPost() {
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
         PostEntity result = postService.findPostById(1L);
         assertNotNull(result);
@@ -174,7 +173,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testFindPostById_ReturnsNullIfNotFound() {
+    void testFindPostById_ReturnsNullIfNotFound() {
         when(postRepository.findById(999L)).thenReturn(Optional.empty());
         assertNull(postService.findPostById(999L));
     }
@@ -202,7 +201,7 @@ public class PostServiceImplTest {
 
 
     @Test
-    public void testGetPostIndividual_ReturnsDTO() {
+    void testGetPostIndividual_ReturnsDTO() {
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
         var dto = postService.getPostIndividual(1L);
         assertNotNull(dto);
@@ -210,13 +209,13 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetPostIndividual_ReturnsNullIfNotFound() {
+    void testGetPostIndividual_ReturnsNullIfNotFound() {
         when(postRepository.findById(999L)).thenReturn(Optional.empty());
         assertNull(postService.getPostIndividual(999L));
     }
 
     @Test
-    public void testGetPostDetails_ReturnsCorrectData() {
+    void testGetPostDetails_ReturnsCorrectData() {
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
 
         PostDetailsDTO details = postService.getPostDetails(1L);
@@ -226,7 +225,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetFeedPosts_ReturnsList() {
+    void testGetFeedPosts_ReturnsList() {
         List<PostEntity> postList = Arrays.asList(mockPostEntity);
         Page<PostEntity> mockPage = mock(Page.class);
 
@@ -253,7 +252,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testCreatePost_ImageLinksEmpty_DoesNotAddImages() {
+    void testCreatePost_ImageLinksEmpty_DoesNotAddImages() {
         PostInputDTO postInputWithoutImages = PostInputDTO.builder()
                 .title("No Image Post")
                 .content("Content without images")
@@ -276,7 +275,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testCreatePost_ImageLinksIsNull_DoesNotFail() {
+    void testCreatePost_ImageLinksIsNull_DoesNotFail() {
         PostInputDTO postInputWithoutImages = PostInputDTO.builder()
                 .title("No Image Post")
                 .content("Content without images")
@@ -299,7 +298,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetFeedPosts_PostWithNullImages() {
+    void testGetFeedPosts_PostWithNullImages() {
         PostEntity postWithNullImages = PostEntity.builder()
                 .id(2L)
                 .title("No Images")
@@ -324,7 +323,7 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetFeedPosts_PostWithEmptyImages() {
+    void testGetFeedPosts_PostWithEmptyImages() {
         PostEntity postWithEmptyImages = PostEntity.builder()
                 .id(3L)
                 .title("No Images Again")
@@ -347,6 +346,4 @@ public class PostServiceImplTest {
         assertEquals(1, result.size());
         assertNull(result.get(0).getImageURL());
     }
-
-
 }
