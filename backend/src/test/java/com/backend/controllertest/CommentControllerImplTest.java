@@ -224,15 +224,37 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentsOfAPost_ReturnsListOfDTOs() {
-        when(commentService.findCommentsOfAPost(1L)).thenReturn(List.of(mockCommentOutput));
+    public void testFindCommentsOfAPost_ReturnsListOfDTOs_votes() {
+        when(commentService.findCommentsOfAPost(1L, "votes")).thenReturn(List.of(mockCommentOutput));
 
-        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L);
+        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "votes");
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Test comment output", result.get(0).getContent());
-        verify(commentService, times(1)).findCommentsOfAPost(1L);
+        verify(commentService, times(1)).findCommentsOfAPost(1L, "votes");
+    }
+
+    public void testFindCommentsOfAPost_ReturnsListOfDTOs_newest() {
+        when(commentService.findCommentsOfAPost(1L, "newest")).thenReturn(List.of(mockCommentOutput));
+
+        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "newest");
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test comment output", result.get(0).getContent());
+        verify(commentService, times(1)).findCommentsOfAPost(1L, "newest");
+    }
+
+    public void testFindCommentsOfAPost_ReturnsListOfDTOs_oldest() {
+        when(commentService.findCommentsOfAPost(1L, "oldest")).thenReturn(List.of(mockCommentOutput));
+
+        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "oldest");
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test comment output", result.get(0).getContent());
+        verify(commentService, times(1)).findCommentsOfAPost(1L, "oldest");
     }
 
     @Test
