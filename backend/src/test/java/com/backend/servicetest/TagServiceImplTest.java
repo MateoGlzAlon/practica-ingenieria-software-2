@@ -3,10 +3,7 @@ package com.backend.servicetest;
 import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.specialdto.FeedPostDTO;
-import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.*;
-import com.backend.service.impl.PostServiceImpl;
 import com.backend.service.impl.TagServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +19,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class TagServiceImplTest {
+class TagServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -44,7 +40,6 @@ public class TagServiceImplTest {
 
     @InjectMocks private TagServiceImpl tagService;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
@@ -52,17 +47,8 @@ public class TagServiceImplTest {
     private TagEntity tag1;
     private TagEntity tag2;
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
-
         mockUserEntity = UserEntity.builder()
                 .id(1L)
                 .username("testuser")
@@ -106,7 +92,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsTag() {
+    void testFindTagById_ReturnsTag() {
         when(tagRepository.findById(1L)).thenReturn(Optional.of(tag1));
 
         TagEntity result = tagService.findTagById(1L);
@@ -116,7 +102,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsNull() {
+    void testFindTagById_ReturnsNull() {
         when(tagRepository.findById(999L)).thenReturn(Optional.empty());
 
         TagEntity result = tagService.findTagById(999L);
@@ -125,7 +111,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTags_ReturnsDTO() {
+    void testFindTags_ReturnsDTO() {
         List<TagEntity> tags = Arrays.asList(tag1, tag2);
         Page<TagEntity> mockPage = new PageImpl<>(tags);
         Pageable pageable = PageRequest.of(0, 10);
