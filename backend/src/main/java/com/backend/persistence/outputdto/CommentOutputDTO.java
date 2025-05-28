@@ -25,5 +25,6 @@ public class CommentOutputDTO {
         private long authorId;
         private int votes;
         private Date createdAt;
+        private boolean accepted;
 
 }

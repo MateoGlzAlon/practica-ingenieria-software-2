@@ -7,6 +7,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.*;
 import com.backend.persistence.specialdto.ProfileDTO;
+import com.backend.persistence.inputDTO.UserLinksInputDTO;
 import com.backend.repository.CommentRepository;
 import com.backend.repository.PostRepository;
 import com.backend.repository.TipRepository;
@@ -91,6 +92,8 @@ public class UserServiceImpl implements UserService {
         );
 
 
+        if (userData == null) return null;
+
         UserOutputDTO userDto = UserOutputDTO.builder()
                 .id(userData.getId())
                 .name(userData.getName())
@@ -160,4 +163,21 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    public UserEntity changeUserLinks(UserLinksInputDTO userLinks){
+
+        UserEntity user = userRepository.findById(userLinks.getUserId()).get();
+
+        user.setGithub_link(userLinks.getGithub_link());
+        user.setWebsite_link(userLinks.getWebsite_link());
+        user.setTwitter_link(userLinks.getTwitter_link());
+
+        return userRepository.save(user);
+
+    }
+
+    public Long getUserIdByEmail(String email){
+        return userRepository.findByEmail(email).get().getId();
+    }
+    
 }
