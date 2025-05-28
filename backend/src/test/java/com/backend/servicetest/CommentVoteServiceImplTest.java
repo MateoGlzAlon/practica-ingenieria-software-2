@@ -6,14 +6,13 @@ import com.backend.service.impl.CommentVoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class CommentVoteServiceImplTest {
+class CommentVoteServiceImplTest {
 
     @Mock
     private CommentVoteRepository commentVoteRepository;
