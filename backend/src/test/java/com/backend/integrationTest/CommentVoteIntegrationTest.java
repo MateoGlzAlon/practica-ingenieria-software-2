@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-public class CommentVoteIntegrationTest {
+class CommentVoteIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
