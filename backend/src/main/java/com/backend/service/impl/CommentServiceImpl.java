@@ -88,8 +88,6 @@ public class CommentServiceImpl implements CommentService {
         }
 
         */
-
-        // TO-DO: Uncomment this later – just disabled for now while debugging.
         
         List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
         

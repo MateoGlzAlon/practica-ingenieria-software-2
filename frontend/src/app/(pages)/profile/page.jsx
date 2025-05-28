@@ -12,7 +12,6 @@ import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 export default function ProfilePage() {
 
-    //TO-DO: for now we search for userId=1, change this later
     const idUser = getUserIdFromLocalStorage();
 
     const [profileData, setProfileData] = useState(null)

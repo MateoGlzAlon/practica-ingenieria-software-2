@@ -8,10 +8,6 @@ import getIsVoted from "@/api/getIsVoted";
 
 export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData, userId }) {
 
-    //console.log("Post data IN", postData)
-
-    //const userId = 1 // TODO : GET USERID FROM CONTEXT
-
     const [votedStatus, setVotedStatus] = useState()
 
     async function handleVote() {
