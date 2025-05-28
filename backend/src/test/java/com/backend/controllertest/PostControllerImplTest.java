@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.backend.controller.impl.PostControllerImpl;
-import com.backend.controller.impl.PostImageControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
@@ -33,10 +32,9 @@ import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
-import com.backend.service.PostImageService;
 import com.backend.service.PostService;
 
-public class PostController {
+class PostControllerImplTest {
     @Mock
     private PostService postService;
 
@@ -46,22 +44,16 @@ public class PostController {
     private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
-    private PostImageEntity mockImage;
     private PostEntity mockPost;
     private PostOutputDTO mockPostOutput;
     private PostDetailsDTO mockPostDetails;
     private FeedPostDTO mockFeedPost;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()
@@ -83,10 +75,6 @@ public class PostController {
                 .id(1L)
                 .name("Java")
                 .posts(new HashSet<>())
-                .build();
-
-        mockTagOutputDTO = TagOutputDTO.builder()
-                .tags(List.of("mockTag"))
                 .build();
 
         mockPostImageEntity = PostImageEntity.builder()
@@ -113,41 +101,12 @@ public class PostController {
                 .title("Post Title")
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .post(mockPost)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
                 .username("testuser")
                 .email("test@example.com")
                 .role("USER")
                 .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
-
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
-                .build();
-
-        mockImage = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=PostImage")
                 .build();
 
         mockPostInput = PostInputDTO.builder()
@@ -175,7 +134,7 @@ public class PostController {
     }
 
     @Test
-    public void testFindPostById_ReturnsPostEntity() {
+    void testFindPostById_ReturnsPostEntity() {
         when(postService.findPostById(1L)).thenReturn(mockPost);
 
         PostEntity result = postController.findPostById(1L);
@@ -186,7 +145,7 @@ public class PostController {
     }
 
     @Test
-    public void testGetFeedPosts_ReturnsListOfFeedPostDTO() {
+    void testGetFeedPosts_ReturnsListOfFeedPostDTO() {
         when(postService.getFeedPosts(0, 10, 1L)).thenReturn(List.of(mockFeedPost));
 
         List<FeedPostDTO> result = postController.getFeedPosts(0, 10, 1L);
@@ -198,7 +157,7 @@ public class PostController {
     }
 
     @Test
-    public void testGetPostIndividual_ReturnsPostOutputDTO() {
+    void testGetPostIndividual_ReturnsPostOutputDTO() {
         when(postService.getPostIndividual(1L)).thenReturn(mockPostOutput);
 
         PostOutputDTO result = postController.getPostIndividual(1L);
@@ -209,7 +168,7 @@ public class PostController {
     }
 
     @Test
-    public void testGetPostDetails_ReturnsPostDetailsDTO() {
+    void testGetPostDetails_ReturnsPostDetailsDTO() {
         when(postService.getPostDetails(1L)).thenReturn(mockPostDetails);
 
         PostDetailsDTO result = postController.getPostDetails(1L);
@@ -220,7 +179,7 @@ public class PostController {
     }
 
     @Test
-    public void testCreatePost_ReturnsCreatedPost() {
+    void testCreatePost_ReturnsCreatedPost() {
         when(postService.createPost(mockPostInput)).thenReturn(mockPost);
 
         PostEntity result = postController.createPost(mockPostInput);
