@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PostImageServiceImplTest {
+class PostImageServiceImplTest {
 
     @Mock
     private PostImageRepository postImageRepository;
@@ -25,7 +25,7 @@ public class PostImageServiceImplTest {
     private PostImageEntity mockImage;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockImage = PostImageEntity.builder()
@@ -36,7 +36,7 @@ public class PostImageServiceImplTest {
     }
 
     @Test
-    public void testFindPostImageById_ReturnsImage() {
+    void testFindPostImageById_ReturnsImage() {
         when(postImageRepository.findById(1L)).thenReturn(Optional.of(mockImage));
 
         PostImageEntity result = postImageService.findPostImageById(1L);
@@ -48,7 +48,7 @@ public class PostImageServiceImplTest {
     }
 
     @Test
-    public void testFindPostImageById_ReturnsNullIfNotFound() {
+    void testFindPostImageById_ReturnsNullIfNotFound() {
         when(postImageRepository.findById(99L)).thenReturn(Optional.empty());
 
         PostImageEntity result = postImageService.findPostImageById(99L);
