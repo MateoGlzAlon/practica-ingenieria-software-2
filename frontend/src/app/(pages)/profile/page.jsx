@@ -2,17 +2,31 @@
 
 import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote } from "lucide-react"
+import Link from "next/link";
+import { MessageSquare, BookOpen, GitlabIcon as GitHub, Twitter, Globe, Vote, Pencil } from "lucide-react"
 import getProfileUser from "@/api/getProfileUser"
+import changeLinksProfile from '@/api/changeLinksProfile';
+import getCommentsOfAUser from '@/api/getCommentsOfAUser';
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 
 export default function ProfilePage() {
 
     //TO-DO: for now we search for userId=1, change this later
-    const idUser = 1
+    const idUser = getUserIdFromLocalStorage();
 
     const [profileData, setProfileData] = useState(null)
+    const [comments, setComments] = useState([]);
     const [activeTab, setActiveTab] = useState('profile')
+
+    const [editing, setEditing] = useState({
+        github: false,
+        twitter: false,
+        website: false,
+    });
+
+    const [links, setLinks] = useState(null);
+
 
     useEffect(() => {
         if (!idUser) return
@@ -21,19 +35,77 @@ export default function ProfilePage() {
         try {
             const data = await getProfileUser(idUser)
             setProfileData(data)
+
+            const { user } = data;
+            setLinks({
+                github: user.githubLink,
+                twitter: user.twitterLink,
+                website: user.websiteLink,
+            });
+
+            //part of comments
+            const response = await getCommentsOfAUser(idUser);
+            setComments(response);
         } catch (err) {
             console.error('Error fetching profile:', err)
         }
+
         }
 
         fetchProfile()
     }, [idUser])
+
 
     if (!profileData) {
         return <p className="text-center py-10">Loading profile...</p>
     }
 
     const { user, activityData, posts } = profileData
+
+    const EditableLinkField = ({ field, Icon, initialValue, onSave }) => {
+        const [isEditing, setIsEditing] = useState(false);
+        const [value, setValue] = useState(initialValue);
+
+        useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            await onSave(field, value);
+            setIsEditing(false);
+        };
+
+        return (
+            isEditing ? (
+                <form onSubmit={handleSubmit} className="flex items-center gap-2 text-sm text-blue-600 mb-3">
+                    <Icon className="h-4 w-4 ml-2" />
+                    <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        className="border border-gray-300 rounded px-2 py-1 text-sm w-48 text-gray-800"
+                        autoFocus
+                    />
+                    <Pencil
+                        className="h-4 w-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        onClick={() => setIsEditing(true)}
+                    />
+                </form>
+            ) : (
+                <div className="flex items-center gap-2 text-sm text-blue-600 mb-2">
+                    <Icon className="h-4 w-4 ml-2" />
+                    <a href={value} className="hover:underline text-gray-700">
+                        {value}
+                    </a>
+                    <Pencil
+                        className="h-4 w-4 cursor-pointer text-gray-500 hover:text-gray-700"
+                        onClick={() => setIsEditing(true)}
+                    />
+                </div>
+            )
+        );
+    };
 
 
     return (
@@ -51,38 +123,67 @@ export default function ProfilePage() {
                             <p className="text-sm text-gray-500 mb-4">{user.role}</p>
 
                             <div className="w-full border-t border-gray-200 pt-4">
+                                {/*TO-DO: change this because it is not centred */}
                                 <div className="flex items-center text-sm mb-2">
                                     <MessageSquare className="h-4 w-4 mr-2 text-gray-500" />
-                                    <span>Member since {user.memberSince}</span>
+                                    <span>
+                                        Member since{" "}
+                                        {new Date(user.memberSince).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-200 p-4">
-                            <h3 className="font-medium mb-3">Links</h3>
-                            <div className="space-y-2">
-                                <a
-                                    href={`${user.githubLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <GitHub className="h-4 w-4 mr-2" />
-                                    {user.githubLink}
-                                </a>
-                                <a
-                                    href={`${user.twitterLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <Twitter className="h-4 w-4 mr-2" />
-                                    {user.twitterLink}
-                                </a>
-                                <a
-                                    href={`${user.websiteLink}`}
-                                    className="flex items-center text-sm text-blue-600 hover:underline"
-                                >
-                                    <Globe className="h-4 w-4 mr-2" />
-                                    {user.websiteLink}
-                                </a>
-                            </div>
+                        <div className="space-y-2">
+                            <EditableLinkField
+                                field="github"
+                                Icon={GitHub}
+                                initialValue={links?.github}
+                                onSave={async (field, newValue) => {
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
+                                }}
+                            />
+                            <EditableLinkField
+                                field="twitter"
+                                Icon={Twitter}
+                                initialValue={links?.twitter}
+                                onSave={async (field, newValue) => {
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
+                                }}
+                            />
+                            <EditableLinkField
+                                field="website"
+                                Icon={Globe}
+                                initialValue={links?.website}
+                                onSave={async (field, newValue) => {
+                                    const updatedLinks = {
+                                        userId: 2, //TO-DO: CHANGE THIS
+                                        github: field === "github" ? newValue : links.github,
+                                        twitter: field === "twitter" ? newValue : links.twitter,
+                                        website: field === "website" ? newValue : links.website,
+                                    };
+                                    await changeLinksProfile(updatedLinks);
+                                    setLinks(updatedLinks);
+                                }}
+                            />
                         </div>
 
                         <div className="border-t border-gray-200 p-4">
@@ -174,9 +275,11 @@ export default function ProfilePage() {
                                     <div className="space-y-4">
                                         {posts.map((post) => (
                                             <div key={post.id} className="border border-gray-200 rounded-lg p-4">
-                                                <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
-                                                    {post.title}
-                                                </h3>
+                                                <Link href={`/post/${post.id}`}>
+                                                    <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
+                                                        {post.title}
+                                                    </h3>
+                                                </Link>
                                                 <div className="flex items-center text-sm text-gray-500">
                                                     <span className="flex items-center mr-4">
                                                         <Vote className="h-4 w-4 mr-1" />
@@ -196,10 +299,23 @@ export default function ProfilePage() {
 
                             {activeTab === "answers" && (
                                 <div>
-                                    <h2 className="text-xl font-bold mb-4">My answers</h2>
-                                    <div className="bg-gray-100 rounded-lg p-6 text-center">
-                                        <BookOpen className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                                        <p className="text-gray-600">Select this tab to view all your answers</p>
+                                    <h2 className="text-xl font-bold mb-4">Top comments</h2>
+                                    <div className="space-y-4">
+                                        {comments.map((comment) => (
+                                            <div key={comment.idPost} className="border border-gray-200 rounded-lg p-4">
+                                                <Link href={`/post/${comment.idPost}`}>
+                                                <h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer mb-2">
+                                                    {comment.content}
+                                                </h3>
+                                                </Link>
+                                                <div className="flex items-center text-sm text-gray-500">
+                                                <span className="flex items-center mr-4">
+                                                    <Vote className="h-4 w-4 mr-1" />
+                                                    {comment.votes} votes
+                                                </span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}

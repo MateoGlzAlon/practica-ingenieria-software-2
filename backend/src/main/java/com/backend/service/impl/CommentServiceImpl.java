@@ -5,12 +5,16 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
+import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import com.backend.repository.CommentRepository;
+import com.backend.persistence.outputdto.UserCommentDTO;
 import com.backend.repository.PostRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -45,6 +49,7 @@ public class CommentServiceImpl implements CommentService {
                 break;
         }
 
+
         return comments.stream()
                 .map(comment -> CommentOutputDTO.builder()
                         .id(comment.getId())
@@ -53,6 +58,7 @@ public class CommentServiceImpl implements CommentService {
                         .content(comment.getContent())
                         .votes(comment.getVotes())
                         .createdAt(comment.getCreatedAt())
+                        .accepted(comment.isAccepted())
                         .build())
                 .toList();
     }
@@ -81,7 +87,76 @@ public class CommentServiceImpl implements CommentService {
                 .build();
 
         return commentRepository.save(newComment);
-     }
+    }
+
+    public CommentEntity acceptComment(CommentAcceptDTO comment){
+
+        /*
+        EXAMPLE FOR CHANGING ACCEPT STATUS
+        {
+            "userId":1,
+            "postId":1,
+            "commentId":1
+        }
+
+        */
+
+        // TO-DO: Uncomment this later – just disabled for now while debugging.
+        /*
+        List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
+        
+        boolean isValidUserVerification = false;
+
+        for(PostEntity newPost : posts){
+            if(newPost.getPostId() == comment.getPostId()){
+                isValidUserVerification = true;
+                break;
+            }
+        }
+
+        if(isValidUserVerification == false){
+            return null;
+        }
+        */
+
+        CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
+
+        if(updateComment == null){
+            return null;
+        }
+
+        //change the value
+        updateComment.setAccepted(!updateComment.isAccepted());
+
+        return commentRepository.save(updateComment);
+
+    }
+
+
+    public List<UserCommentDTO> getCommentsOfAUser(Long idUser){
+
+        List<CommentEntity> searchComments = commentRepository.findByUserId(idUser);
+
+        List<UserCommentDTO> listAllCommentsUser = new ArrayList<>();
+
+        searchComments.sort(Comparator.comparingInt(CommentEntity::getVotes).reversed());
+
+        for(CommentEntity comm : searchComments){
+
+            UserCommentDTO newComment = UserCommentDTO.builder()
+                .idPost(comm.getPost().getId())
+                .content(comm.getContent())
+                .votes(comm.getVotes())
+                .build();
+
+            listAllCommentsUser.add(newComment);
+
+        }
+
+        return listAllCommentsUser;
+
+        
+    }
 
     @Override
     public List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId) {

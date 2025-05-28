@@ -147,7 +147,6 @@ class UserServiceImplTest {
     }
 
     @Test
-    @Disabled("Test disabled due to missing implementation")
     void testGetProfileByUserId_ReturnsProfileDTO() {
         Long userId = 1L;
 
@@ -165,7 +164,7 @@ class UserServiceImplTest {
                 .id(1L)
                 .amount(10)
                 .sender(mockUserEntity)
-                .receiver(UserEntity.builder().id(2L).build()) // diferente receiver
+                .receiver(UserEntity.builder().id(2L).build())
                 .post(mockPostEntity)
                 .comment(comment)
                 .createdAt(new Date())
@@ -175,7 +174,7 @@ class UserServiceImplTest {
         TipEntity tipReceived = TipEntity.builder()
                 .id(2L)
                 .amount(20)
-                .sender(UserEntity.builder().id(3L).build()) // diferente sender
+                .sender(UserEntity.builder().username("senderUser").build())
                 .receiver(mockUserEntity)
                 .post(mockPostEntity)
                 .comment(comment)
@@ -191,12 +190,26 @@ class UserServiceImplTest {
         when(tipRepository.findTipsReceivedByUserId(userId)).thenReturn(List.of(tipReceived));
         when(commentRepository.findByUserId(userId)).thenReturn(List.of(comment));
 
-        // TODO: Uncomment when fixed
-        // when(postRepository.findPostCountsByMonth(userId)).thenReturn(List.of(postCount));
-        // when(commentRepository.findCommentCountsByMonth(userId)).thenReturn(List.of(commentCount));
 
+        List<Object[]> postCounts = Arrays.asList(
+                new Object[] { "Jan", 2 },
+                new Object[] { "Feb", 1 }
+        );
+
+        List<Object[]> commentCounts = Arrays.asList(
+                new Object[] { "Jan", 3 },
+                new Object[] { "Feb", 2 }
+        );
+
+
+        when(postRepository.findPostCountsByMonth(userId)).thenReturn(postCounts);
+        when(commentRepository.findCommentCountsByMonth(userId)).thenReturn(commentCounts);
+
+
+        // Call service
         ProfileDTO result = userService.getProfileByUserId(userId);
 
+        // Assertions
         assertNotNull(result);
         assertNotNull(result.getUser());
         assertEquals(mockUserEntity.getUsername(), result.getUser().getUsername());
@@ -208,6 +221,7 @@ class UserServiceImplTest {
         assertTrue(result.getActivityData().stream()
                 .anyMatch(a -> a.getMonth().equals("Jan") && a.getContributions() == 5));
 
+        // Verifications
         verify(userRepository).findById(userId);
         verify(postRepository).findPostsByUserId(userId);
         verify(tipRepository).findTipsSentByUserId(userId);
@@ -217,8 +231,8 @@ class UserServiceImplTest {
         verify(commentRepository).findCommentCountsByMonth(userId);
     }
 
+
     @Test
-    @Disabled("Test disabled due to missing implementation")
     void testGetProfileByUserId_UserDoesNotExist() {
         Long userId = 999L;
 
@@ -229,5 +243,6 @@ class UserServiceImplTest {
         assertNull(result);
         verify(userRepository).findById(userId);
     }
+
 
 }

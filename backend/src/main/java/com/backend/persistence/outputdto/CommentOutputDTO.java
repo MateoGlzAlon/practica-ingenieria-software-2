@@ -24,5 +24,6 @@ public class CommentOutputDTO {
         private String content;
         private int votes;
         private Date createdAt;
+        private boolean accepted;
 
 }

@@ -9,7 +9,7 @@ export default async function createCommentVote({ userId, commentId }) {
             commentId: commentId
         }
 
-        console.log("BODY DATA = ", bodyData)
+        //console.log("BODY DATA = ", bodyData)
 
         const response = await axios.post(`${DATA.apiURL}/commentvotes`, 
             bodyData

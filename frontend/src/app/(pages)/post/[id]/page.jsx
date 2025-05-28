@@ -24,7 +24,7 @@ export default function Post({ params }) {
     const [refreshComments, setRefreshComments] = useState(false);
 
     const [questionVotes, setQuestionVotes] = useState(0)
-    const [acceptedAnswer, setAcceptedAnswer] = useState(0)
+    const [acceptedAnswer, setAcceptedAnswer] = useState(null)
     const [showComments, setShowComments] = useState(false)
 
     const [sortOrder, setSortOrder] = useState("votes")
