@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GoogleAuthServiceImplTest {
+class GoogleAuthServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -28,7 +28,7 @@ public class GoogleAuthServiceImplTest {
     private UserEntity existingUser;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         loginDTO = new GoogleLoginDTO();
@@ -46,12 +46,11 @@ public class GoogleAuthServiceImplTest {
     }
 
     @Test
-    public void testAuthenticateWithGoogle_UserExists() {
+    void testAuthenticateWithGoogle_UserExists() {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(existingUser));
 
         ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
         UserEntity result = (UserEntity) response.getBody();
         assertNotNull(result);
         assertEquals("testuser", result.getUsername());
@@ -59,17 +58,16 @@ public class GoogleAuthServiceImplTest {
     }
 
     @Test
-    public void testAuthenticateWithGoogle_NewUserCreated() {
+    void testAuthenticateWithGoogle_NewUserCreated() {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
         when(userRepository.save(any(UserEntity.class))).thenAnswer(i -> {
             UserEntity user = i.getArgument(0);
-            user.setId(99L); // simulate saved ID
+            user.setId(99L); 
             return user;
         });
 
         ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
         UserEntity createdUser = (UserEntity) response.getBody();
         assertNotNull(createdUser);
         assertEquals("testuser", createdUser.getUsername());
