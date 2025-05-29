@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import { DATA } from "@/app/data"
 
 export default function Navbar() {
 
@@ -28,9 +29,9 @@ export default function Navbar() {
             avatarUrl: decoded.picture,
         };
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/google', googleUser);
+            const response = await axios.post(`${DATA.apiURL}/auth/google`, googleUser);
 
-            console.log('Response from /api/auth/google:', response.data);
+            console.log('Response from /auth/google:', response.data);
             const backendToken = response.data.token;
             localStorage.setItem('token', backendToken);
             localStorage.setItem('userId', response.data.id);

@@ -10,7 +10,7 @@ export default async function setClosedComment({ postId, userId, commentId }) {
             commentId: commentId
         }
 
-        //console.log("Body data = ", bodyData);
+        console.log("Body data = ", bodyData);
 
         const response = await axios.post(`${DATA.apiURL}/comments/accept`, 
             bodyData
