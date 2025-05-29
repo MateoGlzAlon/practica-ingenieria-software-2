@@ -4,9 +4,13 @@ import { useEffect, useState } from "react"
 import Post from "./Post"
 import getFeedPosts from "@/api/getLandingPageFeedPosts"
 import CreatePost from "@/components/createPost/createPost"
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 import { useTagFilter } from "@/hooks/tagsContext"
 
 export default function MainFeed() {
+
+    const userId = getUserIdFromLocalStorage();
+
     const [posts, setPosts] = useState([])
     const [page, setPage] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
@@ -18,7 +22,7 @@ export default function MainFeed() {
 
     const fetchPosts = async (pageNumber, tags = []) => {
         try {
-            const data = await getFeedPosts(pageNumber, PAGE_SIZE, 1, tags) // TODO: Get real userId
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags) // TODO: Get real userId
             if (data.length < PAGE_SIZE) {
                 setHasMore(false)
             }
@@ -69,7 +73,7 @@ export default function MainFeed() {
                     <CreatePost />
 
                     {posts.map((post) => (
-                        <Post postData={post} key={post.id} />
+                        <Post postData={post} key={post.id} userId={userId} />
                     ))}
                     {hasMore && (
                         <button

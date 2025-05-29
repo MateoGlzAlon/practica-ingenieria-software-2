@@ -5,15 +5,20 @@ import { generatePostAI } from "@/utils/openai";
 import { X, Search, ChevronDown, Plus, ImageIcon } from "lucide-react"
 import createPost from "@/api/post/postCreatePost"
 import { uploadFile } from "@/components/awsComponents/UploadImage"
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+
 
 export default function CreatePost() {
+
+    const userId = getUserIdFromLocalStorage();
+
     const [formData, setFormData] = useState({
         title: "",
         summary: "",
         content: "",
         //TODO
         tagId: 1,
-        userId: 1,
+        userId: userId,
         imageLinks: [],
     })
     const [isFormVisible, setIsFormVisible] = useState(false)
@@ -160,7 +165,7 @@ export default function CreatePost() {
                 content: "",
                 //TODO
                 tagId: 1,
-                userId: 1,
+                userId: userId,
                 imageLinks: [],
             });
             setUploadedImages([]);

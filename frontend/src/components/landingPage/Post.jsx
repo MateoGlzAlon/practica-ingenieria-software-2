@@ -7,11 +7,7 @@ import getIsVoted from "@/api/getIsVoted";
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
 
 
-
-
-export default function Post({ postData }) {
-
-    const userId = 1 // TODO : GET USERID FROM CONTEXT
+export default function Post({ postData, userId }) {
 
     const [votedStatus, setVotedStatus] = useState()
     const [votes, setVotes] = useState(postData.votes)

@@ -5,34 +5,62 @@ import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
 import setClosedComment from "@/api/comment/setClosedComment"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, sortOrder }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder }) {
+
   const [commentsData, setCommentsData] = useState(null)
   const [expandedComments, setExpandedComments] = useState({})
   const [votedComments, setVotedComments] = useState({})
   const [commentVotes, setCommentVotes] = useState({})
   const [tipAmounts, setTipAmounts] = useState({})
-  const [currentUser, setCurrentUser] = useState(null)
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser))
-    }
-  }, [])
 
   const fetchComments = async () => {
     try {
-      const comments = await getCommentsOfAPost(idPost)
-      setCommentsData(comments)
+      const comments = await getCommentsOfAPost(idPost);
+      setCommentsData(comments);
+      const accepted = comments.find(c => c.accepted);
+
+      setTotalComments(comments.length);
+
+      const acceptedIds = comments
+        .filter(c => c.accepted)
+        .map(c => c.id);
+
+      setAcceptedAnswer(acceptedIds);
     } catch (error) {
       console.error('Error fetching comments:', error)
     }
   }
 
   useEffect(() => {
-    if (!idPost) return
-    fetchComments()
-  }, [idPost, refreshTrigger])
+    if (!idPost) return;
+
+    (async () => {
+      try {
+        // 1) Traemos comentarios
+        const comments = await getCommentsOfAPost(idPost);
+        setCommentsData(comments);
+
+        // 2) Lógica de aceptados
+        setTotalComments(comments.length);
+        const acceptedIds = comments
+          .filter(c => c.accepted)
+          .map(c => c.id);
+        setAcceptedAnswer(acceptedIds);
+
+        // 3) Inicializamos votedComments tras cargar los comentarios
+        const votedMap = {};
+        await Promise.all(
+          comments.map(async c => {
+            votedMap[c.id] = await getIsCommentVoted({ userId, commentId: c.id });
+          })
+        );
+        setVotedComments(votedMap);
+      } catch (err) {
+        console.error("Error inicializando comentarios:", err);
+      }
+    })();
+  }, [idPost, refreshTrigger]);
 
   if (!commentsData) {
     return <p className="text-center py-10">Loading comments...</p>
@@ -40,21 +68,19 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleCommentVote = async (commentId) => {
     try {
-      await createCommentVote({ currentUserId: currentUser?.id, commentId })
-      const isVoted = await getIsCommentVoted({ currentUserId: currentUser?.id, commentId })
+      await createCommentVote({ userId: userId, commentId })
+      const isVoted = await getIsCommentVoted({ userId: userId, commentId })
 
       setVotedComments(prev => ({ ...prev, [commentId]: isVoted }))
-      setCommentVotes(prev => ({
-        ...prev,
-        [commentId]: prev[commentId] + (isVoted ? 1 : -1)
-      }))
+
+      await fetchComments();
     } catch (error) {
       console.error("Error voting comment:", error)
     }
   }
 
   const handleSendTip = async (receiverId, amount) => {
-    if (!currentUser) return
+    if (!userId) return
     if (!receiverId || !amount) {
       console.error("Missing receiver ID or amount")
       return
@@ -65,7 +91,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          senderId: currentUser.id,
+          senderId: userId,
           receiverId,
           amount: parseInt(amount),
         }),
@@ -83,9 +109,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleAcceptComment = async (commentId) => {
     try {
-      await setClosedComment({ postId: idPost, userId: currentUser?.id, commentId })
-      setAcceptedAnswer(commentId)
-      await fetchComments()
+      await setClosedComment({ postId: idPost, userId, commentId });
+
+      await fetchComments();
     } catch (error) {
       console.error("Failed to accept comment:", error)
     }
@@ -96,13 +122,26 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       {commentsData.map((answer) => (
         <div
           key={answer.id}
-          className={`bg-white p-6 border ${acceptedAnswer === answer.id ? "border-green-500 ring-1 ring-green-500" : "border-gray-200"} rounded-md`}
+          className={`
+            bg-white p-6 rounded-md transition
+            ${
+              (acceptedAnswer === answer.id ||
+              (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+              ? "border-2 border-green-500 ring-1 ring-green-500"
+              : "border border-gray-200"
+            }
+          `}
         >
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <button
                 onClick={() => handleCommentVote(answer.id)}
-                className="text-gray-400 hover:text-orange-500 transition"
+                className={`
+                  ${votedComments[answer.id]
+                    ? "text-orange-500"
+                    : "text-gray-400 hover:text-orange-500"}
+                  transition
+                `}
                 aria-label="Upvote"
               >
                 <ArrowUp
@@ -115,7 +154,16 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
               </span>
               <button
                 onClick={() => handleAcceptComment(answer.id)}
-                className={`mt-4 ${answer.accepted ? "text-green-500" : "text-gray-400 hover:text-green-500"} transition`}
+                className={`
+                  mt-4
+                  ${
+                    (acceptedAnswer === answer.id ||
+                    (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+                    ? "text-green-500"
+                    : "text-gray-400 hover:text-green-500"
+                  }
+                  transition
+                `}
                 aria-label="Accept answer"
               >
                 <Award size={18} />
@@ -137,29 +185,26 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                   </div>
                 )}
 
-                <div className="mt-4 flex gap-2">
-                  <input
-                    type="number"
-                    placeholder="Amount"
-                    value={tipAmounts[answer.id] || ""}
-                    onChange={(e) =>
-                      setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
-                    }
-                    className="border px-2 py-1 rounded text-sm w-24"
-                  />
-                  <button
-                    className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
-                    onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
-                  >
-                    Send tip
-                  </button>
-                </div>
 
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-6">
-                  <button className="flex items-center text-sm text-gray-500 hover:text-gray-700">
-                    <MessageSquare size={16} className="mr-1" />
-                    <span>{answer.commentCount || "N/A"} comments</span>
-                  </button>
+
+                  <div className="mt-4 flex gap-2">
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      value={tipAmounts[answer.id] || ""}
+                      onChange={(e) =>
+                        setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
+                      }
+                      className="border px-2 py-1 rounded text-sm w-24"
+                    />
+                    <button
+                      className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
+                      onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
+                    >
+                      Send tip
+                    </button>
+                  </div>
 
                   <div className="flex items-center bg-blue-50 p-2 rounded-md">
                     <img
