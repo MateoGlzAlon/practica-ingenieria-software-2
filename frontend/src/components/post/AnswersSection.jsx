@@ -33,9 +33,34 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   }
 
   useEffect(() => {
-    if (!idPost) return
-    fetchComments()
-  }, [idPost, refreshTrigger])
+    if (!idPost) return;
+
+    (async () => {
+      try {
+        // 1) Traemos comentarios
+        const comments = await getCommentsOfAPost(idPost);
+        setCommentsData(comments);
+
+        // 2) Lógica de aceptados
+        setTotalComments(comments.length);
+        const acceptedIds = comments
+          .filter(c => c.accepted)
+          .map(c => c.id);
+        setAcceptedAnswer(acceptedIds);
+
+        // 3) Inicializamos votedComments tras cargar los comentarios
+        const votedMap = {};
+        await Promise.all(
+          comments.map(async c => {
+            votedMap[c.id] = await getIsCommentVoted({ userId, commentId: c.id });
+          })
+        );
+        setVotedComments(votedMap);
+      } catch (err) {
+        console.error("Error inicializando comentarios:", err);
+      }
+    })();
+  }, [idPost, refreshTrigger]);
 
   if (!commentsData) {
     return <p className="text-center py-10">Loading comments...</p>
@@ -111,7 +136,12 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
             <div className="flex flex-col items-center">
               <button
                 onClick={() => handleCommentVote(answer.id)}
-                className="text-gray-400 hover:text-orange-500 transition"
+                className={`
+                  ${votedComments[answer.id]
+                    ? "text-orange-500"
+                    : "text-gray-400 hover:text-orange-500"}
+                  transition
+                `}
                 aria-label="Upvote"
               >
                 <ArrowUp

@@ -330,7 +330,7 @@ export default function ProfilePage() {
                                             {user.tipsReceived.map((tip, index) => (
                                                 <li key={index} className="bg-green-50 p-4 rounded border border-green-200">
                                                     <p className="text-sm text-gray-700">
-                                                        Received <span className="font-medium">${tip.amount}</span> from <span className="font-medium">@{tip.sender}</span> on {tip.date}
+                                                        Received <span className="font-medium">${tip.amount}</span> from <span className="font-medium">@{tip.sender}</span> on {new Date(tip.date).toLocaleDateString("en-GB")}
                                                     </p>
                                                 </li>
                                             ))}
@@ -344,7 +344,7 @@ export default function ProfilePage() {
                                             {user.tipsSent.map((tip, index) => (
                                                 <li key={index} className="bg-red-50 p-4 rounded border border-red-200">
                                                     <p className="text-sm text-gray-700">
-                                                        Sent <span className="font-medium">${tip.amount}</span> to <span className="font-medium">@{tip.receiver}</span> on {tip.date}
+                                                        Sent <span className="font-medium">${tip.amount}</span> to <span className="font-medium">@{tip.receiver}</span> on {new Date(tip.date).toLocaleDateString("en-GB")}
                                                     </p>
                                                 </li>
                                             ))}
