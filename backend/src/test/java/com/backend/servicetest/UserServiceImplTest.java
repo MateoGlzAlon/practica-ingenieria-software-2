@@ -176,8 +176,6 @@ class UserServiceImplTest {
                 .amount(20)
                 .sender(UserEntity.builder().username("senderUser").build())
                 .receiver(mockUserEntity)
-                .post(mockPostEntity)
-                .comment(comment)
                 .createdAt(new Date())
                 .build();
 

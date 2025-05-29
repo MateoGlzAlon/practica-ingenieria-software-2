@@ -101,7 +101,6 @@ public class TipServiceImplTest {
 
         mockTipEntity = TipEntity.builder()
                 .id(1L)
-                .post(mockPostEntity)
                 .amount(100)
                 .createdAt(new Date())
                 .build();
