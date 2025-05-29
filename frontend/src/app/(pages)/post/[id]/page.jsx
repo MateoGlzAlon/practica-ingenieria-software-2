@@ -24,9 +24,10 @@ export default function Post({ params }) {
     const [refreshComments, setRefreshComments] = useState(false);
 
     const [questionVotes, setQuestionVotes] = useState(0)
-    const [acceptedAnswer, setAcceptedAnswer] = useState(0)
+    const [acceptedAnswer, setAcceptedAnswer] = useState(null)
     const [showComments, setShowComments] = useState(false)
 
+    const [sortOrder, setSortOrder] = useState("votes")
 
 
     useEffect(() => {
@@ -97,10 +98,12 @@ export default function Post({ params }) {
                             <h2 className="text-xl font-bold text-gray-900">{mockData.commentsExamples.length} Answers</h2>
                             <div className="flex items-center space-x-2">
                                 <span className="text-sm text-gray-500">Sort by:</span>
-                                <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm">
-                                    <option>Votes</option>
-                                    <option>Newest</option>
-                                    <option>Oldest</option>
+                                <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm"
+                                    value={sortOrder}
+                                    onChange={(e) => setSortOrder(e.target.value)}>
+                                    <option value="votes">Votes</option>
+                                    <option value="newest">Newest</option>
+                                    <option value="oldest">Oldest</option>
                                 </select>
                             </div>
                         </div>
@@ -110,6 +113,7 @@ export default function Post({ params }) {
                             setAcceptedAnswer={setAcceptedAnswer}
                             idPost={id}
                             refreshTrigger={refreshComments}
+                            sortOrder={sortOrder}
                         />
 
                         <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 border border-gray-200 rounded-md">

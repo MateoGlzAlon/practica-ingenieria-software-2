@@ -30,21 +30,16 @@ public class TagServiceImpl implements TagService {
 
 
     @Override
-    public TagOutputDTO findTags(int page, int size){
+    public TagOutputDTO findTags(){
 
-        Pageable pageable = PageRequest.of(page, size);
-        Page<TagEntity> tagPage = tagRepository.findAllRandom(pageable);
+        List<TagEntity> tags = tagRepository.findAll(Sort.by(Sort.Direction.DESC, "name"));
+        List<String> tagsString = new ArrayList<>();
 
-        List<String> listNameTags = new ArrayList<>();
-
-        for(TagEntity newTag : tagPage.getContent()){
-            listNameTags.add(newTag.getName());
+        for (TagEntity tag : tags) {
+            tagsString.add(tag.getName());
         }
 
-        TagOutputDTO tagOutputDTO = new TagOutputDTO();
-        tagOutputDTO.setTags(listNameTags);
-
-        return tagOutputDTO;
+        return TagOutputDTO.builder().tags(tagsString).build();
 
     }
 

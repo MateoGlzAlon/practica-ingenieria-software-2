@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { TagFilterProvider } from "@/hooks/tagsContext";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,8 +13,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-          <Navbar />
-          {children}
+          <TagFilterProvider>
+            <Navbar />
+            {children}
+          </TagFilterProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

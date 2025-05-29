@@ -155,14 +155,15 @@ public class PostServiceImplTest {
 
     @Test
     public void testCreatePost_UserNotFound() {
-        when(userRepository.findById(1L)).thenThrow(RuntimeException.class);
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
         when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
-        when(postRepository.save(any(PostEntity.class))).thenReturn(mockPostEntity);
 
-        assertThrows(RuntimeException.class, () -> {
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
             postService.createPost(mockPostInput);
         });
+        assertEquals("User not found", thrown.getMessage());
     }
+
 
     @Test
     public void testFindPostById_ReturnsPost() {
@@ -228,11 +229,13 @@ public class PostServiceImplTest {
     public void testGetFeedPosts_ReturnsList() {
         List<PostEntity> postList = Arrays.asList(mockPostEntity);
         Page<PostEntity> mockPage = mock(Page.class);
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
 
         when(mockPage.getContent()).thenReturn(postList);
-        when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
 
-        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L);
+        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L, tags);
 
         assertNotNull(feed);
         assertEquals(1, feed.size());
@@ -250,5 +253,108 @@ public class PostServiceImplTest {
 
         assertNull(post.getImages());
     }
+
+    @Test
+    public void testCreatePost_ImageLinksEmpty_DoesNotAddImages() {
+        PostInputDTO postInputWithoutImages = PostInputDTO.builder()
+                .title("No Image Post")
+                .content("Content without images")
+                .tagId(1L)
+                .userId(1L)
+                .imageLinks(Collections.emptyList())
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+        when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
+        when(postRepository.save(any(PostEntity.class))).thenAnswer(invocation -> {
+            PostEntity savedPost = invocation.getArgument(0);
+            assertNotNull(savedPost.getImages());
+            assertTrue(savedPost.getImages().isEmpty());
+            return savedPost;
+        });
+
+        PostEntity result = postService.createPost(postInputWithoutImages);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testCreatePost_ImageLinksIsNull_DoesNotFail() {
+        PostInputDTO postInputWithoutImages = PostInputDTO.builder()
+                .title("No Image Post")
+                .content("Content without images")
+                .tagId(1L)
+                .userId(1L)
+                .imageLinks(null)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+        when(tagRepository.findById(1L)).thenReturn(Optional.of(mockTagEntity));
+        when(postRepository.save(any(PostEntity.class))).thenAnswer(invocation -> {
+            PostEntity savedPost = invocation.getArgument(0);
+            assertNotNull(savedPost.getImages());
+            assertTrue(savedPost.getImages().isEmpty());
+            return savedPost;
+        });
+
+        PostEntity result = postService.createPost(postInputWithoutImages);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testGetFeedPosts_PostWithNullImages() {
+        PostEntity postWithNullImages = PostEntity.builder()
+                .id(2L)
+                .title("No Images")
+                .images(null)
+                .user(mockUserEntity)
+                .content("Short content")
+                .comments(new ArrayList<>())
+                .createdAt(new Date())
+                .votes(0)
+                .state("open")
+                .build();
+
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+
+        Page<PostEntity> mockPage = mock(Page.class);
+        when(mockPage.getContent()).thenReturn(List.of(postWithNullImages));
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
+
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L, tags);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertNull(result.get(0).getImageURL());
+    }
+
+    @Test
+    public void testGetFeedPosts_PostWithEmptyImages() {
+        PostEntity postWithEmptyImages = PostEntity.builder()
+                .id(3L)
+                .title("No Images Again")
+                .images(new ArrayList<>())
+                .user(mockUserEntity)
+                .content("Another short content")
+                .comments(new ArrayList<>())
+                .createdAt(new Date())
+                .votes(0)
+                .state("open")
+                .build();
+
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+
+        Page<PostEntity> mockPage = mock(Page.class);
+        when(mockPage.getContent()).thenReturn(List.of(postWithEmptyImages));
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
+
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L, tags);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertNull(result.get(0).getImageURL());
+    }
+
 
 }
