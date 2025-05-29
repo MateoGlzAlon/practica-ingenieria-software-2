@@ -47,10 +47,8 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       const isVoted = await getIsCommentVoted({ userId: userId, commentId })
 
       setVotedComments(prev => ({ ...prev, [commentId]: isVoted }))
-      setCommentVotes(prev => ({
-        ...prev,
-        [commentId]: prev[commentId] + (isVoted ? 1 : -1)
-      }))
+
+      await fetchComments();
     } catch (error) {
       console.error("Error voting comment:", error)
     }
@@ -157,25 +155,26 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                   </div>
                 )}
 
-                <div className="mt-4 flex gap-2">
-                  <input
-                    type="number"
-                    placeholder="Amount"
-                    value={tipAmounts[answer.id] || ""}
-                    onChange={(e) =>
-                      setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
-                    }
-                    className="border px-2 py-1 rounded text-sm w-24"
-                  />
-                  <button
-                    className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
-                    onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
-                  >
-                    Send tip
-                  </button>
-                </div>
 
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-6">
+
+                  <div className="mt-4 flex gap-2">
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      value={tipAmounts[answer.id] || ""}
+                      onChange={(e) =>
+                        setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
+                      }
+                      className="border px-2 py-1 rounded text-sm w-24"
+                    />
+                    <button
+                      className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
+                      onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
+                    >
+                      Send tip
+                    </button>
+                  </div>
 
                   <div className="flex items-center bg-blue-50 p-2 rounded-md">
                     <img
