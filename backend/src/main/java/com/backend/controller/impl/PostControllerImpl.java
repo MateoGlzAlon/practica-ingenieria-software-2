@@ -25,12 +25,12 @@ public class PostControllerImpl implements PostController {
         return postService.findPostById(id);
     }
 
-    @GetMapping("/landingPageFeed/{userId}")
+    @GetMapping("/landingPageFeed")
     public List<FeedPostDTO> getFeedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam List<String> tags,
-            @PathVariable Long userId
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) Long userId
     ) {
         return postService.getFeedPosts(page, size, userId, tags);
     }

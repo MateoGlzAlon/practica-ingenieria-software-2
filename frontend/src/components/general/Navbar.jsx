@@ -2,16 +2,15 @@
 
 import { GoogleLogin } from '@react-oauth/google';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
-import { DATA } from "@/app/data"
+import logInUser from '@/api/post/postLogInUser';
 
 export default function Navbar() {
 
     const [userIdLS, setUserIdLS] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
         const id = getUserIdFromLocalStorage();
@@ -19,26 +18,24 @@ export default function Navbar() {
     }, []);
 
 
-    const handleSuccess = async (credentialResponse) => {
-        const token = credentialResponse.credential;
-        const decoded = jwtDecode(token);
-
-        const googleUser = {
-            email: decoded.email,
-            username: decoded.name,
-            avatarUrl: decoded.picture,
-        };
+    async function handleSuccess(credentialResponse) {
         try {
-            const response = await axios.post(`${DATA.apiURL}/auth/google`, googleUser);
-
-            console.log('Response from /auth/google:', response.data);
-            const backendToken = response.data.token;
-            localStorage.setItem('token', backendToken);
-            localStorage.setItem('userId', response.data.id);
-            console.log('Login successfully:', response.data.id);
+            await logInUser(credentialResponse);
+            setLoggedIn(true);
         } catch (error) {
             console.error('Error authenticating with the backend', error);
         }
+    };
+
+    async function handleLogout() {
+        try {
+            localStorage.setItem('userId', null);
+            localStorage.setItem('userRole', null);
+            setLoggedIn(false);
+        } catch (error) {
+            console.error('Error authenticating with the backend', error);
+        }
+
     };
 
     return (
@@ -53,21 +50,26 @@ export default function Navbar() {
                     </div>
                 </Link>
 
-                {userIdLS ?
+                <div className='w-1/3 flex justify-end'>
+                    {loggedIn ?
+                        <>
+                            <Link href="/profile" >
+                                Perfil
+                            </Link>
 
-                    <Link href="/profile" className='w-1/3 flex justify-end'>
-                        Perfil
-                    </Link>
-
-
-                    :
-                    <Link href="/login" className='w-1/3 flex justify-end'>
+                            <button
+                                onClick={handleLogout}
+                            >
+                                Log out
+                            </button>
+                        </>
+                        :
                         <GoogleLogin
                             onSuccess={handleSuccess}
-                            onError={() => console.log('Login error')}
+                            onError={() => console.error('Login error')}
                         />
-                    </Link>
-                }
+                    }
+                </div>
 
 
             </nav>

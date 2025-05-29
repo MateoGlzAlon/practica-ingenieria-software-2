@@ -54,6 +54,8 @@ public class PostServiceImpl implements PostService {
                 firstImageUrl = post.getImages().get(0).getImageUrl();
             }
 
+            boolean isVoted = userId != null;
+
             FeedPostDTO feedPostDTO = FeedPostDTO.builder()
                     .id(post.getId())
                     .title(post.getTitle())
@@ -64,7 +66,7 @@ public class PostServiceImpl implements PostService {
                     .commentCount(post.getComments().size())
                     .createdAt(post.getCreatedAt())
                     .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
-                    .voted(postVoteRepository.isPostVoted(userId, post.getId()))
+                    .voted(isVoted)
                     .build();
             
             feedPostDTOs.add(feedPostDTO);

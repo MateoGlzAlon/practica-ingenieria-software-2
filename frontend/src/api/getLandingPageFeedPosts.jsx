@@ -1,18 +1,28 @@
 import axios from 'axios';
-import qs from 'qs'; // You need to install this: `npm install qs`
+import qs from 'qs';
 import { DATA } from "@/app/data";
 
-export default async function getFeedPosts(page = 0, size = 10, userId, tags = []) {
+export default async function getFeedPosts(page = 0, size = 10, userId = 1, tags = []) {
     try {
-        const response = await axios.get(`${DATA.apiURL}/posts/landingPageFeed/${userId}`, {
-            params: { page, size, tags },
-            paramsSerializer: (params) => {
-                return qs.stringify(params, { arrayFormat: 'repeat' });
-            },
+        const queryParams = {
+            page,
+            size,
+            userId,
+            ...(tags.length > 0 ? { tags } : {})
+        };
+
+        console.log("Query params:", queryParams);
+
+        const response = await axios.get(`${DATA.apiURL}/posts/landingPageFeed`, {
+            params: queryParams,
+            paramsSerializer: (params) =>
+                qs.stringify(params, { arrayFormat: 'repeat' }),
             headers: {
                 'Content-Type': 'application/json',
             },
         });
+
+        console.log("Response data:", response.data);
 
         return response.data;
     } catch (error) {
