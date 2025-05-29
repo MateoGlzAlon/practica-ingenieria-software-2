@@ -80,7 +80,7 @@ export default function Post({ params }) {
 
                     <div className="flex-1">
                         <div className="mb-4 flex flex-wrap items-center justify-between">
-                            <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
+                            <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0" id="post-title">
                                 {postData.title || "N/A"}
                             </h1>
                         </div>

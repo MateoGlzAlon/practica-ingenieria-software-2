@@ -42,10 +42,10 @@ export default function Navbar() {
                     {userIdLS || "N/A"}
                 </div>
 
-                <Link href="/" className="flex justify-center w-1/3">
-                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
+                <Link href="/" className="flex justify-center w-1/3" >
+                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer" >
                         <Landmark size={28} />
-                        <span className="pl-2 text-2xl">Stoa</span>
+                        <span className="pl-2 text-2xl" id="navbar-title">Stoa</span>
                     </div>
                 </Link>
 
