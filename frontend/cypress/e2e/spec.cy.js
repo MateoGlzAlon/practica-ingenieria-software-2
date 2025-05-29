@@ -15,4 +15,12 @@ describe('stoa e2e', () => {
     cy.get('#post-title').contains('Intro to Python');
   })
 
+  it('visitPostComment', () => {
+    cy.visit('http://localhost:3000');
+    cy.get('.px-16 > :nth-child(2)').click();
+    cy.url().should('include', '/post/');
+    cy.get('#answers-title').should('exist');
+    cy.get('#answers-title').contains('Answers');
+  })
+
 })

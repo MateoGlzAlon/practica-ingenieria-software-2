@@ -95,7 +95,7 @@ export default function Post({ params }) {
                         />
 
                         <div className="flex items-center justify-between my-8">
-                            <h2 className="text-xl font-bold text-gray-900">{mockData.commentsExamples.length} Answers</h2>
+                            <h2 className="text-xl font-bold text-gray-900" id="answers-title">{mockData.commentsExamples.length} Answers</h2>
                             <div className="flex items-center space-x-2">
                                 <span className="text-sm text-gray-500">Sort by:</span>
                                 <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm"
