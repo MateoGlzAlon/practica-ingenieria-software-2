@@ -69,8 +69,6 @@ public class UserServiceImpl implements UserService {
                     .receiver(te.getSender().getUsername())
                     .amount(te.getAmount())
                     .date(te.getCreatedAt())
-                    .postId(te.getPost().getId())
-                    .commentId(te.getComment().getId())
                     .build();
             tipsSentTotal.add(nTip);
         }
@@ -82,8 +80,6 @@ public class UserServiceImpl implements UserService {
                     .sender(te.getSender().getUsername())
                     .amount(te.getAmount())
                     .date(te.getCreatedAt())
-                    .postId(te.getPost().getId())
-                    .commentId(te.getComment().getId())
                     .build();
             tipsReceivedTotal.add(nTip);
         }
