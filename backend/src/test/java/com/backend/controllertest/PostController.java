@@ -116,7 +116,6 @@ public class PostController {
         mockTipEntity = TipEntity.builder()
                 .id(1L)
                 .amount(100)
-                .post(mockPost)
                 .createdAt(new Date())
                 .build();
 

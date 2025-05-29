@@ -127,7 +127,6 @@ public class CommentControllerImplTest {
         mockTipEntity = TipEntity.builder()
                 .id(1L)
                 .amount(100)
-                .post(post)
                 .createdAt(new Date())
                 .build();
 

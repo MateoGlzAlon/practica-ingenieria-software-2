@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     website_link VARCHAR(200),
     about TEXT,
     avatar_url TEXT,
+    wallet INTEGER DEFAULT 0 NOT NULL,
     role VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -99,17 +100,17 @@ INSERT INTO tags (id, name) VALUES
 (10, 'mobile development');
 
 -- INSERTS: users
-INSERT INTO users (id, name, username, email, password, github_link, twitter_link, website_link, about, avatar_url, role, created_at) VALUES
-(1, 'Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1', 'ADMIN', '2025-05-21 21:17:36.022143'),
-(2, 'Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2', 'USER', '2025-05-21 21:17:36.022143'),
-(3, 'Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://placehold.co/600x400?text=User3', 'USER', '2025-05-21 21:17:36.022143'),
-(4, 'Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://placehold.co/600x400?text=User4', 'USER', '2025-05-21 21:17:36.022143'),
-(5, 'Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5', 'MODERATOR', '2025-05-21 21:17:36.022143'),
-(6, 'Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6', 'USER', '2025-05-21 21:17:36.022143'),
-(7, 'George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://placehold.co/600x400?text=User7', 'USER', '2025-05-21 21:17:36.022143'),
-(8, 'Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://placehold.co/600x400?text=User8', 'USER', '2025-05-21 21:17:36.022143'),
-(9, 'Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9', 'USER', '2025-05-21 21:17:36.022143'),
-(10, 'Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://placehold.co/600x400?text=User10', 'USER', '2025-05-21 21:17:36.022143');
+INSERT INTO users (id, name, username, email, password, github_link, twitter_link, website_link, about, avatar_url, role, created_at, wallet) VALUES
+(1, 'Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1', 'ADMIN', '2025-05-21 21:17:36.022143', 1000),
+(2, 'Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(3, 'Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://placehold.co/600x400?text=User3', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(4, 'Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://placehold.co/600x400?text=User4', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(5, 'Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5', 'MODERATOR', '2025-05-21 21:17:36.022143', 1000),
+(6, 'Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(7, 'George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://placehold.co/600x400?text=User7', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(8, 'Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://placehold.co/600x400?text=User8', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(9, 'Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9', 'USER', '2025-05-21 21:17:36.022143', 1000),
+(10, 'Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://placehold.co/600x400?text=User10', 'USER', '2025-05-21 21:17:36.022143', 1000);
 
 -- INSERTS: posts
 INSERT INTO posts (id, user_id, tag_id, title, content, votes, state, created_at) VALUES
@@ -207,17 +208,17 @@ INSERT INTO post_images (id, post_id, image_url, created_at) VALUES
 (10, 10, 'https://placehold.co/600x400?text=Post10', '2025-05-21 21:17:36.028905');
 
 -- INSERTS: tips
-INSERT INTO tips (id, sender_id, receiver_id, post_id, comment_id, amount, created_at) VALUES
-(1, 2, 1, 1, 1, 250, '2025-05-21 21:17:36.032979'),
-(2, 3, 2, 2, 3, 300, '2025-05-21 21:17:37.032979'),
-(3, 4, 3, 3, 4, 150, '2025-05-21 21:17:38.032979'),
-(4, 5, 4, 4, 5, 500, '2025-05-21 21:17:39.032979'),
-(5, 6, 5, 5, 6, 100, '2025-05-21 21:17:40.032979'),
-(6, 7, 6, 6, 7, 200, '2025-05-21 21:17:41.032979'),
-(7, 8, 7, 7, 8, 180, '2025-05-21 21:17:42.032979'),
-(8, 9, 8, 8, 9, 130, '2025-05-21 21:17:43.032979'),
-(9, 10, 9, 9, 10, 170, '2025-05-21 21:17:44.032979'),
-(10, 1, 10, 10, 10, 220, '2025-05-21 21:17:45.032979');
+INSERT INTO tips (id, sender_id, receiver_id, amount, created_at) VALUES
+(1, 2, 1,  250, '2025-05-21 21:17:36.032979'),
+(2, 3, 2, 300, '2025-05-21 21:17:37.032979'),
+(3, 4, 3, 150, '2025-05-21 21:17:38.032979'),
+(4, 5, 4, 500, '2025-05-21 21:17:39.032979'),
+(5, 6, 5, 100, '2025-05-21 21:17:40.032979'),
+(6, 7, 6,  200, '2025-05-21 21:17:41.032979'),
+(7, 8, 7,  180, '2025-05-21 21:17:42.032979'),
+(8, 9, 8,  130, '2025-05-21 21:17:43.032979'),
+(9, 10, 9, 170, '2025-05-21 21:17:44.032979'),
+(10, 1, 10,  220, '2025-05-21 21:17:45.032979');
 
 INSERT INTO post_votes (id, post_id, user_id) VALUES
 (1, 1, 2),
