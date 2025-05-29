@@ -229,11 +229,13 @@ public class PostServiceImplTest {
     public void testGetFeedPosts_ReturnsList() {
         List<PostEntity> postList = Arrays.asList(mockPostEntity);
         Page<PostEntity> mockPage = mock(Page.class);
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
 
         when(mockPage.getContent()).thenReturn(postList);
-        when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
 
-        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L);
+        List<FeedPostDTO> feed = postService.getFeedPosts(0, 10, 1L, tags);
 
         assertNotNull(feed);
         assertEquals(1, feed.size());
@@ -312,11 +314,14 @@ public class PostServiceImplTest {
                 .state("open")
                 .build();
 
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+
         Page<PostEntity> mockPage = mock(Page.class);
         when(mockPage.getContent()).thenReturn(List.of(postWithNullImages));
-        when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
 
-        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L);
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L, tags);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -337,11 +342,14 @@ public class PostServiceImplTest {
                 .state("open")
                 .build();
 
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+
         Page<PostEntity> mockPage = mock(Page.class);
         when(mockPage.getContent()).thenReturn(List.of(postWithEmptyImages));
-        when(postRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
 
-        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L);
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, 1L, tags);
 
         assertNotNull(result);
         assertEquals(1, result.size());

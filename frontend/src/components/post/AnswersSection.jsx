@@ -5,7 +5,7 @@ import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
 import setClosedComment from "@/api/comment/setClosedComment"
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, sortOrder }) {
   const [commentsData, setCommentsData] = useState(null)
   const [expandedComments, setExpandedComments] = useState({})
   const [votedComments, setVotedComments] = useState({})

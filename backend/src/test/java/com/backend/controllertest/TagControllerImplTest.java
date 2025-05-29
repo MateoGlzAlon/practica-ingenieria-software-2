@@ -154,26 +154,26 @@ public class TagControllerImplTest {
 
     @Test
     public void testFindTags_ReturnsTagOutputDTO() {
-        when(tagService.findTags(0, 5)).thenReturn(mockTagOutputDTO);
+        when(tagService.findTags()).thenReturn(mockTagOutputDTO);
 
-        TagOutputDTO result = tagController.findTags(0, 5);
+        TagOutputDTO result = tagController.findTags();
 
         assertNotNull(result);
         assertEquals(1, result.getTags().size());
         assertEquals("mockTag", result.getTags().get(0));
-        verify(tagService, times(1)).findTags(0, 5);
+        verify(tagService, times(1)).findTags();
     }
 
     @Test
     public void testFindTags_DefaultPagination() {
         // Simula que no se pasan parámetros explícitos (usa los valores por defecto)
-        when(tagService.findTags(0, 5)).thenReturn(mockTagOutputDTO);
+        when(tagService.findTags()).thenReturn(mockTagOutputDTO);
 
-        TagOutputDTO result = tagController.findTags(0, 5);
+        TagOutputDTO result = tagController.findTags();
 
         assertNotNull(result);
         assertEquals(1, result.getTags().size());
-        verify(tagService, times(1)).findTags(0, 5);
-    }    
+        verify(tagService, times(1)).findTags();
+    }
 
 }

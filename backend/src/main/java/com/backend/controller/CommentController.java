@@ -16,7 +16,7 @@ public interface CommentController {
     CommentEntity findCommentById(@PathVariable Long id);
 
     @GetMapping("/post/{id}")
-    List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id);
+    List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id, @RequestParam(required = false, defaultValue = "newest") String sort);
 
 
     @PostMapping

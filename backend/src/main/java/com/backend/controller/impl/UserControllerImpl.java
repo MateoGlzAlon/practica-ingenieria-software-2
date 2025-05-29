@@ -42,7 +42,8 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @PostMapping("/change-links")
+
+  @PostMapping("/change-links")
     public UserEntity changeUserLinks(@RequestBody UserLinksInputDTO userLinks){
         return userService.changeUserLinks(userLinks);
     }
@@ -51,5 +52,10 @@ public class UserControllerImpl implements UserController {
     @GetMapping("/getId")
     public Long getUserIdByEmail(@RequestParam String email){
         return userService.getUserIdByEmail(email);
+    }
+  
+    @GetMapping("/dummy/dummyendpoint")
+    public String getDummy() {
+        return "Dummy";
     }
 }

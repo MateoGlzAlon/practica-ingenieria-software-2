@@ -28,5 +28,10 @@ public interface UserController {
     @GetMapping("/getId")
     Long getUserIdByEmail(String email);
 
+
+    @GetMapping("/dummy")
+    String getDummy();
+
+
 }
 

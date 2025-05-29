@@ -29,9 +29,10 @@ public class PostControllerImpl implements PostController {
     public List<FeedPostDTO> getFeedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam List<String> tags,
             @PathVariable Long userId
     ) {
-        return postService.getFeedPosts(page, size, userId);
+        return postService.getFeedPosts(page, size, userId, tags);
     }
 
 
