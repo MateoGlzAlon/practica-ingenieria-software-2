@@ -2,6 +2,8 @@ import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { TagFilterProvider } from "@/hooks/tagsContext";
+import { Toaster } from 'sonner'
+
 
 export const metadata = {
   title: "Create Next App",
@@ -15,6 +17,7 @@ export default function RootLayout({ children }) {
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
           <TagFilterProvider>
             <Navbar />
+            <Toaster richColors position="top-right" />
             {children}
           </TagFilterProvider>
         </GoogleOAuthProvider>

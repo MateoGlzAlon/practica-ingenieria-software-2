@@ -4,6 +4,10 @@ import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
 import setClosedComment from "@/api/comment/setClosedComment"
+import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth"
+import { DATA } from "@/app/data"
+import { toast } from 'sonner'
+
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder }) {
 
@@ -12,6 +16,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const [votedComments, setVotedComments] = useState({})
   const [commentVotes, setCommentVotes] = useState({})
   const [tipAmounts, setTipAmounts] = useState({})
+  const [userIdLS] = useState(getUserIdFromLocalStorage())
 
 
   const fetchComments = async () => {
@@ -79,33 +84,46 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     }
   }
 
+
+
   const handleSendTip = async (receiverId, amount) => {
-    if (!userId) return
+    if (!userId) return;
     if (!receiverId || !amount) {
-      console.error("Missing receiver ID or amount")
-      return
+      toast.error("Missing receiver or amount");
+      return;
     }
 
+
+    console.log("SenderId", userIdLS);
+    console.log("ReceiverId", receiverId);
+    console.log("Amount", amount);
+
     try {
-      const response = await fetch("http://localhost:8080/tips/send", {
+      const response = await fetch(`${DATA.apiURL}/tips/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          senderId: userId,
+          senderId: userIdLS,
           receiverId,
           amount: parseInt(amount),
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorText = await response.text()
-        throw new Error(errorText)
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
+
+      toast.success(`✅ Payment of ${amount} sent successfully!`);
+      setTipAmounts(prev => ({ ...prev, [receiverId]: "" }));
     } catch (error) {
-      console.error("Error sending tip:", error)
-      alert("Error: " + error.message)
+      console.error("Error sending tip:", error);
+      toast.error("❌ Tip failed: " + error.message);
     }
   }
+
+
+
 
   const handleAcceptComment = async (commentId) => {
     try {
@@ -124,8 +142,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
           key={answer.id}
           className={`
             bg-white p-6 rounded-md transition
-            ${
-              (acceptedAnswer === answer.id ||
+            ${(acceptedAnswer === answer.id ||
               (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
               ? "border-2 border-green-500 ring-1 ring-green-500"
               : "border border-gray-200"
@@ -156,8 +173,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 onClick={() => handleAcceptComment(answer.id)}
                 className={`
                   mt-4
-                  ${
-                    (acceptedAnswer === answer.id ||
+                  ${(acceptedAnswer === answer.id ||
                     (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
                     ? "text-green-500"
                     : "text-gray-400 hover:text-green-500"
