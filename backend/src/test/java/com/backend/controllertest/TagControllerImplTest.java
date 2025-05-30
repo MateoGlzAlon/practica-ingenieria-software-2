@@ -41,28 +41,16 @@ public class TagControllerImplTest {
     @InjectMocks    
     private TagControllerImpl tagController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -105,19 +93,6 @@ public class TagControllerImplTest {
                 .title("Post Title")
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
 
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
@@ -126,9 +101,7 @@ public class TagControllerImplTest {
                 .role("USER")
                 .about("about user")
                 .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
+
     }
 
     @Test

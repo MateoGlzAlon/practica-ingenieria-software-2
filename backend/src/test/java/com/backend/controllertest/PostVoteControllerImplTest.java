@@ -21,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.backend.controller.impl.PostVoteControllerImpl;
-import com.backend.controller.impl.StatsControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.PostVoteEntity;
@@ -36,7 +35,6 @@ import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.PostVoteService;
-import com.backend.service.impl.StatsServiceImpl;
 
 public class PostVoteControllerImplTest {
     @Mock

@@ -18,22 +18,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.backend.controller.impl.PostControllerImpl;
-import com.backend.controller.impl.PostImageControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.PostOutputDTO;
-import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
-import com.backend.service.PostImageService;
 import com.backend.service.PostService;
 
 public class PostController {
@@ -46,15 +39,9 @@ public class PostController {
     private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
-    private PostImageEntity mockImage;
     private PostEntity mockPost;
     private PostOutputDTO mockPostOutput;
     private PostDetailsDTO mockPostDetails;
@@ -85,10 +72,6 @@ public class PostController {
                 .posts(new HashSet<>())
                 .build();
 
-        mockTagOutputDTO = TagOutputDTO.builder()
-                .tags(List.of("mockTag"))
-                .build();
-
         mockPostImageEntity = PostImageEntity.builder()
                 .id(1L)
                 .imageUrl("https://placehold.co/600x400?text=Post90")
@@ -113,40 +96,12 @@ public class PostController {
                 .title("Post Title")
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
                 .username("testuser")
                 .email("test@example.com")
                 .role("USER")
                 .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
-
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
-                .build();
-
-        mockImage = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=PostImage")
                 .build();
 
         mockPostInput = PostInputDTO.builder()

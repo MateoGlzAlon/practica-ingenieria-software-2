@@ -19,28 +19,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.backend.controller.impl.CommentControllerImpl;
-import com.backend.controller.impl.CommentVoteControllerImpl;
 import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.CommentVoteEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
-import com.backend.persistence.inputDTO.GoogleLoginDTO;
-import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
-import com.backend.persistence.outputdto.PostOutputDTO;
-import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.CommunityStatsDTO;
-import com.backend.persistence.specialdto.FeedPostDTO;
-import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.CommentService;
-import com.backend.service.CommentVoteService;
 
 public class CommentControllerImplTest {
     @Mock
@@ -49,24 +35,10 @@ public class CommentControllerImplTest {
     @InjectMocks
     private CommentControllerImpl commentController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
-    private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
-    private PostImageEntity mockImage;
-    private PostEntity mockPost;
-    private PostOutputDTO mockPostOutput;
-    private PostDetailsDTO mockPostDetails;
-    private FeedPostDTO mockFeedPost;
-    private GoogleLoginDTO mockLoginDTO;
-    private CommentVoteEntity mockVote;
     private CommentEntity mockComment;
     private CommentOutputDTO mockCommentOutput;
     private CommentInputDTO mockCommentInput;
@@ -74,14 +46,6 @@ public class CommentControllerImplTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -94,10 +58,6 @@ public class CommentControllerImplTest {
                 .id(1L)
                 .name("Java")
                 .posts(new HashSet<>())
-                .build();
-
-        mockTagOutputDTO = TagOutputDTO.builder()
-                .tags(List.of("mockTag"))
                 .build();
 
         mockPostImageEntity = PostImageEntity.builder()
@@ -122,75 +82,6 @@ public class CommentControllerImplTest {
         PostEntity post = PostEntity.builder()
                 .id(1L)
                 .title("Post Title")
-                .build();
-
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
-
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
-                .build();
-
-        mockImage = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=PostImage")
-                .build();
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Mock Post")
-                .content("Content")
-                .tagId(1L)
-                .userId(1L)
-                .build();
-
-        mockPostOutput = PostOutputDTO.builder()
-                .id(1L)
-                .title("Mock Post")
-                .content("Content")
-                .build();
-
-        mockPostDetails = PostDetailsDTO.builder()
-                .id(1L)
-                .title("Detailed Post")
-                .build();
-
-        mockFeedPost = FeedPostDTO.builder()
-                .id(1L)
-                .title("Feed Post")
-                .build();
-
-        mockLoginDTO = GoogleLoginDTO.builder()
-                .email("user@example.com")
-                .username("testuser")
-                .avatarUrl("https://example.com/avatar.jpg")
-                .build();
-
-        mockVote = CommentVoteEntity.builder()
-                .id(1L)
                 .build();
 
         mockComment = CommentEntity.builder()
@@ -234,6 +125,7 @@ public class CommentControllerImplTest {
         verify(commentService, times(1)).findCommentsOfAPost(1L, "votes");
     }
 
+    @Test
     public void testFindCommentsOfAPost_ReturnsListOfDTOs_newest() {
         when(commentService.findCommentsOfAPost(1L, "newest")).thenReturn(List.of(mockCommentOutput));
 
@@ -245,6 +137,7 @@ public class CommentControllerImplTest {
         verify(commentService, times(1)).findCommentsOfAPost(1L, "newest");
     }
 
+    @Test
     public void testFindCommentsOfAPost_ReturnsListOfDTOs_oldest() {
         when(commentService.findCommentsOfAPost(1L, "oldest")).thenReturn(List.of(mockCommentOutput));
 

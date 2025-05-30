@@ -41,30 +41,16 @@ public class PostImageControllerImplTest {
     @InjectMocks
     private PostImageControllerImpl postImageController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
     private PostImageEntity mockImage;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -77,10 +63,6 @@ public class PostImageControllerImplTest {
                 .id(1L)
                 .name("Java")
                 .posts(new HashSet<>())
-                .build();
-
-        mockTagOutputDTO = TagOutputDTO.builder()
-                .tags(List.of("mockTag"))
                 .build();
 
         mockPostImageEntity = PostImageEntity.builder()
@@ -107,35 +89,12 @@ public class PostImageControllerImplTest {
                 .title("Post Title")
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
                 .username("testuser")
                 .email("test@example.com")
                 .role("USER")
                 .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
-
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
                 .build();
 
         mockImage = PostImageEntity.builder()
