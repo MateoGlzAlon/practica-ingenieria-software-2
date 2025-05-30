@@ -14,6 +14,7 @@ public class PostDetailsDTO {
 
     private Long id;
     private String author;
+    private String authorProfilePicture;
     private List<String> postImages;
     private String title;
     private String content;

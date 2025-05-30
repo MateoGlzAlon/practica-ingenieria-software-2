@@ -109,6 +109,7 @@ public class PostServiceImpl implements PostService {
         PostDetailsDTO postDetails = PostDetailsDTO.builder()
                 .id(post.getId())
                 .author(post.getUser().getUsername())
+                .authorProfilePicture(post.getUser().getAvatarUrl())
                 .postImages(listImages)
                 .title(post.getTitle())
                 .content(post.getContent())
