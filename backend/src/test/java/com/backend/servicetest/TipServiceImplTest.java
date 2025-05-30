@@ -1,129 +1,137 @@
 package com.backend.servicetest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-
 import com.backend.persistence.entity.TipEntity;
+import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.inputDTO.TipInputDTO;
+import com.backend.repository.CommentRepository;
+import com.backend.repository.PostRepository;
+import com.backend.repository.TipRepository;
+import com.backend.repository.UserRepository;
+import com.backend.service.impl.TipServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
+
+import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.backend.persistence.entity.PostEntity;
-import com.backend.persistence.entity.PostImageEntity;
-import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.repository.CommentRepository;
-import com.backend.repository.CommentVoteRepository;
-import com.backend.repository.PostRepository;
-import com.backend.repository.PostVoteRepository;
-import com.backend.repository.TagRepository;
-import com.backend.repository.TipRepository;
-import com.backend.repository.UserRepository;
-import com.backend.service.impl.PostServiceImpl;
-import com.backend.service.impl.TipServiceImpl;
-
 public class TipServiceImplTest {
+
+    @Mock
+    private TipRepository tipRepository;
     @Mock
     private UserRepository userRepository;
     @Mock
     private PostRepository postRepository;
     @Mock
-    private TipRepository tipRepository;
-    @Mock
     private CommentRepository commentRepository;
-    @Mock
-    private PostVoteRepository postVoteRepository;
-    @Mock
-    private CommentVoteRepository commentVoteRepository;
-    @Mock
-    private TagRepository tagRepository;
 
     @InjectMocks
     private TipServiceImpl tipService;
 
-    private PostInputDTO mockPostInput;
-    private UserEntity mockUserEntity;
-    private TagEntity mockTagEntity;
-    private PostEntity mockPostEntity;
-    private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
+    private UserEntity sender;
+    private UserEntity receiver;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
+        sender = UserEntity.builder()
+                .id(1L)
+                .username("sender")
+                .wallet(500.0)
                 .build();
 
-        mockUserEntity = UserEntity.builder()
-                .id(1L)
-                .username("testuser")
-                .build();
-
-        mockTagEntity = TagEntity.builder()
-                .id(1L)
-                .name("Java")
-                .posts(new HashSet<>())
-                .build();
-
-        mockPostImageEntity = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=Post90")
-                .post(mockPostEntity)
-                .build();
-
-        mockPostEntity = PostEntity.builder()
-                .id(1L)
-                .title("Test Title")
-                .content("Test Content")
-                .user(mockUserEntity)
-                .tag(mockTagEntity)
-                .votes(5)
-                .images(Arrays.asList(mockPostImageEntity))
-                .comments(new ArrayList<>())
-                .state("open")
-                .createdAt(new Date())
-                .build();
-
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
+        receiver = UserEntity.builder()
+                .id(2L)
+                .username("receiver")
+                .wallet(100.0)
                 .build();
     }
 
     @Test
-    public void testFindTipById_TipExists() {
-        when(tipRepository.findById(1L)).thenReturn(Optional.of(mockTipEntity));
+    void testFindTipById_ReturnsTip() {
+        TipEntity tip = new TipEntity();
+        tip.setId(1L);
+        when(tipRepository.findById(1L)).thenReturn(Optional.of(tip));
 
         TipEntity result = tipService.findTipById(1L);
-
         assertNotNull(result);
         assertEquals(1L, result.getId());
-        verify(tipRepository, times(1)).findById(1L);
     }
 
     @Test
-    public void testFindTipById_TipDoesNotExist() {
+    void testFindTipById_NotFound_ReturnsNull() {
         when(tipRepository.findById(99L)).thenReturn(Optional.empty());
 
         TipEntity result = tipService.findTipById(99L);
-
         assertNull(result);
-        verify(tipRepository, times(1)).findById(99L);
+    }
+
+    @Test
+    void testSendTip_Success() {
+        TipInputDTO dto = TipInputDTO.builder()
+                .senderId(1L)
+                .receiverId(2L)
+                .amount(100)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(sender));
+        when(userRepository.findById(2L)).thenReturn(Optional.of(receiver));
+
+        tipService.sendTip(dto);
+
+        assertEquals(400, sender.getWallet());
+        assertEquals(200, receiver.getWallet());
+        verify(userRepository).save(sender);
+        verify(userRepository).save(receiver);
+        verify(tipRepository).save(any(TipEntity.class));
+    }
+
+    @Test
+    void testSendTip_InsufficientBalance_ThrowsException() {
+        TipInputDTO dto = TipInputDTO.builder()
+                .senderId(1L)
+                .receiverId(2L)
+                .amount(1000)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(sender));
+        when(userRepository.findById(2L)).thenReturn(Optional.of(receiver));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
+        assertEquals("Sender does not have enough balance", exception.getMessage());
+    }
+
+    @Test
+    void testSendTip_SenderNotFound_ThrowsException() {
+        TipInputDTO dto = TipInputDTO.builder()
+                .senderId(1L)
+                .receiverId(2L)
+                .amount(50)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
+        assertEquals("Sender not found", exception.getMessage());
+    }
+
+    @Test
+    void testSendTip_ReceiverNotFound_ThrowsException() {
+        TipInputDTO dto = TipInputDTO.builder()
+                .senderId(1L)
+                .receiverId(2L)
+                .amount(50)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(sender));
+        when(userRepository.findById(2L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
+        assertEquals("Receiver not found", exception.getMessage());
     }
 }
