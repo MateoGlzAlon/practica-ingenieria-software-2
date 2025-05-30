@@ -1,5 +1,4 @@
 import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
-import { mockData } from "@/app/mockData"
 import { useState } from 'react'
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
 import createPostVotes from "@/api/post/postCreatePostVote";

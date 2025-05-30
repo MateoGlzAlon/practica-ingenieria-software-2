@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { mockData } from "@/app/mockData";
 import getAllTags from "@/api/getAllTags"
 import { useEffect, useState } from "react"
 
 export default function SidebarLeft() {
 
     const [tags, setTags] = useState([])
-            
+
     const fetchTags = async () => {
         try {
             const data = await getAllTags()
@@ -21,7 +20,7 @@ export default function SidebarLeft() {
     }, [])
 
 
-    
+
     return (
         <div className="space-y-2 w-[10%]">
             {

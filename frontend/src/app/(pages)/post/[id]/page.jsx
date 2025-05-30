@@ -7,8 +7,6 @@ import AnswersSection from "@/components/post/AnswersSection"
 import postAnswer from "@/api/comment/postAnswers"
 
 import Link from "next/link"
-import { mockData } from "@/app/mockData"
-
 import getHotQuestionPosts from "@/api/getHotQuestionPosts"
 import getIndividualPost from "@/api/getIndividualPost"
 import { useParams } from 'next/navigation'
