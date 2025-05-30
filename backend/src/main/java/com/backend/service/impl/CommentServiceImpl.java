@@ -102,7 +102,7 @@ public class CommentServiceImpl implements CommentService {
             }
         }
 
-        if(isValidUserVerification == false){
+        if(!isValidUserVerification){
             return null;
         }
         

@@ -39,7 +39,6 @@ public class GoogleAuthControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private GoogleLoginDTO mockLoginDTO;
 
 
@@ -77,14 +76,6 @@ public class GoogleAuthControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockLoginDTO = GoogleLoginDTO.builder()
