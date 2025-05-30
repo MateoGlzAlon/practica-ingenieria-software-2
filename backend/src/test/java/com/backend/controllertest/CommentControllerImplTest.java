@@ -15,6 +15,8 @@ import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import com.backend.persistence.outputdto.UserCommentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -109,40 +111,17 @@ class CommentControllerImplTest {
         verify(commentService, times(1)).findCommentById(1L);
     }
 
-    @Test
-    void testFindCommentsOfAPost_ReturnsListOfDTOs_votes() {
-        when(commentService.findCommentsOfAPost(1L, "votes")).thenReturn(List.of(mockCommentOutput));
+    @ParameterizedTest
+    @ValueSource(strings = { "votes", "newest", "oldest" })
+    void testFindCommentsOfAPost_WithDifferentSorts(String sort) {
+        when(commentService.findCommentsOfAPost(1L, sort)).thenReturn(List.of(mockCommentOutput));
 
-        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "votes");
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Test comment output", result.get(0).getContent());
-        verify(commentService, times(1)).findCommentsOfAPost(1L, "votes");
-    }
-
-    @Test
-    void testFindCommentsOfAPost_ReturnsListOfDTOs_newest() {
-        when(commentService.findCommentsOfAPost(1L, "newest")).thenReturn(List.of(mockCommentOutput));
-
-        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "newest");
+        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, sort);
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Test comment output", result.get(0).getContent());
-        verify(commentService, times(1)).findCommentsOfAPost(1L, "newest");
-    }
-
-    @Test
-    void testFindCommentsOfAPost_ReturnsListOfDTOs_oldest() {
-        when(commentService.findCommentsOfAPost(1L, "oldest")).thenReturn(List.of(mockCommentOutput));
-
-        List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "oldest");
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Test comment output", result.get(0).getContent());
-        verify(commentService, times(1)).findCommentsOfAPost(1L, "oldest");
+        verify(commentService, times(1)).findCommentsOfAPost(1L, sort);
     }
 
     @Test

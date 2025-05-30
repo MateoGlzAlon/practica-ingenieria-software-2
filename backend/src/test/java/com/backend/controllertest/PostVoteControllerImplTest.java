@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,6 @@ import com.backend.persistence.entity.PostVoteEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.PostVoteInputDTO;
-import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.PostVoteService;
 
 public class PostVoteControllerImplTest {
@@ -40,10 +37,8 @@ public class PostVoteControllerImplTest {
 
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private PostVoteEntity mockVote;
 
     @BeforeEach
@@ -63,10 +58,6 @@ public class PostVoteControllerImplTest {
                 .posts(new HashSet<>())
                 .build();
 
-        mockTagOutputDTO = TagOutputDTO.builder()
-                .tags(List.of("mockTag"))
-                .build();
-
         mockPostImageEntity = PostImageEntity.builder()
                 .id(1L)
                 .imageUrl("https://placehold.co/600x400?text=Post90")
@@ -84,14 +75,6 @@ public class PostVoteControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockVote = PostVoteEntity.builder().id(1L).build();

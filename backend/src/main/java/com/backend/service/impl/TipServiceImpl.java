@@ -1,5 +1,7 @@
 package com.backend.service.impl;
 
+import com.backend.exception.UserNotFoundException;
+import com.backend.exception.WalletBalanceException;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.TipInputDTO;
@@ -31,13 +33,13 @@ public class TipServiceImpl implements TipService {
     @Override
     public void sendTip(TipInputDTO dto) {
         UserEntity sender = userRepository.findById(dto.getSenderId())
-                .orElseThrow(() -> new RuntimeException("Sender not found"));
+                .orElseThrow(() -> new UserNotFoundException("Sender not found"));
 
         UserEntity receiver = userRepository.findById(dto.getReceiverId())
-                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+                .orElseThrow(() -> new UserNotFoundException("Receiver not found"));
 
         if (sender.getWallet() < dto.getAmount()) {
-            throw new RuntimeException("Sender does not have enough balance");
+            throw new WalletBalanceException("Sender does not have enough balance");
         }
 
         sender.setWallet(sender.getWallet() - dto.getAmount());

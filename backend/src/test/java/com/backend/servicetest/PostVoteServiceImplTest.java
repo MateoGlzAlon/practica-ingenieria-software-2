@@ -2,14 +2,6 @@ package com.backend.servicetest;
 
 import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.*;
-import com.backend.persistence.outputdto.CommentOutputDTO;
-import com.backend.persistence.outputdto.PostOutputDTO;
-import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.CommunityStatsDTO;
-import com.backend.persistence.specialdto.FeedPostDTO;
-import com.backend.persistence.specialdto.PostDetailsDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.repository.*;
 import com.backend.service.impl.PostVoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,11 +79,6 @@ public class PostVoteServiceImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        PostEntity post = PostEntity.builder()
-                .id(1L)
-                .title("Post Title")
                 .build();
 
         mockVote = PostVoteEntity.builder()

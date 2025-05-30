@@ -102,7 +102,7 @@ public class TipServiceImplTest {
         when(userRepository.findById(2L)).thenReturn(Optional.of(receiver));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
-        assertEquals("Sender does not have enough balance", exception.getMessage());
+        assertEquals("BALANCE ERROR: Sender does not have enough balance", exception.getMessage());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class TipServiceImplTest {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
-        assertEquals("Sender not found", exception.getMessage());
+        assertEquals("USER HAS NOT BEEN FOUND: Sender not found", exception.getMessage());
     }
 
     @Test
@@ -131,6 +131,6 @@ public class TipServiceImplTest {
         when(userRepository.findById(2L)).thenReturn(Optional.empty());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> tipService.sendTip(dto));
-        assertEquals("Receiver not found", exception.getMessage());
+        assertEquals("USER HAS NOT BEEN FOUND: Receiver not found", exception.getMessage());
     }
 }
