@@ -29,11 +29,20 @@ public class PostVoteServiceImplTest {
         MockitoAnnotations.openMocks(this);
         mockVote = PostVoteEntity.builder()
                 .id(1L)
-                .post(null)  // puedes simular un post si lo necesitas
-                .user(null)  // puedes simular un user si lo necesitas
+                .post(null)  
+                .user(null)  
                 .build();
     }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Test that verifies the PostVoteServiceImpl's findPostVoteById method
+ * returns a PostVoteEntity when a valid ID is provided and exists in the repository.
+ * It mocks the repository to return a predefined PostVoteEntity and checks
+ * that the returned entity is not null and has the expected ID.
+ */
+
+/*******  3faab409-1ab9-44ad-b026-880a31fc88d1  *******/
     @Test
     public void testFindPostById_ReturnsPostVote() {
         when(postVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
