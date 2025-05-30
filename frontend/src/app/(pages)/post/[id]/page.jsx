@@ -179,7 +179,7 @@ function RightSidebar() {
                 <div className="bg-white p-4 border border-gray-200 rounded-md">
                     <h3 className="text-sm font-semibold mb-3">Hot Network Questions</h3>
                     {hotQuestions.length === 0 ? (
-                        <p className="text-sm text-gray-500">Cargando preguntas populares…</p>
+                        <p className="text-sm text-gray-500">Loading some of the most recent posts...</p>
                     ) : (
                         <ul className="space-y-2 text-sm">
                             {hotQuestions.map((q) => (
@@ -197,6 +197,8 @@ function RightSidebar() {
                 </div>
 
                 {loggedIn ?
+                    <></>
+                    :
                     <div className="bg-orange-50 p-4 border border-orange-100 rounded-md">
                         <h3 className="text-sm font-semibold text-orange-800 mb-2">Join the Community</h3>
                         <p className="text-sm text-orange-700 mb-3">
@@ -206,8 +208,6 @@ function RightSidebar() {
                             Sign Up
                         </button>
                     </div>
-                    :
-                    <></>
                 }
 
 
