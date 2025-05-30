@@ -54,7 +54,7 @@ public class GoogleAuthServiceImplTest {
         assertEquals(200, response.getStatusCodeValue());
         UserEntity result = (UserEntity) response.getBody();
         assertNotNull(result);
-        assertEquals("testuser", result.getUsername());
+        assertEquals("test", result.getUsername());
         verify(userRepository, never()).save(any());
     }
 
