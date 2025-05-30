@@ -1,7 +1,5 @@
 package com.backend.service.impl;
 
-import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.TipInputDTO;

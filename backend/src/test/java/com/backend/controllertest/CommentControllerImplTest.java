@@ -79,11 +79,6 @@ public class CommentControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
-                .id(1L)
-                .title("Post Title")
-                .build();
-
         mockComment = CommentEntity.builder()
                 .id(1L)
                 .content("Test comment")

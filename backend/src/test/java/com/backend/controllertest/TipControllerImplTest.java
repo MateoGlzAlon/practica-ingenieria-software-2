@@ -80,11 +80,6 @@ public class TipControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
-                .id(1L)
-                .title("Post Title")
-                .build();
-
         mockTipEntity = TipEntity.builder()
                 .id(1L)
                 .amount(100)

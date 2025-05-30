@@ -1,7 +1,6 @@
 package com.backend.service.impl;
 
 import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
@@ -14,7 +13,6 @@ import com.backend.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -66,15 +64,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentEntity createComment(CommentInputDTO comment){
-
-        /*
-        EXAMPLE OF BODY OF REQUEST:
-            {
-              "postId": 1,
-              "userId": 1,
-              "content": "WOW!!!!!!!!!! NICE ONE LOL"
-            }
-        */
 
         CommentEntity newComment = CommentEntity.builder()
                 //id no se pone, se asigna solo

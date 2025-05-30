@@ -29,7 +29,7 @@ import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 
-public class PostController {
+public class PostControllerImplTest {
     @Mock
     private PostService postService;
 

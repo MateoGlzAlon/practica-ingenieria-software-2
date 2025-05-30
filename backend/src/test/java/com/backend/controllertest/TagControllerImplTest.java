@@ -88,12 +88,6 @@ public class TagControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
-                .id(1L)
-                .title("Post Title")
-                .build();
-
-
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
                 .username("testuser")
