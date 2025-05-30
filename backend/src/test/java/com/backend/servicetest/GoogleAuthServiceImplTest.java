@@ -33,13 +33,13 @@ public class GoogleAuthServiceImplTest {
 
         loginDTO = new GoogleLoginDTO();
         loginDTO.setEmail("test@example.com");
-        loginDTO.setUsername("testuser");
+        loginDTO.setUsername("test");
         loginDTO.setAvatarUrl("https://avatar.com/test");
 
         existingUser = UserEntity.builder()
                 .id(1L)
                 .email("test@example.com")
-                .username("testuser")
+                .username("test")
                 .avatarUrl("https://avatar.com/test")
                 .createdAt(new Date())
                 .build();
@@ -72,7 +72,7 @@ public class GoogleAuthServiceImplTest {
         assertEquals(200, response.getStatusCodeValue());
         UserEntity createdUser = (UserEntity) response.getBody();
         assertNotNull(createdUser);
-        assertEquals("testuser", createdUser.getUsername());
+        assertEquals("test", createdUser.getUsername());
         assertEquals("test@example.com", createdUser.getEmail());
         assertEquals("https://avatar.com/test", createdUser.getAvatarUrl());
         verify(userRepository).save(any(UserEntity.class));
