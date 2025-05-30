@@ -21,6 +21,9 @@ export default function MainFeed() {
     const { selectedTags } = useTagFilter()
 
     const fetchPosts = async (pageNumber, tags = []) => {
+
+        console.log("Selected Tags", selectedTags)
+
         try {
             const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags) // TODO: Get real userId
             if (data.length < PAGE_SIZE) {

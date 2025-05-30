@@ -5,12 +5,14 @@ import { format } from 'date-fns';
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
+import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth";
 
 
 export default function Post({ postData, userId }) {
 
     const [votedStatus, setVotedStatus] = useState()
     const [votes, setVotes] = useState(postData.votes)
+    const [userIdLS, setUserIdLS] = useState(getUserIdFromLocalStorage());
 
     async function handleVote() {
 
@@ -30,6 +32,8 @@ export default function Post({ postData, userId }) {
         console.log("votedStatus", votedStatus)
 
     }
+
+    console.log("Post data es", postData)
 
     return (
 
@@ -51,32 +55,39 @@ export default function Post({ postData, userId }) {
                     <div className="py-5">
                         <MarkdownRenderer
                             className="text-gray-700 mb-4 line-clamp-3 py-4"
-                            content={postData.content}
+                            content={postData.summary}
                         />
                     </div>
 
 
                     <div className=" flex flex-row justify-between">
 
-                        <div className="flex flex-row w-1/4 items-center justify-between ">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    handleVote();
-                                }}
-                                className={`${votedStatus ? "text-green-600" : ""} hover:text-pink-500`}
-                            >
-                                <ArrowUp size={28} />
-                            </button>
+                        <div className="flex flex-row w-1/8 items-center justify-between ">
+
+                            {userIdLS ?
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        handleVote();
+                                    }}
+                                    className={`${votedStatus ? "text-green-600" : ""} hover:text-green-900`}
+                                >
+                                    <ArrowUp size={28} />
+                                </button>
+                                :
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                    }}
+                                    className={`${votedStatus ? "text-green-600" : ""} hover:text-green-900`}
+                                >
+                                    <ArrowUp size={28} />
+                                </button>
+                            }
 
                             <span className="font-semibold text-lg text-gray-900">{votes}</span>
-                            <button
-                                onClick={() => { }}
-                                className="text-gray-400 hover:text-yellow-500"
-                            >
-                                <Bookmark size={28} />
-                            </button>
                         </div>
 
                         <div className="flex justify-between items-center text-sm text-gray-500 ">

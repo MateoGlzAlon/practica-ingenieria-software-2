@@ -30,7 +30,7 @@ public class CommentVoteControllerImpl implements CommentVoteController {
 
     @Override
     @GetMapping("/check")
-    public boolean isCommentVoted(@RequestParam Long userId, @RequestParam Long commentId){
+    public boolean isCommentVoted(@RequestParam(required = false) Long userId, @RequestParam Long commentId){
         return commentVoteService.isCommentVoted(userId,commentId);
     }
 }

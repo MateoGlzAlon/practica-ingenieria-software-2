@@ -14,6 +14,7 @@ import java.util.List;
 public class PostInputDTO {
 
     private String title;
+    private String summary;
     private String content;
     private Long tagId;
 

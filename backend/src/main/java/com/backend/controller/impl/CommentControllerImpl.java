@@ -30,7 +30,7 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     @GetMapping("/post/{id}")
-    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id, @RequestParam(required = false, defaultValue = "newest") String sort) {
+    public List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id, @RequestParam(required = false, defaultValue = "votes") String sort) {
         return commentService.findCommentsOfAPost(id, sort);
     }
 
