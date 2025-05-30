@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
 import { mockData } from "@/app/mockData"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
@@ -11,6 +11,24 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
     const [votedStatus, setVotedStatus] = useState()
 
+    useEffect(() => {
+        if (!userId || !postData.id) return
+
+        let mounted = true
+        ;(async () => {
+        try {
+            const voted = await getIsVoted(userId, postData.id)
+            if (mounted) setVotedStatus(voted)
+        } catch (err) {
+            console.error('Error checking voted status:', err)
+        }
+        })()
+
+        return () => {
+            mounted = false
+        }
+    }, [userId, postData.id])
+
     async function handleVote() {
 
         if(!userId) return;
@@ -20,7 +38,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
             const voted = await getIsVoted(userId, postData.id)
             setVotedStatus(voted)
             console.log("Post data", data)
-
+            setQuestionVotes(prev => prev + (voted ? 1 : -1));
             console.log("Postdata.voted ", postData)
 
         } catch (error) {
@@ -38,12 +56,16 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                 <div className="flex flex-col items-center">
                     <button
                         onClick={() => handleVote()}
-                        className="text-gray-400 hover:text-orange-500 transition"
+                        className={
+                            votedStatus
+                            ? "text-orange-500 transition"
+                            : "text-gray-400 hover:text-orange-500 transition"
+                        }
                         aria-label="Upvote"
                     >
                         <ArrowUp
                             size={32}
-                            className={`${votedStatus ? "text-green-600" : ""} hover:text-pink-500`}
+                            className="hover:text-pink-500"
                         />
                     </button>
                     <span className="text-xl font-bold my-2 text-gray-700">{questionVotes}</span>

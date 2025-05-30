@@ -9,6 +9,8 @@ export default async function getProfileUser(id) {
             },
         });
 
+        console.log("PROFILE", response.data)
+
         return response.data;
     } catch (error) {
         console.error("Error fetching community stats:", error);
