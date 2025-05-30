@@ -11,7 +11,8 @@ import getTagsPostCreation from "@/api/getTagsPostCreation";
 
 export default function CreatePost() {
 
-    const [userId] = getUserIdFromLocalStorage();
+    const [userId] = useState(getUserIdFromLocalStorage());
+    //const [userId] = getUserIdFromLocalStorage();
 
 
     console.log("zanahoria", userId);
