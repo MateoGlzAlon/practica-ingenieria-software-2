@@ -1,7 +1,6 @@
 package com.backend.service.impl;
 
 import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
@@ -14,7 +13,6 @@ import com.backend.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -157,6 +155,7 @@ public class CommentServiceImpl implements CommentService {
         
     }
 
+
     @Override
     public List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId) {
         return commentRepository.findByPostIdOrderByVotesDesc(postId);
@@ -172,6 +171,9 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
     }
 
+    @Override
+    public void deleteCommentById(Long id) {
+        commentRepository.deleteById(id);
+    }
 
 }
-
