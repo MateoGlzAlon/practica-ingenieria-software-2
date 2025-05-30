@@ -18,7 +18,10 @@ export default async function logInUser(credentialResponse) {
         localStorage.setItem('userId', response.data.id);
         localStorage.setItem('userRole', response.data.role);
         console.log('Login successfully:', response.data.id);
+
+        return true
     } catch (error) {
         console.error('Error authenticating with the backend', error);
+        return false
     }
 }

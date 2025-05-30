@@ -13,6 +13,8 @@ import getHotQuestionPosts from "@/api/getHotQuestionPosts"
 import getIndividualPost from "@/api/getIndividualPost"
 import { useParams } from 'next/navigation'
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import { useLoggedIn } from "@/hooks/loggedInContext"
+
 
 
 export default function Post({ params }) {
@@ -32,6 +34,9 @@ export default function Post({ params }) {
     const [showComments, setShowComments] = useState(false)
 
     const [sortOrder, setSortOrder] = useState("votes")
+
+
+
 
 
     useEffect(() => {
@@ -153,6 +158,8 @@ export default function Post({ params }) {
 function RightSidebar() {
 
     const [hotQuestions, setHotQuestions] = useState([])
+    const { loggedIn, setLoggedIn } = useLoggedIn()
+
 
 
     const fetchHotQuestions = async () => {
@@ -192,15 +199,21 @@ function RightSidebar() {
                     )}
                 </div>
 
-                <div className="bg-orange-50 p-4 border border-orange-100 rounded-md">
-                    <h3 className="text-sm font-semibold text-orange-800 mb-2">Join the Community</h3>
-                    <p className="text-sm text-orange-700 mb-3">
-                        Get access to exclusive content and connect with other developers.
-                    </p>
-                    <button className="w-full px-3 py-1.5Get access to exclusive content and connect with other developers. bg-orange-500 text-white rounded-md hover:bg-orange-600 transition text-sm">
-                        Sign Up
-                    </button>
-                </div>
+                {loggedIn ?
+                    <div className="bg-orange-50 p-4 border border-orange-100 rounded-md">
+                        <h3 className="text-sm font-semibold text-orange-800 mb-2">Join the Community</h3>
+                        <p className="text-sm text-orange-700 mb-3">
+                            Get access to exclusive content and connect with other developers.
+                        </p>
+                        <button className="w-full px-3 py-1.5Get access to exclusive content and connect with other developers. bg-orange-500 text-white rounded-md hover:bg-orange-600 transition text-sm">
+                            Sign Up
+                        </button>
+                    </div>
+                    :
+                    <></>
+                }
+
+
             </div>
         </div>
     )

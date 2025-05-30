@@ -4,6 +4,7 @@ import { useState } from 'react'
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
+import ProjectImageCarousel from "@/components/post/ProjectImageCarousel"
 
 
 export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData, userId }) {
@@ -55,16 +56,12 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                         </div>
 
 
-                        <div className="flex flex-wrap  gap-y-2 gap-[1%] bg-gray-50 rounded-md border border-gray-200 mb-6 p-2">
-                            {postData.postImages.map((image, index) => (
-                                <img
-                                    key={index}
-                                    src={image}
-                                    alt={`Post Image ${index + 1}`}
-                                    className="w-[49.5%] rounded-md object-cover"
-                                />
-                            ))}
+                        <div className="bg-gray-50 rounded-md border border-gray-200 mb-6 w-full max-w-4xl mx-auto">
+                            <ProjectImageCarousel projectImages={postData.postImages} />
                         </div>
+
+
+
 
 
                         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
@@ -72,7 +69,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
                             <div className="flex items-center bg-blue-50 p-2 rounded-md ">
                                 <img
-                                    src={postData.authorProfilePicture}
+                                    src={postData.authorProfilePicture || "https://placehold.co/600x400?text=Placehol"}
                                     alt="User avatar"
                                     className="w-8 h-8 rounded-full mr-2"
                                 />
@@ -88,3 +85,4 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
         </div>
     )
 }
+

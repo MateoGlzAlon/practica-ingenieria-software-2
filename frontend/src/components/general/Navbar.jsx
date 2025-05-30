@@ -6,11 +6,12 @@ import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 import logInUser from '@/api/post/postLogInUser';
+import { useLoggedIn } from '@/hooks/loggedInContext';
 
 export default function Navbar() {
 
     const [userIdLS, setUserIdLS] = useState(null);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const { loggedIn, setLoggedIn } = useLoggedIn();
 
     useEffect(() => {
         const id = getUserIdFromLocalStorage();
@@ -20,8 +21,17 @@ export default function Navbar() {
 
     async function handleSuccess(credentialResponse) {
         try {
-            await logInUser(credentialResponse);
-            setLoggedIn(true);
+            const success = await logInUser(credentialResponse);
+
+            console.log('Success:', success);
+
+            if (success == true) {
+                setLoggedIn(true);
+                console.log("loggedIn es", loggedIn);
+                console.log('Login successful!');
+            } else {
+                console.warn('Login response was not successful.');
+            }
         } catch (error) {
             console.error('Error authenticating with the backend', error);
         }
@@ -29,8 +39,8 @@ export default function Navbar() {
 
     async function handleLogout() {
         try {
-            localStorage.setItem('userId', null);
-            localStorage.setItem('userRole', null);
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
             setLoggedIn(false);
         } catch (error) {
             console.error('Error authenticating with the backend', error);

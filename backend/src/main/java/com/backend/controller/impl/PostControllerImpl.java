@@ -32,6 +32,7 @@ public class PostControllerImpl implements PostController {
             @RequestParam(required = false) List<String> tags,
             @RequestParam(required = false) Long userId
     ) {
+
         return postService.getFeedPosts(page, size, userId, tags);
     }
 

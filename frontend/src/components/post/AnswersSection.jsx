@@ -1,5 +1,5 @@
 import { Award, ArrowDown, ArrowUp, MessageSquare } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import getCommentsOfAPost from "@/api/getCommentsOfAPost"
 import createCommentVote from "@/api/comment/createCommentVote"
 import getIsCommentVoted from "@/api/comment/getIsCommentVoted"
@@ -7,6 +7,9 @@ import setClosedComment from "@/api/comment/setClosedComment"
 import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth"
 import { DATA } from "@/app/data"
 import { toast } from 'sonner'
+import { useLoggedIn } from "@/hooks/loggedInContext"
+
+
 
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder }) {
@@ -17,11 +20,12 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const [commentVotes, setCommentVotes] = useState({})
   const [tipAmounts, setTipAmounts] = useState({})
   const [userIdLS] = useState(getUserIdFromLocalStorage())
+  const { loggedIn, setLoggedIn } = useLoggedIn()
 
 
   const fetchComments = async () => {
     try {
-      const comments = await getCommentsOfAPost(idPost);
+      const comments = await getCommentsOfAPost(idPost, sortOrder);
       setCommentsData(comments);
       const accepted = comments.find(c => c.accepted);
 
@@ -43,7 +47,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     (async () => {
       try {
         // 1) Traemos comentarios
-        const comments = await getCommentsOfAPost(idPost);
+        const comments = await getCommentsOfAPost(idPost, sortOrder);
         setCommentsData(comments);
 
         // 2) Lógica de aceptados
@@ -57,7 +61,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         const votedMap = {};
         await Promise.all(
           comments.map(async c => {
-            votedMap[c.id] = await getIsCommentVoted({ userId, commentId: c.id });
+            votedMap[c.id] = await getIsCommentVoted({ userIdLS, commentId: c.id });
           })
         );
         setVotedComments(votedMap);
@@ -65,7 +69,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         console.error("Error inicializando comentarios:", err);
       }
     })();
-  }, [idPost, refreshTrigger]);
+  }, [sortOrder]);
 
   if (!commentsData) {
     return <p className="text-center py-10">Loading comments...</p>
@@ -74,7 +78,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const handleCommentVote = async (commentId) => {
     try {
       await createCommentVote({ userId: userId, commentId })
-      const isVoted = await getIsCommentVoted({ userId: userId, commentId })
+      const isVoted = await getIsCommentVoted({ userId: userIdLS, commentId })
 
       setVotedComments(prev => ({ ...prev, [commentId]: isVoted }))
 
@@ -87,6 +91,11 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
 
   const handleSendTip = async (receiverId, amount) => {
+
+    console.log("LOgged in", loggedIn);
+    console.log("useLogIN", useLoggedIn)
+
+
     if (!userId) return;
     if (!receiverId || !amount) {
       toast.error("Missing receiver or amount");
@@ -127,7 +136,11 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleAcceptComment = async (commentId) => {
     try {
-      await setClosedComment({ postId: idPost, userId, commentId });
+      await setClosedComment({
+        postId: idPost,
+        userId: userIdLS,
+        commentId
+      });
 
       await fetchComments();
     } catch (error) {
@@ -204,23 +217,33 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-6">
 
-                  <div className="mt-4 flex gap-2">
-                    <input
-                      type="number"
-                      placeholder="Amount"
-                      value={tipAmounts[answer.id] || ""}
-                      onChange={(e) =>
-                        setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
-                      }
-                      className="border px-2 py-1 rounded text-sm w-24"
-                    />
-                    <button
-                      className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
-                      onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
-                    >
-                      Send tip
-                    </button>
-                  </div>
+
+                  {loggedIn == true ?
+                    <div className="mt-4 flex gap-2">
+                      <input
+                        type="number"
+                        placeholder="Amount"
+                        value={tipAmounts[answer.id] || ""}
+                        onChange={(e) =>
+                          setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
+                        }
+                        className="border px-2 py-1 rounded text-sm w-24"
+                      />
+                      <button
+                        className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
+                        onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
+                      >
+                        Send tip
+                      </button>
+                    </div>
+                    :
+                    <div className="mt-4 flex items-center gap-2 border border-red-300 bg-red-50 text-red-700 px-3 py-1 rounded text-sm font-medium">
+                      Log in to send tips
+                    </div>
+
+                  }
+
+
 
                   <div className="flex items-center bg-blue-50 p-2 rounded-md">
                     <img

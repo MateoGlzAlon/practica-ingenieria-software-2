@@ -107,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
         boolean isValidUserVerification = false;
 
         for(PostEntity newPost : posts){
-            if(newPost.getId() == comment.getPostId()){
+            if(Objects.equals(newPost.getId(), comment.getPostId())){
                 isValidUserVerification = true;
                 break;
             }

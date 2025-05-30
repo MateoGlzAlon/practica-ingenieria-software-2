@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { TagFilterProvider } from "@/hooks/tagsContext";
+import { LoggedInProvider } from "@/hooks/loggedInContext";
 import { Toaster } from 'sonner'
 
 
@@ -15,11 +16,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-          <TagFilterProvider>
-            <Navbar />
-            <Toaster richColors position="top-right" />
-            {children}
-          </TagFilterProvider>
+          <LoggedInProvider>
+            <TagFilterProvider>
+              <Navbar />
+              <Toaster richColors position="top-right" />
+              {children}
+            </TagFilterProvider>
+          </LoggedInProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

@@ -58,6 +58,8 @@ public class CommentVoteServiceImpl implements CommentVoteService {
 
     @Override
     public boolean isCommentVoted(Long userId,Long commentId){
+        if(userId == null) return false;
+
         return commentVoteRepository.isCommentVoted(userId, commentId);
     }
 }
