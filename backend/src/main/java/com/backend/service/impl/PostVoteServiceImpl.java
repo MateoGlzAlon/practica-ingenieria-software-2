@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.naming.directory.InvalidAttributesException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,32 +32,38 @@ public class PostVoteServiceImpl implements PostVoteService {
         Long userId = postVote.getUserId();
         Long postId = postVote.getPostId();
 
-        boolean hasVoted = postVoteRepository.isPostVoted(userId, postId);
+        Optional<UserEntity> userOpt = userRepository.findById(userId);
+        Optional<PostEntity> postOpt = postRepository.findById(postId);
 
-        UserEntity user = userRepository.findById(userId).orElse(null);
-        PostEntity post = postRepository.findById(postId).orElse(null);
-
-        if (post == null) {
-            // TODO: Consider throwing an exception or handling the null case
-            return null;
+        if (postOpt.isEmpty()) {
+            throw new IllegalArgumentException("Post not found with ID: " + postId);
         }
+
+        if (userOpt.isEmpty()) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+
+        PostEntity post = postOpt.get();
+        UserEntity user = userOpt.get();
+
+        boolean hasVoted = postVoteRepository.isPostVoted(userId, postId);
 
         if (hasVoted) {
             postVoteRepository.deleteByUserIDProjectId(userId, postId);
             post.decreaseVotes();
             postRepository.save(post);
-            return null;
-        } else {
-            post.increaseVotes();
-            postRepository.save(post);
-
-            PostVoteEntity postVoteEntity = PostVoteEntity.builder()
-                    .user(user)
-                    .post(post)
-                    .build();
-
-            return postVoteRepository.save(postVoteEntity);
+            return null; // voto eliminado
         }
+
+        post.increaseVotes();
+        postRepository.save(post);
+
+        PostVoteEntity postVoteEntity = PostVoteEntity.builder()
+                .user(user)
+                .post(post)
+                .build();
+
+        return postVoteRepository.save(postVoteEntity);
     }
 
     @Override

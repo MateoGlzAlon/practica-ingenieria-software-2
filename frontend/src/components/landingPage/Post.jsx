@@ -20,12 +20,12 @@ export default function Post({ postData, userId }) {
         let mounted = true;
 
         (async () => {
-        try {
-            const already = await getIsVoted(userIdLS, postData.id);
-            if (mounted) setVotedStatus(already);
-        } catch (err) {
-            console.error("Error checking vote status:", err);
-        }
+            try {
+                const already = await getIsVoted(userIdLS, postData.id);
+                if (mounted) setVotedStatus(already);
+            } catch (err) {
+                console.error("Error checking vote status:", err);
+            }
         })();
         return () => { mounted = false };
     }, [userIdLS, postData.id]);
@@ -91,15 +91,15 @@ export default function Post({ postData, userId }) {
                                     }}
                                     className={
                                         votedStatus
-                                        ? "text-orange-500 transition"
-                                        : "text-gray-400 hover:text-orange-500 transition"
+                                            ? "text-orange-500 transition"
+                                            : "text-gray-400 hover:text-orange-500 transition"
                                     }
                                     aria-label="Upvote"
                                     disabled={!userIdLS}
-                                    >
+                                >
                                     <ArrowUp
                                         size={28}
-                                        className="hover:text-pink-500"
+                                        className="hover:text-green-700"
                                     />
                                 </button>
                                 :
@@ -110,13 +110,13 @@ export default function Post({ postData, userId }) {
                                     }}
                                     className={
                                         votedStatus
-                                        ? "text-orange-500 transition"
-                                        : "text-gray-400 hover:text-orange-500 transition"
+                                            ? "text-orange-500 transition"
+                                            : "text-gray-400 hover:text-orange-500 transition"
                                     }
                                 >
-                                    <ArrowUp 
+                                    <ArrowUp
                                         size={28}
-                                        className="hover:text-pink-500"
+                                        className="hover:text-green-700"
                                     />
                                 </button>
                             }

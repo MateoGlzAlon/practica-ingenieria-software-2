@@ -37,7 +37,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         .map(c => c.id);
 
       setAcceptedAnswer(acceptedIds);
-      
+
       const votedMap = {}
       await Promise.all(
         comments.map(async c => {
@@ -55,7 +55,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   useEffect(() => {
     if (!idPost) return;
-    
+
     fetchComments();
 
   }, [idPost, refreshTrigger, sortOrder]);
@@ -66,7 +66,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleCommentVote = async (commentId) => {
 
-    if(!userIdLS) return;
+    if (!userIdLS) return;
 
     try {
       await createCommentVote({ userId: userIdLS, commentId })
@@ -128,7 +128,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleAcceptComment = async (commentId) => {
 
-    if(!userIdLS) return;
+    if (!userIdLS) return;
 
     try {
       await setClosedComment({
@@ -171,7 +171,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
               >
                 <ArrowUp
                   size={32}
-                  className={`${votedComments[answer.id] ? "text-orange-600" : ""} hover:text-pink-500`}
+                  className={`${votedComments[answer.id] ? "text-orange-600" : ""} hover:text-green-700`}
                 />
               </button>
               <span className="text-xl font-bold my-2 text-gray-700">

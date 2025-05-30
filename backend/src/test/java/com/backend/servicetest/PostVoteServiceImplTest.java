@@ -114,14 +114,7 @@ public class PostVoteServiceImplTest {
         verify(postVoteRepository).findById(2L);
     }
 
-    @Test
-    void testCreatePostVote_WhenPostIsNull_ReturnsNull() {
-        when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
-        when(postRepository.findById(10L)).thenReturn(Optional.empty());
 
-        PostVoteEntity result = postVoteService.createPostVote(mockPostVoteInputDto);
-        assertNull(result);
-    }
 
     @Test
     void testCreatePostVote_WhenAlreadyVoted_DeletesVoteAndDecreases() {
@@ -163,4 +156,27 @@ public class PostVoteServiceImplTest {
         assertFalse(postVoteService.isPostVoted(1L, 10L));
         verify(postVoteRepository).isPostVoted(1L, 10L);
     }
+
+    @Test
+    void testCreatePostVote_PostNotFound_ThrowsException() {
+        when(postRepository.findById(10L)).thenReturn(Optional.empty());
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                postVoteService.createPostVote(mockPostVoteInputDto));
+
+        assertEquals("Post not found with ID: 10", exception.getMessage());
+    }
+
+    @Test
+    void testCreatePostVote_UserNotFound_ThrowsException() {
+        when(postRepository.findById(10L)).thenReturn(Optional.of(mockPostEntity));
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                postVoteService.createPostVote(mockPostVoteInputDto));
+
+        assertEquals("User not found with ID: 1", exception.getMessage());
+    }
+
 }

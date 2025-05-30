@@ -14,14 +14,14 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
         if (!userId || !postData.id) return
 
         let mounted = true
-        ;(async () => {
-        try {
-            const voted = await getIsVoted(userId, postData.id)
-            if (mounted) setVotedStatus(voted)
-        } catch (err) {
-            console.error('Error checking voted status:', err)
-        }
-        })()
+            ; (async () => {
+                try {
+                    const voted = await getIsVoted(userId, postData.id)
+                    if (mounted) setVotedStatus(voted)
+                } catch (err) {
+                    console.error('Error checking voted status:', err)
+                }
+            })()
 
         return () => {
             mounted = false
@@ -30,7 +30,7 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
     async function handleVote() {
 
-        if(!userId) return;
+        if (!userId) return;
 
         try {
             const data = await createPostVotes(userId, postData.id)
@@ -57,14 +57,14 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
                         onClick={() => handleVote()}
                         className={
                             votedStatus
-                            ? "text-orange-500 transition"
-                            : "text-gray-400 hover:text-orange-500 transition"
+                                ? "text-orange-500 transition"
+                                : "text-gray-400 hover:text-orange-500 transition"
                         }
                         aria-label="Upvote"
                     >
                         <ArrowUp
                             size={32}
-                            className="hover:text-pink-500"
+                            className="hover:text-green-700"
                         />
                     </button>
                     <span className="text-xl font-bold my-2 text-gray-700">{questionVotes}</span>
