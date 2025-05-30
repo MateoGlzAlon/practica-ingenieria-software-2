@@ -262,17 +262,25 @@ INSERT INTO "comments" ("post_id", "user_id", "content", "votes", "created_at", 
 
 
 -- INSERTS: post_images
-INSERT INTO "post_images" ( "post_id", "image_url", "created_at") VALUES
-(1, 'https://placehold.co/600x400?text=Post1', '2025-05-21 21:17:36.028905'),
-(2, 'https://placehold.co/600x400?text=Post2', '2025-05-22 21:17:36.028905'),
-(3, 'https://placehold.co/600x400?text=Post3', '2025-05-23 21:17:36.028905'),
-(4, 'https://placehold.co/600x400?text=Post4', '2025-05-24 21:17:36.028905'),
-(5, 'https://placehold.co/600x400?text=Post5', '2025-05-25 21:17:36.028905'),
-(6, 'https://placehold.co/600x400?text=Post6', '2025-05-26 21:17:36.028905'),
-(7, 'https://placehold.co/600x400?text=Post7', '2025-05-27 21:17:36.028905'),
-(8, 'https://placehold.co/600x400?text=Post8', '2025-05-28 21:17:36.028905'),
-(9, 'https://placehold.co/600x400?text=Post9', '2025-05-29 21:17:36.028905'),
-( 10, 'https://placehold.co/600x400?text=Post10', '2025-05-30 21:17:36.028905');
+INSERT INTO "post_images" ("post_id", "image_url", "created_at") VALUES
+(1, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/1-PYTHON-A.jpg', '2025-05-31 01:16:10'),
+(2, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/2-JAVASCRIPT-A.jpg', '2025-05-31 01:16:33'),
+(3, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/3-DOCKER-A.jpg', '2025-05-30 23:16:55.196027'),
+(3, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/3-DOCKER-B.jpg', '2025-05-30 23:18:03.134367'),
+(4, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/4-MLSCI-A.jpg', '2025-05-30 23:18:23.100394'),
+(4, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/4-MLSCI-B.jpg', '2025-05-30 23:18:46.537415'),
+(5, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/5-GIT-A.jpg', '2025-05-30 23:19:04.245997'),
+(6, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/6-AWSEC-A.jpg', '2025-05-30 23:19:20.044896'),
+(6, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/6-AWSEC-B.jpg', '2025-05-30 23:19:34.809283'),
+(6, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/6-AWSEC-C.jpg', '2025-05-30 23:20:15.544599'),
+(7, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/7-FLASK-A.jpg', '2025-05-30 23:20:37.932961'),
+(7, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/7-FLASK-B.jpg', '2025-05-30 23:21:05.042553'),
+(8, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/8-KUBERNETES-A.jpg', '2025-05-30 23:21:33.115249'),
+(9, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/9-SECURITY-A.jpg', '2025-05-30 23:21:54.129551'),
+(9, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/9-SECURITY-B.jpg', '2025-05-30 23:22:05.548841'),
+(10, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/10-CSS-A.jpg', '2025-05-30 23:22:16.004144'),
+(10, 'https://raisehub-crowdfunding-bucket.s3.eu-west-3.amazonaws.com/10-CSS-B.jpg', '2025-05-30 23:22:16.004144');
+
 
 -- INSERTS: tips
 INSERT INTO "tips" ("sender_id", "receiver_id", "amount", "created_at") VALUES

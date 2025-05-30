@@ -25,7 +25,7 @@ function ProjectImageCarousel({ projectImages }) {
                     <img
                         src={image}
                         alt={`Project image ${idx + 1}`}
-                        className="rounded-xl shadow-md border object-cover max-h-[480px]"
+                        className="rounded-xl shadow-md border-[0.5px] object-cover max-h-[480px]"
                     />
                 </div>
             ))}
