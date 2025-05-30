@@ -25,7 +25,7 @@ export default function MainFeed() {
         console.log("Selected Tags", selectedTags)
 
         try {
-            const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags) // TODO: Get real userId
+            const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags)
             if (data.length < PAGE_SIZE) {
                 setHasMore(false)
             }

@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { DATA } from "@/app/data"
 
-export default async function getProfileUser(id) {
+export default async function getTagsPostCreation() {
     try {
-        const response = await axios.get(`${DATA.apiURL}/users/profile/${id}`, {
+        const response = await axios.get(`${DATA.apiURL}/tags/available`, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-
-        console.log("PROFILE", response.data)
 
         return response.data;
     } catch (error) {

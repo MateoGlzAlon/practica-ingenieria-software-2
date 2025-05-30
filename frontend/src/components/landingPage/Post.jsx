@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, Bookmark } from "lucide-react";
 import Link from "next/link"
 import { format } from 'date-fns';
@@ -10,11 +10,29 @@ import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth";
 
 export default function Post({ postData, userId }) {
 
-    const [votedStatus, setVotedStatus] = useState()
+    const [votedStatus, setVotedStatus] = useState(false)
     const [votes, setVotes] = useState(postData.votes)
     const [userIdLS, setUserIdLS] = useState(getUserIdFromLocalStorage());
 
+    useEffect(() => {
+        if (!userIdLS) return;
+
+        let mounted = true;
+
+        (async () => {
+        try {
+            const already = await getIsVoted(userIdLS, postData.id);
+            if (mounted) setVotedStatus(already);
+        } catch (err) {
+            console.error("Error checking vote status:", err);
+        }
+        })();
+        return () => { mounted = false };
+    }, [userIdLS, postData.id]);
+
     async function handleVote() {
+
+        if (!userIdLS) return;
 
         try {
             const data = await createPostVotes(userId, postData.id)
@@ -67,13 +85,22 @@ export default function Post({ postData, userId }) {
                             {userIdLS ?
                                 <button
                                     onClick={(e) => {
-                                        e.stopPropagation();
-                                        e.preventDefault();
-                                        handleVote();
+                                        e.stopPropagation()
+                                        e.preventDefault()
+                                        handleVote()
                                     }}
-                                    className={`${votedStatus ? "text-green-600" : ""} hover:text-green-900`}
-                                >
-                                    <ArrowUp size={28} />
+                                    className={
+                                        votedStatus
+                                        ? "text-orange-500 transition"
+                                        : "text-gray-400 hover:text-orange-500 transition"
+                                    }
+                                    aria-label="Upvote"
+                                    disabled={!userIdLS}
+                                    >
+                                    <ArrowUp
+                                        size={28}
+                                        className="hover:text-pink-500"
+                                    />
                                 </button>
                                 :
                                 <button
@@ -81,13 +108,21 @@ export default function Post({ postData, userId }) {
                                         e.stopPropagation();
                                         e.preventDefault();
                                     }}
-                                    className={`${votedStatus ? "text-green-600" : ""} hover:text-green-900`}
+                                    className={
+                                        votedStatus
+                                        ? "text-orange-500 transition"
+                                        : "text-gray-400 hover:text-orange-500 transition"
+                                    }
                                 >
-                                    <ArrowUp size={28} />
+                                    <ArrowUp 
+                                        size={28}
+                                        className="hover:text-pink-500"
+                                    />
                                 </button>
                             }
 
                             <span className="font-semibold text-lg text-gray-900">{votes}</span>
+                            <div className='w-1/2' />
                         </div>
 
                         <div className="flex justify-between items-center text-sm text-gray-500 ">

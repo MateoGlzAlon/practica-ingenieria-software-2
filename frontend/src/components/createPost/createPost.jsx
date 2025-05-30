@@ -6,6 +6,7 @@ import { X, Search, ChevronDown, Plus, ImageIcon } from "lucide-react"
 import createPost from "@/api/post/postCreatePost"
 import { uploadFile } from "@/components/awsComponents/UploadImage"
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import getTagsPostCreation from "@/api/getTagsPostCreation";
 
 
 export default function CreatePost() {
@@ -33,8 +34,10 @@ export default function CreatePost() {
     const [isDragOver, setIsDragOver] = useState(false)
     const tagDropdownRef = useRef(null)
     const fileInputRef = useRef(null)
+    const [availableTags, setAvailableTags] = useState([])
 
-    const availableTags = [
+    /*const availableTags = [
+
         { id: 1, name: "Technology" },
         { id: 2, name: "Design" },
         { id: 3, name: "Programming" },
@@ -45,7 +48,18 @@ export default function CreatePost() {
         { id: 8, name: "Guide" },
         { id: 9, name: "Tips" },
         { id: 10, name: "Discussion" },
-    ]
+    ]*/
+
+    useEffect(() => {
+        if (!isTagDropdownOpen) return;
+
+        getTagsPostCreation()
+            .then(tags => setAvailableTags(tags))
+            .catch(err => {
+            console.error("Error fetching tags:", err);
+            setAvailableTags([]);
+            });
+    }, [isTagDropdownOpen]);
 
     const filteredTags = tagSearchQuery
         ? availableTags.filter((tag) => tag.name.toLowerCase().includes(tagSearchQuery.toLowerCase()))
@@ -144,7 +158,11 @@ export default function CreatePost() {
     }
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
+
+        if(!userId) return;
+        
         console.log("Submitting post with formData:", formData);
 
         try {

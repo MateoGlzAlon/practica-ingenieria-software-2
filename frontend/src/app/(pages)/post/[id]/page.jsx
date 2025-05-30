@@ -7,6 +7,7 @@ import AnswersSection from "@/components/post/AnswersSection"
 import postAnswer from "@/api/comment/postAnswers"
 
 import Link from "next/link"
+
 import getHotQuestionPosts from "@/api/getHotQuestionPosts"
 import getIndividualPost from "@/api/getIndividualPost"
 import { useParams } from 'next/navigation'
@@ -32,9 +33,6 @@ export default function Post({ params }) {
     const [showComments, setShowComments] = useState(false)
 
     const [sortOrder, setSortOrder] = useState("votes")
-
-
-
 
 
     useEffect(() => {
@@ -63,6 +61,8 @@ export default function Post({ params }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(!userId) return;
 
         try {
             await postAnswer({
@@ -121,7 +121,6 @@ export default function Post({ params }) {
                             setAcceptedAnswer={setAcceptedAnswer}
                             idPost={id}
                             refreshTrigger={refreshComments}
-                            userId={userId}
                             setTotalComments={setTotalComments}
                             sortOrder={sortOrder}
                             authorId={postData.authorId}
@@ -181,7 +180,7 @@ function RightSidebar() {
                 <div className="bg-white p-4 border border-gray-200 rounded-md">
                     <h3 className="text-sm font-semibold mb-3">Hot Network Questions</h3>
                     {hotQuestions.length === 0 ? (
-                        <p className="text-sm text-gray-500">Cargando preguntas populares…</p>
+                        <p className="text-sm text-gray-500">Loading some of the most recent posts...</p>
                     ) : (
                         <ul className="space-y-2 text-sm">
                             {hotQuestions.map((q) => (
