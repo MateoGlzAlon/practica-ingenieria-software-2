@@ -59,8 +59,6 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<PostHotQuestionsDTO> hotPosts(){
-
-        //get the 3 most recent questions from the db
         Pageable pageable = PageRequest.of(0, 3, Sort.by("createdAt").descending());
         Page<PostEntity> postsPage = postRepository.findAll(pageable);
 
@@ -76,8 +74,6 @@ public class StatsServiceImpl implements StatsService {
             totalPosts.add(newPost);
 
         }
-
         return totalPosts;
-
     }
 }

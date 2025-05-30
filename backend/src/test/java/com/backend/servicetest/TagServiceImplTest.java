@@ -2,6 +2,7 @@ package com.backend.servicetest;
 
 import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.PostInputDTO;
+import com.backend.persistence.outputdto.TagCreatePostDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
@@ -20,6 +21,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class TagServiceImplTest {
@@ -49,7 +51,7 @@ public class TagServiceImplTest {
     private TagEntity tag1;
     private TagEntity tag2;
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()
@@ -103,7 +105,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsTag() {
+    void testFindTagById_ReturnsTag() {
         when(tagRepository.findById(1L)).thenReturn(Optional.of(tag1));
 
         TagEntity result = tagService.findTagById(1L);
@@ -113,7 +115,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsNull() {
+    void testFindTagById_ReturnsNull() {
         when(tagRepository.findById(999L)).thenReturn(Optional.empty());
 
         TagEntity result = tagService.findTagById(999L);
@@ -122,7 +124,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTags_ReturnsDTO() {
+    void testFindTags_ReturnsDTO() {
         List<TagEntity> tags = Arrays.asList(tag1, tag2);
         Sort sort = Sort.by(Sort.Direction.DESC, "name");
 
@@ -134,5 +136,24 @@ public class TagServiceImplTest {
         assertEquals(2, result.getTags().size());
         assertTrue(result.getTags().contains("Java"));
         assertTrue(result.getTags().contains("Python"));
+    }
+
+    @Test
+    void testGetTagsAvailablePost_ReturnsTagCreatePostDTOList() {
+        List<TagEntity> tags = Arrays.asList(tag2, tag1); // Python id=2, Java id=1
+        when(tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))).thenReturn(tags);
+
+        List<TagCreatePostDTO> result = tagService.getTagsAvailablePost();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        assertEquals(2L, result.get(0).getId());
+        assertEquals("Python", result.get(0).getName());
+
+        assertEquals(1L, result.get(1).getId());
+        assertEquals("Java", result.get(1).getName());
+
+        verify(tagRepository).findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }

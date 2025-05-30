@@ -1,12 +1,16 @@
 package com.backend.servicetest;
 
+import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.entity.CommentVoteEntity;
+import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.inputDTO.CommentVoteInputDTO;
+import com.backend.repository.CommentRepository;
 import com.backend.repository.CommentVoteRepository;
+import com.backend.repository.UserRepository;
 import com.backend.service.impl.CommentVoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -17,20 +21,25 @@ public class CommentVoteServiceImplTest {
 
     @Mock
     private CommentVoteRepository commentVoteRepository;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private CommentRepository commentRepository;
 
     @InjectMocks
     private CommentVoteServiceImpl commentVoteService;
 
     private CommentVoteEntity mockVote;
-
+    private CommentEntity mockComment;
+    private UserEntity mockUser;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        mockVote = CommentVoteEntity.builder()
-                .id(1L)
-                .build();
+        mockUser = UserEntity.builder().id(1L).username("user1").build();
+        mockComment = CommentEntity.builder().id(1L).votes(0).build();
+        mockVote = CommentVoteEntity.builder().id(1L).user(mockUser).comment(mockComment).build();
     }
 
     @Test
@@ -52,5 +61,62 @@ public class CommentVoteServiceImplTest {
 
         assertNull(result);
         verify(commentVoteRepository).findById(99L);
+    }
+
+    @Test
+    void testCreateCommentVote_FirstTime_Success() {
+        CommentVoteInputDTO input = CommentVoteInputDTO.builder().userId(1L).commentId(1L).build();
+
+        when(commentVoteRepository.isCommentVoted(1L, 1L)).thenReturn(false);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(mockComment));
+        when(commentVoteRepository.save(any(CommentVoteEntity.class))).thenAnswer(i -> i.getArgument(0));
+
+        CommentVoteEntity result = commentVoteService.createCommentVote(input);
+
+        assertNotNull(result);
+        assertEquals(mockUser, result.getUser());
+        assertEquals(mockComment, result.getComment());
+        verify(commentVoteRepository).save(any(CommentVoteEntity.class));
+        verify(commentRepository).save(mockComment);
+    }
+
+    @Test
+    void testCreateCommentVote_AlreadyVoted_RemovesVote() {
+        CommentVoteInputDTO input = CommentVoteInputDTO.builder().userId(1L).commentId(1L).build();
+
+        when(commentVoteRepository.isCommentVoted(1L, 1L)).thenReturn(true);
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(mockComment));
+
+        CommentVoteEntity result = commentVoteService.createCommentVote(input);
+
+        assertNull(result);
+        verify(commentVoteRepository).deleteByUserIDProjectId(1L, 1L);
+        verify(commentRepository).save(mockComment);
+    }
+
+    @Test
+    void testCreateCommentVote_CommentNotFound_ReturnsNull() {
+        CommentVoteInputDTO input = CommentVoteInputDTO.builder().userId(1L).commentId(999L).build();
+
+        when(commentVoteRepository.isCommentVoted(1L, 999L)).thenReturn(false);
+        when(commentRepository.findById(999L)).thenReturn(Optional.empty());
+
+        CommentVoteEntity result = commentVoteService.createCommentVote(input);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testIsCommentVoted_ReturnsTrue() {
+        when(commentVoteRepository.isCommentVoted(1L, 1L)).thenReturn(true);
+        boolean result = commentVoteService.isCommentVoted(1L, 1L);
+        assertTrue(result);
+    }
+
+    @Test
+    void testIsCommentVoted_NullUserId_ReturnsFalse() {
+        boolean result = commentVoteService.isCommentVoted(null, 1L);
+        assertFalse(result);
     }
 }

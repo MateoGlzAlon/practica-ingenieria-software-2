@@ -46,12 +46,12 @@ public class GoogleAuthServiceImplTest {
     }
 
     @Test
-    public void testAuthenticateWithGoogle_UserExists() {
+    void testAuthenticateWithGoogle_UserExists() {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(existingUser));
 
         ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         UserEntity result = (UserEntity) response.getBody();
         assertNotNull(result);
         assertEquals("test", result.getUsername());
@@ -59,7 +59,7 @@ public class GoogleAuthServiceImplTest {
     }
 
     @Test
-    public void testAuthenticateWithGoogle_NewUserCreated() {
+    void testAuthenticateWithGoogle_NewUserCreated() {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
         when(userRepository.save(any(UserEntity.class))).thenAnswer(i -> {
             UserEntity user = i.getArgument(0);
@@ -69,7 +69,7 @@ public class GoogleAuthServiceImplTest {
 
         ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         UserEntity createdUser = (UserEntity) response.getBody();
         assertNotNull(createdUser);
         assertEquals("test", createdUser.getUsername());
@@ -77,4 +77,59 @@ public class GoogleAuthServiceImplTest {
         assertEquals("https://avatar.com/test", createdUser.getAvatarUrl());
         verify(userRepository).save(any(UserEntity.class));
     }
+
+    @Test
+    void testAuthenticateWithGoogle_MissingFields_ReturnsBadRequest() {
+        // Falta el email
+        loginDTO.setEmail(null);
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCode().value());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+        verify(userRepository, never()).findByEmail(any());
+    }
+
+    @Test
+    void testAuthenticateWithGoogle_ExceptionThrown_ReturnsInternalServerError() {
+        // Simula una excepción al buscar por email
+        when(userRepository.findByEmail("test@example.com")).thenThrow(new RuntimeException("DB error"));
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(500, response.getStatusCode().value());
+        assertEquals("Error interno al autenticar con Google", response.getBody());
+    }
+
+    @Test
+    void testAuthenticateWithGoogle_EmailIsNull_ReturnsBadRequest() {
+        loginDTO.setEmail(null); // ← caso 1
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCode().value());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+    @Test
+    void testAuthenticateWithGoogle_UsernameIsNull_ReturnsBadRequest() {
+        loginDTO.setUsername(null); // ← caso 2
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCode().value());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+    @Test
+    void testAuthenticateWithGoogle_AvatarUrlIsNull_ReturnsBadRequest() {
+        loginDTO.setAvatarUrl(null); // ← caso 3
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCode().value());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+
 }

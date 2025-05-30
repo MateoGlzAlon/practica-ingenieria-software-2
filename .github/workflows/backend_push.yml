@@ -2,7 +2,7 @@ name: Backend push CI
 
 on:
   push:
-    branches: ["main", "dev"]
+    branches: ["main", "dev", "fix/sonar-issues"]
 
 jobs:
   build:
