@@ -48,7 +48,7 @@ class PostControllerImplTest {
     private FeedPostDTO mockFeedPost;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()

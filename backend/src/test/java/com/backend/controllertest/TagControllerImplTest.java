@@ -24,13 +24,9 @@ import com.backend.controller.impl.TipControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.TagService;
 import com.backend.service.TipService;
 
@@ -46,7 +42,6 @@ public class TagControllerImplTest {
     private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
 
     @BeforeEach
     public void setup() {
@@ -86,14 +81,6 @@ public class TagControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
     }
