@@ -51,6 +51,8 @@ export default function Post({ postData, userId }) {
 
     }
 
+    console.log("Post data es", postData)
+
     return (
 
         <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col gap-6 mb-4">
@@ -71,14 +73,14 @@ export default function Post({ postData, userId }) {
                     <div className="py-5">
                         <MarkdownRenderer
                             className="text-gray-700 mb-4 line-clamp-3 py-4"
-                            content={postData.content}
+                            content={postData.summary}
                         />
                     </div>
 
 
                     <div className=" flex flex-row justify-between">
 
-                        <div className="flex flex-row w-1/4 items-center justify-between ">
+                        <div className="flex flex-row w-1/8 items-center justify-between ">
 
                             {userIdLS ?
                                 <button

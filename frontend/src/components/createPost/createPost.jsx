@@ -11,7 +11,12 @@ import getTagsPostCreation from "@/api/getTagsPostCreation";
 
 export default function CreatePost() {
 
-    const userId = getUserIdFromLocalStorage();
+    const [userId] = getUserIdFromLocalStorage();
+
+
+    console.log("zanahoria", userId);
+
+
 
     const [formData, setFormData] = useState({
         title: "",
@@ -273,9 +278,44 @@ export default function CreatePost() {
 
                         {/* Content Section */}
                         <div className="space-y-3">
-                            <label htmlFor="content" className="block text-sm font-semibold text-gray-800">
-                                Content
-                            </label>
+                            <div className=" flex justify-between">
+                                <label htmlFor="content" className=" flex items-center text-sm font-semibold text-gray-800">
+                                    Content
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={async () => {
+                                        try {
+                                            if (formData.content.trim() === "") {
+                                                throw new Error("Content is empty");
+                                            }
+
+                                            const result = await fetchPostMeta(formData.content);
+
+                                            console.log("🧠 AI Suggestion:", result);
+
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                title: result.title,
+                                                summary: result.summary,
+                                            }));
+
+                                            console.log("2", formData)
+
+
+                                            console.log("3")
+
+
+                                            console.log("🧠 Suggested:", result);
+                                        } catch (err) {
+                                            alert("Failed to generate title/summary/tag.");
+                                        }
+                                    }}
+                                    className="px-4 py-2 mt-2 bg-gray-100 border-2 border-gray-200 text-sm rounded-lg hover:bg-gray-200"
+                                >
+                                    ✨ Auto-generate Title and summary based on Content
+                                </button>
+                            </div>
                             <textarea
                                 id="content"
                                 name="content"
@@ -287,41 +327,6 @@ export default function CreatePost() {
                                 required
                             />
                         </div>
-
-                        <button
-                            type="button"
-                            onClick={async () => {
-                                try {
-                                    if (formData.content.trim() === "") {
-                                        throw new Error("Content is empty");
-                                    }
-
-                                    const result = await fetchPostMeta(formData.content);
-
-                                    console.log("🧠 AI Suggestion:", result);
-
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        title: result.title,
-                                        summary: result.summary,
-                                    }));
-
-                                    console.log("2", formData)
-
-
-                                    console.log("3")
-
-
-                                    console.log("🧠 Suggested:", result);
-                                } catch (err) {
-                                    alert("Failed to generate title/summary/tag.");
-                                }
-                            }}
-                            className="px-4 py-2 mt-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200"
-                        >
-                            ✨ Auto-generate Title & Tag
-                        </button>
-
 
                         {/* Tag Section */}
                         <div className="space-y-3">

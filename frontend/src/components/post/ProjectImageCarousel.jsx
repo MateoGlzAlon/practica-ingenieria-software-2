@@ -14,7 +14,6 @@ function ProjectImageCarousel({ projectImages }) {
             responsive={responsive}
             showDots
             arrows
-            itemClass="px-2"
             containerClass="carousel-container"
             dotListClass="custom-dot-list-style"
         >

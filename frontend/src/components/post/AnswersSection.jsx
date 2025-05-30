@@ -10,7 +10,7 @@ import { toast } from 'sonner'
 import { useLoggedIn } from "@/hooks/loggedInContext"
 
 
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, setTotalComments, sortOrder }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder, authorId }) {
 
   const [commentsData, setCommentsData] = useState(null)
   const [expandedComments, setExpandedComments] = useState({})
@@ -19,6 +19,9 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const [tipAmounts, setTipAmounts] = useState({})
   const [userIdLS] = useState(getUserIdFromLocalStorage())
   const { loggedIn, setLoggedIn } = useLoggedIn()
+
+  console.log("authorIdPar", authorId)
+  console.log("userIDLS", userIdLS)
 
 
   const fetchComments = async () => {
@@ -174,21 +177,27 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
               <span className="text-xl font-bold my-2 text-gray-700">
                 {Number(commentVotes[answer.id] ?? answer.votes) || 0}
               </span>
-              <button
-                onClick={() => handleAcceptComment(answer.id)}
-                className={`
+
+              {loggedIn == true && userIdLS == authorId ?
+                <button
+                  onClick={() => handleAcceptComment(answer.id)}
+                  className={`
                   mt-4
                   ${(acceptedAnswer === answer.id ||
-                    (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
-                    ? "text-green-500"
-                    : "text-gray-400 hover:text-green-500"
-                  }
+                      (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+                      ? "text-green-500"
+                      : "text-gray-400 hover:text-green-500"
+                    }
                   transition
                 `}
-                aria-label="Accept answer"
-              >
-                <Award size={18} />
-              </button>
+                  aria-label="Accept answer"
+                >
+                  <Award size={18} />
+                </button>
+                :
+                <></>
+              }
+
             </div>
 
             <div className="flex-1">
@@ -206,34 +215,40 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                   </div>
                 )}
 
-
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-6">
+                  {console.log("loggin", loggedIn, userIdLS, answer.authorId, userIdLS !== answer.authorId)}
 
-
-                  {loggedIn == true ?
-                    <div className="mt-4 flex gap-2">
-                      <input
-                        type="number"
-                        placeholder="Amount"
-                        value={tipAmounts[answer.id] || ""}
-                        onChange={(e) =>
-                          setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
-                        }
-                        className="border px-2 py-1 rounded text-sm w-24"
-                      />
-                      <button
-                        className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
-                        onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
-                      >
-                        Send tip
-                      </button>
-                    </div>
+                  {loggedIn == true ? <>
+                    {(userIdLS != answer.authorId) == true ?
+                      <div className="mt-4 flex gap-2">
+                        <input
+                          type="number"
+                          placeholder="Amount"
+                          value={tipAmounts[answer.id] || ""}
+                          onChange={(e) =>
+                            setTipAmounts({ ...tipAmounts, [answer.id]: e.target.value })
+                          }
+                          className="border px-2 py-1 rounded text-sm w-24"
+                        />
+                        <button
+                          className="bg-orange-500 text-white px-3 py-1 rounded text-sm"
+                          onClick={() => handleSendTip(answer.authorId, tipAmounts[answer.id])}
+                        >
+                          Send tip
+                        </button>
+                      </div>
+                      :
+                      <div></div>
+                    }
+                  </>
                     :
                     <div className="mt-4 flex items-center gap-2 border border-red-300 bg-red-50 text-red-700 px-3 py-1 rounded text-sm font-medium">
                       Log in to send tips
                     </div>
-
                   }
+
+
+
 
 
 

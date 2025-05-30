@@ -123,6 +123,7 @@ export default function Post({ params }) {
                             refreshTrigger={refreshComments}
                             setTotalComments={setTotalComments}
                             sortOrder={sortOrder}
+                            authorId={postData.authorId}
                         />
 
                         <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 border border-gray-200 rounded-md">

@@ -25,6 +25,7 @@ public class PostEntity {
     private UserEntity user;
 
     private String title;
+    private String summary;
     private String content;
     private int votes;
     private String state;

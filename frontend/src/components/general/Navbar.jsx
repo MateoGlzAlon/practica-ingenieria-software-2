@@ -9,7 +9,6 @@ import logInUser from '@/api/post/postLogInUser';
 import { useLoggedIn } from '@/hooks/loggedInContext';
 
 export default function Navbar() {
-
     const [userIdLS, setUserIdLS] = useState(null);
     const { loggedIn, setLoggedIn } = useLoggedIn();
 
@@ -18,24 +17,19 @@ export default function Navbar() {
         setUserIdLS(id);
     }, []);
 
-
     async function handleSuccess(credentialResponse) {
         try {
             const success = await logInUser(credentialResponse);
-
-            console.log('Success:', success);
-
-            if (success == true) {
+            if (success === true) {
                 setLoggedIn(true);
-                console.log("loggedIn es", loggedIn);
-                console.log('Login successful!');
+                console.log("Login successful");
             } else {
-                console.warn('Login response was not successful.');
+                console.warn('Login failed');
             }
         } catch (error) {
-            console.error('Error authenticating with the backend', error);
+            console.error('Login error:', error);
         }
-    };
+    }
 
     async function handleLogout() {
         try {
@@ -43,15 +37,14 @@ export default function Navbar() {
             localStorage.removeItem('userRole');
             setLoggedIn(false);
         } catch (error) {
-            console.error('Error authenticating with the backend', error);
+            console.error('Logout error:', error);
         }
-
-    };
+    }
 
     return (
         <>
-            <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
-                <div className='w-1/3' />
+            <nav className="fixed top-0 left-0 w-full bg-white border-b border-gray-300 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+                <div className="w-1/3" />
 
                 <Link href="/" className="flex justify-center w-1/3">
                     <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
@@ -60,32 +53,30 @@ export default function Navbar() {
                     </div>
                 </Link>
 
-                <div className='w-1/3 flex justify-end'>
-                    {loggedIn ?
+                <div className="w-1/3 flex justify-end items-center gap-3">
+                    {loggedIn ? (
                         <>
                             <Link
                                 href="/profile"
-                                className='mr-4 px-4 py-2 bg-gray-200 rounded'
+                                className="px-4 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all shadow-sm font-medium"
                             >
-                                Perfil
+                                Profile
                             </Link>
 
                             <button
                                 onClick={handleLogout}
-                                className='mr-4 px-4 py-2 bg-gray-200 rounded'
+                                className="px-4 py-2 rounded-xl bg-red-100 text-red-700 hover:bg-red-200 transition-all shadow-sm font-medium"
                             >
                                 Log out
                             </button>
                         </>
-                        :
+                    ) : (
                         <GoogleLogin
                             onSuccess={handleSuccess}
                             onError={() => console.error('Login error')}
                         />
-                    }
+                    )}
                 </div>
-
-
             </nav>
 
             <div className="mt-[72px]"></div>
