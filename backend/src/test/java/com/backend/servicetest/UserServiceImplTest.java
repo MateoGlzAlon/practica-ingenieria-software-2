@@ -242,7 +242,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void testChangeUserLinks_Success() {
+    void testChangeUserLinks_Success() {
         UserLinksInputDTO linksDTO = UserLinksInputDTO.builder()
                 .userId(1L)
                 .github_link("https://github.com/new")
@@ -264,7 +264,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void testGetUserIdByEmail_Success() {
+    void testGetUserIdByEmail_Success() {
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUserEntity));
 
         Long userId = userService.getUserIdByEmail("user@example.com");

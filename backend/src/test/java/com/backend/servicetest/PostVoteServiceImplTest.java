@@ -128,7 +128,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testCreatePostVote_WhenPostIsNull_ReturnsNull() {
+    void testCreatePostVote_WhenPostIsNull_ReturnsNull() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
         when(postRepository.findById(10L)).thenReturn(Optional.empty());
 
@@ -137,7 +137,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testCreatePostVote_WhenAlreadyVoted_DeletesVoteAndDecreases() {
+    void testCreatePostVote_WhenAlreadyVoted_DeletesVoteAndDecreases() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(true);
         when(postRepository.findById(10L)).thenReturn(Optional.of(mockPostEntity));
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
@@ -150,7 +150,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testCreatePostVote_WhenNotVoted_CreatesVoteAndIncreases() {
+    void testCreatePostVote_WhenNotVoted_CreatesVoteAndIncreases() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
         when(postRepository.findById(10L)).thenReturn(Optional.of(mockPostEntity));
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
@@ -164,14 +164,14 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testIsPostVoted_ReturnsTrue() {
+    void testIsPostVoted_ReturnsTrue() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(true);
         assertTrue(postVoteService.isPostVoted(1L, 10L));
         verify(postVoteRepository).isPostVoted(1L, 10L);
     }
 
     @Test
-    public void testIsPostVoted_ReturnsFalse() {
+    void testIsPostVoted_ReturnsFalse() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
         assertFalse(postVoteService.isPostVoted(1L, 10L));
         verify(postVoteRepository).isPostVoted(1L, 10L);

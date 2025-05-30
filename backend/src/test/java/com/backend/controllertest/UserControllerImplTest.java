@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
+import com.backend.persistence.inputDTO.UserLinksInputDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -103,7 +104,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testFindUserById_ReturnsUserEntity() {
+    void testFindUserById_ReturnsUserEntity() {
         when(userService.findUserById(1L)).thenReturn(mockUserEntity);
 
         UserEntity result = userController.findUserById(1L);
@@ -114,7 +115,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testFindInputUserById_ReturnsUserInputDTO() {
+    void testFindInputUserById_ReturnsUserInputDTO() {
         when(userService.findUserInputByID(1L)).thenReturn(mockUserInputDto);
 
         UserInputDTO result = userController.findInputUserById(1L);
@@ -125,7 +126,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testGetProfileByUserId_ReturnsProfileDTO() {
+    void testGetProfileByUserId_ReturnsProfileDTO() {
         when(userService.getProfileByUserId(1L)).thenReturn(mockProfileDto);
 
         ProfileDTO result = userController.getProfileByUserId(1L);
@@ -134,5 +135,41 @@ public class UserControllerImplTest {
         assertEquals("testuser", result.getUser().getUsername());
         verify(userService, times(1)).getProfileByUserId(1L);
     }
+
+    @Test
+    void testChangeUserLinks_ReturnsUpdatedUser() {
+        UserLinksInputDTO linksDTO = UserLinksInputDTO.builder()
+                .userId(1L)
+                .github_link("https://github.com/test")
+                .twitter_link("https://twitter.com/test")
+                .website_link("https://test.com")
+                .build();
+
+        when(userService.changeUserLinks(linksDTO)).thenReturn(mockUserEntity);
+
+        UserEntity result = userController.changeUserLinks(linksDTO);
+
+        assertNotNull(result);
+        assertEquals("testuser", result.getUsername());
+        verify(userService, times(1)).changeUserLinks(linksDTO);
+    }
+
+    @Test
+    void testGetUserIdByEmail_ReturnsId() {
+        when(userService.getUserIdByEmail("test@example.com")).thenReturn(1L);
+
+        Long result = userController.getUserIdByEmail("test@example.com");
+
+        assertEquals(1L, result);
+        verify(userService, times(1)).getUserIdByEmail("test@example.com");
+    }
+
+    @Test
+    void testGetDummy_ReturnsDummyString() {
+        String result = userController.getDummy();
+
+        assertEquals("Dummy", result);
+    }
+
 
 }

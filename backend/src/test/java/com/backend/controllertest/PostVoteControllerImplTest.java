@@ -25,15 +25,10 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.PostVoteEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.inputDTO.PostVoteInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.CommunityStatsDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.PostVoteService;
 
 public class PostVoteControllerImplTest {
@@ -43,30 +38,17 @@ public class PostVoteControllerImplTest {
     @InjectMocks
     private PostVoteControllerImpl postVoteController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
-    private CommunityStatsDTO mockStats;
     private PostVoteEntity mockVote;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -104,20 +86,6 @@ public class PostVoteControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
         mockUserOutputDto = UserOutputDTO.builder()
                 .id(1L)
                 .username("testuser")
@@ -125,22 +93,13 @@ public class PostVoteControllerImplTest {
                 .role("USER")
                 .about("about user")
                 .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
 
-        mockStats = CommunityStatsDTO.builder()
-                .users(50L)
-                .questions(200L)
-                .answers (300L)
-                .build();
-        
         mockVote = PostVoteEntity.builder().id(1L).build();
 
     }
 
     @Test
-    public void testFindPostVoteById_ReturnsPostVoteEntity() {
+    void testFindPostVoteById_ReturnsPostVoteEntity() {
         when(postVoteService.findPostVoteById(1L)).thenReturn(mockVote);
 
         PostVoteEntity result = postVoteController.findPostVoteById(1L);
@@ -151,7 +110,7 @@ public class PostVoteControllerImplTest {
     }
 
     @Test
-    public void testCreatePostVote_ReturnsCreatedEntity() {
+    void testCreatePostVote_ReturnsCreatedEntity() {
         PostVoteInputDTO inputDTO = PostVoteInputDTO.builder()
                 .postId(10L)
                 .userId(5L)
@@ -169,7 +128,7 @@ public class PostVoteControllerImplTest {
     }
 
     @Test
-    public void testIsPostVoted_ReturnsTrue() {
+    void testIsPostVoted_ReturnsTrue() {
         Long userId = 2L;
         Long postId = 3L;
 
@@ -182,7 +141,7 @@ public class PostVoteControllerImplTest {
     }
 
     @Test
-    public void testIsPostVoted_ReturnsFalse() {
+    void testIsPostVoted_ReturnsFalse() {
         Long userId = 2L;
         Long postId = 3L;
 

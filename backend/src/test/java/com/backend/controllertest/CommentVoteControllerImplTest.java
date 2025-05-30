@@ -14,6 +14,7 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
+import com.backend.persistence.inputDTO.CommentVoteInputDTO;
 import com.backend.service.CommentVoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ public class CommentVoteControllerImplTest {
     }
 
     @Test
-    public void testFindCommentVoteById_ReturnsVote() {
+    void testFindCommentVoteById_ReturnsVote() {
         when(commentVoteService.findCommentVoteById(1L)).thenReturn(mockVote);
 
         CommentVoteEntity result = commentVoteController.findCommentVoteById(1L);
@@ -88,5 +89,33 @@ public class CommentVoteControllerImplTest {
         assertEquals(1L, result.getId());
         verify(commentVoteService, times(1)).findCommentVoteById(1L);
     }
+
+    @Test
+    void testCreateCommentVote_ReturnsVote() {
+        CommentVoteInputDTO voteInput = CommentVoteInputDTO.builder()
+                .userId(1L)
+                .commentId(2L)
+                .build();
+
+        when(commentVoteService.createCommentVote(voteInput)).thenReturn(mockVote);
+
+        CommentVoteEntity result = commentVoteController.createCommentVote(voteInput);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        verify(commentVoteService, times(1)).createCommentVote(voteInput);
+    }
+
+    @Test
+    void testIsCommentVoted_WithUserId_ReturnsTrue() {
+        when(commentVoteService.isCommentVoted(1L, 2L)).thenReturn(true);
+
+        boolean result = commentVoteController.isCommentVoted(1L, 2L);
+
+        assertTrue(result);
+        verify(commentVoteService, times(1)).isCommentVoted(1L, 2L);
+    }
+
+
 
 }

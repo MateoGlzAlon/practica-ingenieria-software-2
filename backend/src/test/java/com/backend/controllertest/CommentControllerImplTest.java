@@ -1,7 +1,6 @@
 package com.backend.controllertest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +11,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.backend.persistence.inputDTO.CommentAcceptDTO;
+import com.backend.persistence.outputdto.UserCommentDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -155,4 +156,46 @@ class CommentControllerImplTest {
         assertEquals("Test comment", result.getContent());
         verify(commentService, times(1)).createComment(mockCommentInput);
     }
+
+    @Test
+    void testAcceptComment_ReturnsNullIfNotFound() {
+        CommentAcceptDTO acceptDTO = new CommentAcceptDTO(99L, 99L, 99L);
+
+        when(commentService.acceptComment(acceptDTO)).thenReturn(null);
+
+        CommentEntity result = commentController.acceptComment(acceptDTO);
+
+        assertNull(result);
+        verify(commentService, times(1)).acceptComment(acceptDTO);
+    }
+
+    @Test
+    void testGetCommentsOfAUser_ReturnsUserComments() {
+        Long userId = 1L;
+
+        UserCommentDTO comment1 = UserCommentDTO.builder()
+                .idPost(1L)
+                .content("First comment")
+                .votes(10)
+                .build();
+
+        UserCommentDTO comment2 = UserCommentDTO.builder()
+                .idPost(2L)
+                .content("Second comment")
+                .votes(5)
+                .build();
+
+        List<UserCommentDTO> mockComments = List.of(comment1, comment2);
+
+        when(commentService.getCommentsOfAUser(userId)).thenReturn(mockComments);
+
+        List<UserCommentDTO> result = commentController.getCommentsOfAUser(userId);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("First comment", result.get(0).getContent());
+        verify(commentService, times(1)).getCommentsOfAUser(userId);
+    }
+
+
 }

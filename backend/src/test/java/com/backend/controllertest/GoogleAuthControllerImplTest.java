@@ -85,7 +85,7 @@ public class GoogleAuthControllerImplTest {
     }
 
     @Test
-    public void testLoginWithGoogle_ReturnsResponse() {
+    void testLoginWithGoogle_ReturnsResponse() {
         ResponseEntity<?> mockResponse = ResponseEntity.ok("Login success");
 
         when(googleAuthService.authenticateWithGoogle(any(GoogleLoginDTO.class))).thenReturn((ResponseEntity) mockResponse);

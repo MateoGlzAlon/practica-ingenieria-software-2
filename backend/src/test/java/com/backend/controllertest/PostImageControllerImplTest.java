@@ -80,7 +80,7 @@ public class PostImageControllerImplTest {
     }
 
     @Test
-    public void testFindPostImageById_ReturnsImage() {
+    void testFindPostImageById_ReturnsImage() {
         Long imageId = 1L;
         
         when(postImageService.findPostImageById(imageId)).thenReturn(mockImage);
