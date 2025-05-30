@@ -41,7 +41,6 @@ class PostControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private PostEntity mockPost;
     private PostOutputDTO mockPostOutput;
     private PostDetailsDTO mockPostDetails;
@@ -94,14 +93,6 @@ class PostControllerImplTest {
         mockPost = PostEntity.builder()
                 .id(1L)
                 .title("Post Title")
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockPostInput = PostInputDTO.builder()

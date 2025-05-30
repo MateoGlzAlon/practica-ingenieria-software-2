@@ -25,7 +25,6 @@ import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.GoogleAuthService;
 
 public class GoogleAuthControllerImplTest {
