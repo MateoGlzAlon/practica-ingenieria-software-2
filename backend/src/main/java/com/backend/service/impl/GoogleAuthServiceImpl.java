@@ -29,7 +29,7 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
             UserEntity user = optionalUser.orElseGet(() -> {
                 UserEntity newUser = new UserEntity();
                 newUser.setName(googleLoginDTO.getUsername());
-                newUser.setUsername(googleLoginDTO.getUsername());
+                newUser.setUsername(googleLoginDTO.getEmail().substring(0, googleLoginDTO.getEmail().indexOf("@")));
                 newUser.setEmail(googleLoginDTO.getEmail());
                 newUser.setPassword("");
                 newUser.setAvatarUrl(googleLoginDTO.getAvatarUrl());

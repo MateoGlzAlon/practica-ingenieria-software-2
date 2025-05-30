@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           <LoggedInProvider>
             <TagFilterProvider>
               <Navbar />
-              <Toaster richColors position="top-right" />
+              <Toaster richColors position="bottom-right" />
               {children}
             </TagFilterProvider>
           </LoggedInProvider>

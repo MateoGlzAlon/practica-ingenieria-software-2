@@ -60,7 +60,7 @@ export default function Post({ postData, userId }) {
 
                     <div className=" flex flex-row justify-between">
 
-                        <div className="flex flex-row w-1/4 items-center justify-between ">
+                        <div className="flex flex-row w-1/8 items-center justify-between ">
 
                             {userIdLS ?
                                 <button

@@ -137,7 +137,7 @@ export default function SidebarLeft() {
                                                             selectAllTags()
                                                             setIsDropdownOpen(false)
                                                         }}
-                                                        className="w-full text-left px-2 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors duration-150"
+                                                        className="w-full text-left px-2 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded transition-colors duration-150"
                                                     >
                                                         Select all remaining ({tags.filter((tag) => !selectedTags.includes(tag)).length})
                                                     </button>

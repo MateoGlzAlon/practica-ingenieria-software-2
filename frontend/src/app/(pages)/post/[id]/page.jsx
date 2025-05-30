@@ -124,6 +124,7 @@ export default function Post({ params }) {
                             userId={userId}
                             setTotalComments={setTotalComments}
                             sortOrder={sortOrder}
+                            authorId={postData.authorId}
                         />
 
                         <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 border border-gray-200 rounded-md">
@@ -198,6 +199,8 @@ function RightSidebar() {
                 </div>
 
                 {loggedIn ?
+                    <></>
+                    :
                     <div className="bg-orange-50 p-4 border border-orange-100 rounded-md">
                         <h3 className="text-sm font-semibold text-orange-800 mb-2">Join the Community</h3>
                         <p className="text-sm text-orange-700 mb-3">
@@ -207,8 +210,6 @@ function RightSidebar() {
                             Sign Up
                         </button>
                     </div>
-                    :
-                    <></>
                 }
 
 
