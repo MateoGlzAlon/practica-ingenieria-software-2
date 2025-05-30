@@ -39,12 +39,12 @@ public class StatsServiceImplTest {
     private StatsServiceImpl statsService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetCommunityStats_ReturnsCorrectCounts() {
+    void testGetCommunityStats_ReturnsCorrectCounts() {
         when(userRepository.count()).thenReturn(10L);
         when(commentRepository.count()).thenReturn(50L);
         when(postRepository.count()).thenReturn(20L);
@@ -62,7 +62,7 @@ public class StatsServiceImplTest {
     }
 
     @Test
-    public void testGetTop3Users_ReturnsListOfUsers() {
+    void testGetTop3Users_ReturnsListOfUsers() {
         Object[] row1 = new Object[]{1L, "user1", 15L};
         Object[] row2 = new Object[]{2L, "user2", 10L};
         Object[] row3 = new Object[]{3L, "user3", 5L};
@@ -78,7 +78,7 @@ public class StatsServiceImplTest {
     }
 
     @Test
-    public void testHotPosts_ReturnsRecentPosts() {
+    void testHotPosts_ReturnsRecentPosts() {
         PostEntity post1 = PostEntity.builder().id(1L).title("Post One").build();
         PostEntity post2 = PostEntity.builder().id(2L).title("Post Two").build();
         PostEntity post3 = PostEntity.builder().id(3L).title("Post Three").build();

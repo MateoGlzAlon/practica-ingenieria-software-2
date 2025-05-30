@@ -22,7 +22,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.PostImageService;
 
 public class PostImageControllerImplTest {
@@ -73,7 +72,7 @@ public class PostImageControllerImplTest {
                 .state("open")
                 .createdAt(new Date())
                 .build();
-                
+
         mockImage = PostImageEntity.builder()
                 .id(1L)
                 .imageUrl("https://placehold.co/600x400?text=PostImage")

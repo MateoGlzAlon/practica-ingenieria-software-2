@@ -23,7 +23,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.specialdto.UserBestStatsDTO;

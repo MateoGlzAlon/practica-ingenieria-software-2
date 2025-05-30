@@ -51,7 +51,7 @@ public class TagServiceImplTest {
     private TagEntity tag1;
     private TagEntity tag2;
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()
@@ -105,7 +105,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsTag() {
+    void testFindTagById_ReturnsTag() {
         when(tagRepository.findById(1L)).thenReturn(Optional.of(tag1));
 
         TagEntity result = tagService.findTagById(1L);
@@ -115,7 +115,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsNull() {
+    void testFindTagById_ReturnsNull() {
         when(tagRepository.findById(999L)).thenReturn(Optional.empty());
 
         TagEntity result = tagService.findTagById(999L);
@@ -124,7 +124,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testFindTags_ReturnsDTO() {
+    void testFindTags_ReturnsDTO() {
         List<TagEntity> tags = Arrays.asList(tag1, tag2);
         Sort sort = Sort.by(Sort.Direction.DESC, "name");
 
@@ -139,7 +139,7 @@ public class TagServiceImplTest {
     }
 
     @Test
-    public void testGetTagsAvailablePost_ReturnsTagCreatePostDTOList() {
+    void testGetTagsAvailablePost_ReturnsTagCreatePostDTOList() {
         List<TagEntity> tags = Arrays.asList(tag2, tag1); // Python id=2, Java id=1
         when(tagRepository.findAll(Sort.by(Sort.Direction.DESC, "id"))).thenReturn(tags);
 

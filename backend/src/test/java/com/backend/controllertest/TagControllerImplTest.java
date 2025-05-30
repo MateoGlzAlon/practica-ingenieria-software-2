@@ -26,7 +26,6 @@ import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.TagService;
 import com.backend.service.TipService;
 

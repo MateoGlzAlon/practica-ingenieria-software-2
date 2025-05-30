@@ -25,7 +25,7 @@ public class PostVoteServiceImplTest {
     private PostVoteEntity mockVote;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
         mockVote = PostVoteEntity.builder()
                 .id(1L)
@@ -35,7 +35,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testFindPostById_ReturnsPostVote() {
+    void testFindPostById_ReturnsPostVote() {
         when(postVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
 
         PostVoteEntity result = postVoteService.findPostVoteById(1L);
@@ -46,7 +46,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testFindPostById_ReturnsNullWhenNotFound() {
+    void testFindPostById_ReturnsNullWhenNotFound() {
         when(postVoteRepository.findById(2L)).thenReturn(Optional.empty());
 
         PostVoteEntity result = postVoteService.findPostVoteById(2L);
@@ -56,7 +56,7 @@ public class PostVoteServiceImplTest {
     }
 
     @Test
-    public void testServiceConstructor() {
+    void testServiceConstructor() {
         PostVoteServiceImpl service = new PostVoteServiceImpl(postVoteRepository, null, null, null);
         assertNotNull(service);
     }
