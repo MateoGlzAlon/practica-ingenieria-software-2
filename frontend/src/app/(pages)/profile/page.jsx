@@ -54,6 +54,22 @@ export default function ProfilePage() {
         fetchProfile()
     }, [idUser])
 
+    if (!idUser) {
+        return (
+            <div className="text-center py-10">
+                <p className="text-red-600 text-lg mb-4">
+                    You are not logged in. Please log in to access this page.
+                </p>
+                <Link
+                    href="/"
+                    className="text-blue-500 hover:underline"
+                >
+                    Go to Home
+                </Link>
+            </div>
+        )
+    }
+
 
     if (!profileData) {
         return <p className="text-center py-10">Loading profile...</p>
