@@ -28,7 +28,7 @@ import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.service.CommentService;
 
-public class CommentControllerImplTest {
+class CommentControllerImplTest {
     @Mock
     private CommentService commentService;
 
@@ -44,7 +44,7 @@ public class CommentControllerImplTest {
     private CommentInputDTO mockCommentInput;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()
@@ -97,7 +97,7 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentById_ReturnsCommentEntity() {
+    void testFindCommentById_ReturnsCommentEntity() {
         when(commentService.findCommentById(1L)).thenReturn(mockComment);
 
         CommentEntity result = commentController.findCommentById(1L);
@@ -109,7 +109,7 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentsOfAPost_ReturnsListOfDTOs_votes() {
+    void testFindCommentsOfAPost_ReturnsListOfDTOs_votes() {
         when(commentService.findCommentsOfAPost(1L, "votes")).thenReturn(List.of(mockCommentOutput));
 
         List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "votes");
@@ -121,7 +121,7 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentsOfAPost_ReturnsListOfDTOs_newest() {
+    void testFindCommentsOfAPost_ReturnsListOfDTOs_newest() {
         when(commentService.findCommentsOfAPost(1L, "newest")).thenReturn(List.of(mockCommentOutput));
 
         List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "newest");
@@ -133,7 +133,7 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testFindCommentsOfAPost_ReturnsListOfDTOs_oldest() {
+    void testFindCommentsOfAPost_ReturnsListOfDTOs_oldest() {
         when(commentService.findCommentsOfAPost(1L, "oldest")).thenReturn(List.of(mockCommentOutput));
 
         List<CommentOutputDTO> result = commentController.findCommentsOfAPost(1L, "oldest");
@@ -145,7 +145,7 @@ public class CommentControllerImplTest {
     }
 
     @Test
-    public void testCreateComment_ReturnsCreatedEntity() {
+    void testCreateComment_ReturnsCreatedEntity() {
         when(commentService.createComment(mockCommentInput)).thenReturn(mockComment);
 
         CommentEntity result = commentController.createComment(mockCommentInput);

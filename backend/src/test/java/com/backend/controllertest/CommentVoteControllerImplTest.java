@@ -14,7 +14,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.CommentVoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,6 @@ public class CommentVoteControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private CommentVoteEntity mockVote;
 
 
@@ -73,14 +71,6 @@ public class CommentVoteControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockVote = CommentVoteEntity.builder()

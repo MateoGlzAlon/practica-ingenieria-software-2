@@ -23,7 +23,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.specialdto.CommunityStatsDTO;
 import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.specialdto.UserBestStatsDTO;
@@ -40,11 +39,10 @@ public class StatsControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private CommunityStatsDTO mockStats;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()
@@ -79,14 +77,6 @@ public class StatsControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
-                .build();
-
         mockStats = CommunityStatsDTO.builder()
                 .users(50L)
                 .questions(200L)
@@ -95,7 +85,7 @@ public class StatsControllerImplTest {
     }
 
     @Test
-    public void testGetCommunityStats_ReturnsStats() {
+    void testGetCommunityStats_ReturnsStats() {
         when(statsService.getCommunityStats()).thenReturn(mockStats);
 
         CommunityStatsDTO result = statsController.getCommunityStats();
@@ -109,7 +99,7 @@ public class StatsControllerImplTest {
     }
 
     @Test
-    public void testGetTop3Users_ReturnsList() {
+    void testGetTop3Users_ReturnsList() {
         List<UserBestStatsDTO> topUsers = List.of(
                 UserBestStatsDTO.builder().id(1L).username("Alice").totalContributions(100L).build(),
                 UserBestStatsDTO.builder().id(2L).username("Bob").totalContributions(90L).build(),
@@ -128,7 +118,7 @@ public class StatsControllerImplTest {
     }
 
     @Test
-    public void testHotPosts_ReturnsList() {
+    void testHotPosts_ReturnsList() {
         List<PostHotQuestionsDTO> hotPosts = List.of(
                 PostHotQuestionsDTO.builder().id(1L).title("Hot Question 1").build(),
                 PostHotQuestionsDTO.builder().id(2L).title("Hot Question 2").build()

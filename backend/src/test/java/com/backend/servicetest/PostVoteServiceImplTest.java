@@ -1,9 +1,15 @@
 package com.backend.servicetest;
 
-import com.backend.persistence.entity.PostEntity;
-import com.backend.persistence.entity.PostVoteEntity;
-import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostVoteInputDTO;
+import com.backend.persistence.entity.*;
+import com.backend.persistence.inputDTO.*;
+import com.backend.persistence.outputdto.CommentOutputDTO;
+import com.backend.persistence.outputdto.PostOutputDTO;
+import com.backend.persistence.outputdto.TagOutputDTO;
+import com.backend.persistence.outputdto.UserOutputDTO;
+import com.backend.persistence.specialdto.CommunityStatsDTO;
+import com.backend.persistence.specialdto.FeedPostDTO;
+import com.backend.persistence.specialdto.PostDetailsDTO;
+import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.repository.*;
 import com.backend.service.impl.PostVoteServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,43 +30,99 @@ public class PostVoteServiceImplTest {
     @Mock private PostRepository postRepository;
     @Mock private CommentRepository commentRepository;
 
-    @InjectMocks private PostVoteServiceImpl postVoteService;
+    @InjectMocks
+    private PostVoteServiceImpl postVoteService;
 
     private PostVoteEntity mockVote;
-    private PostVoteInputDTO inputDTO;
-    private UserEntity mockUser;
-    private PostEntity mockPost;
+
+    private UserEntity mockUserEntityEntity;
+    private TagEntity mockTagEntity;
+    private PostEntity mockPostEntity;
+    private PostImageEntity mockPostImageEntity;
+    private UserEntity mockUserEntity;
+    private PostVoteInputDTO mockPostVoteInputDto;
+
+
+
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+
+        mockUserEntity = UserEntity.builder()
+                .id(1L)
+                .username("testuser")
+                .email("test@example.com")
+                .role("USER")
+                .build();
+
+
+        mockUserEntityEntity = UserEntity.builder()
+                .id(1L)
+                .username("testuser")
+                .email("test@example.com")
+                .role("USER")
+                .build();
+
+        mockTagEntity = TagEntity.builder()
+                .id(1L)
+                .name("Java")
+                .posts(new HashSet<>())
+                .build();
+
+        mockPostImageEntity = PostImageEntity.builder()
+                .id(1L)
+                .imageUrl("https://placehold.co/600x400?text=Post90")
+                .post(mockPostEntity)
+                .build();
+
+        mockPostEntity = PostEntity.builder()
+                .id(1L)
+                .title("Test Title")
+                .content("Test Content")
+                .user(mockUserEntityEntity)
+                .tag(mockTagEntity)
+                .votes(5)
+                .images(Arrays.asList(mockPostImageEntity))
+                .comments(new ArrayList<>())
+                .state("open")
+                .createdAt(new Date())
+                .build();
+
+        PostEntity post = PostEntity.builder()
+                .id(1L)
+                .title("Post Title")
+                .build();
+
         mockVote = PostVoteEntity.builder()
                 .id(1L)
                 .post(null)
                 .user(null)
                 .build();
 
-        inputDTO = new PostVoteInputDTO();
-        inputDTO.setUserId(1L);
-        inputDTO.setPostId(10L);
-
-        mockUser = new UserEntity();
-        mockPost = new PostEntity();
+        mockPostVoteInputDto  = PostVoteInputDTO.builder()
+                .postId(10L)
+                .userId(1L)
+                .build();
     }
 
     @Test
-    public void testFindPostById_ReturnsPostVote() {
+    void testFindPostById_ReturnsPostVote() {
         when(postVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
+
         PostVoteEntity result = postVoteService.findPostVoteById(1L);
+
         assertNotNull(result);
         assertEquals(1L, result.getId());
         verify(postVoteRepository).findById(1L);
     }
 
     @Test
-    public void testFindPostById_ReturnsNullWhenNotFound() {
+    void testFindPostById_ReturnsNullWhenNotFound() {
         when(postVoteRepository.findById(2L)).thenReturn(Optional.empty());
+
         PostVoteEntity result = postVoteService.findPostVoteById(2L);
+
         assertNull(result);
         verify(postVoteRepository).findById(2L);
     }
@@ -70,35 +132,34 @@ public class PostVoteServiceImplTest {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
         when(postRepository.findById(10L)).thenReturn(Optional.empty());
 
-        PostVoteEntity result = postVoteService.createPostVote(inputDTO);
+        PostVoteEntity result = postVoteService.createPostVote(mockPostVoteInputDto);
         assertNull(result);
-        verify(postRepository).findById(10L);
     }
 
     @Test
     public void testCreatePostVote_WhenAlreadyVoted_DeletesVoteAndDecreases() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(true);
-        when(postRepository.findById(10L)).thenReturn(Optional.of(mockPost));
-        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(postRepository.findById(10L)).thenReturn(Optional.of(mockPostEntity));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
 
-        PostVoteEntity result = postVoteService.createPostVote(inputDTO);
+        PostVoteEntity result = postVoteService.createPostVote(mockPostVoteInputDto);
 
         assertNull(result);
         verify(postVoteRepository).deleteByUserIDProjectId(1L, 10L);
-        verify(postRepository).save(mockPost);
+        verify(postRepository).save(mockPostEntity);
     }
 
     @Test
     public void testCreatePostVote_WhenNotVoted_CreatesVoteAndIncreases() {
         when(postVoteRepository.isPostVoted(1L, 10L)).thenReturn(false);
-        when(postRepository.findById(10L)).thenReturn(Optional.of(mockPost));
-        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(postRepository.findById(10L)).thenReturn(Optional.of(mockPostEntity));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
         when(postVoteRepository.save(any())).thenReturn(mockVote);
 
-        PostVoteEntity result = postVoteService.createPostVote(inputDTO);
+        PostVoteEntity result = postVoteService.createPostVote(mockPostVoteInputDto);
 
         assertNotNull(result);
-        verify(postRepository).save(mockPost);
+        verify(postRepository).save(mockPostEntity);
         verify(postVoteRepository).save(any(PostVoteEntity.class));
     }
 

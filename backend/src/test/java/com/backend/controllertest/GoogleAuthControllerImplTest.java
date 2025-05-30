@@ -25,7 +25,6 @@ import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.GoogleAuthService;
 
 public class GoogleAuthControllerImplTest {
@@ -39,7 +38,6 @@ public class GoogleAuthControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private GoogleLoginDTO mockLoginDTO;
 
 
@@ -77,14 +75,6 @@ public class GoogleAuthControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockLoginDTO = GoogleLoginDTO.builder()

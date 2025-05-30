@@ -22,7 +22,6 @@ import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.service.PostImageService;
 
 public class PostImageControllerImplTest {
@@ -36,7 +35,6 @@ public class PostImageControllerImplTest {
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private UserOutputDTO mockUserOutputDto;
     private PostImageEntity mockImage;
 
     @BeforeEach
@@ -73,15 +71,6 @@ public class PostImageControllerImplTest {
                 .comments(new ArrayList<>())
                 .state("open")
                 .createdAt(new Date())
-                .build();
-
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
                 .build();
 
         mockImage = PostImageEntity.builder()

@@ -24,10 +24,6 @@ import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.TipService;
 
 public class TipControllerImplTest {
@@ -42,7 +38,6 @@ public class TipControllerImplTest {
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
     private TipEntity mockTipEntity;
-    private UserOutputDTO mockUserOutputDto;
 
     @BeforeEach
     public void setup() {
@@ -85,15 +80,6 @@ public class TipControllerImplTest {
                 .amount(100)
                 .createdAt(new Date())
                 .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
-                .build();
-
     }
 
     @Test
