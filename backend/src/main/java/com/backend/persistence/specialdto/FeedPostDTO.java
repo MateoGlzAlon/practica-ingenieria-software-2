@@ -23,6 +23,7 @@ public class FeedPostDTO {
     private int votes;
     private Date createdAt;
     private String content;
+    private String summary;
 
     private boolean voted;
 
