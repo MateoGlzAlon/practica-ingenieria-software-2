@@ -127,6 +127,18 @@ public class CommentServiceImplTest {
     }
 
     @Test
+    void testAcceptComment_CommentNotFound_ReturnsNull() {
+        CommentAcceptDTO acceptDTO = new CommentAcceptDTO(1L, 1L, 99L); // commentId inválido
+        when(postRepository.findPostsByUserId(1L)).thenReturn(List.of(mockPost));
+        when(commentRepository.findById(99L)).thenReturn(Optional.empty());
+
+        CommentEntity result = commentService.acceptComment(acceptDTO);
+
+        assertNull(result);
+    }
+
+
+    @Test
     void testGetCommentsOfAUser_Success() {
         when(commentRepository.findByUserId(1L)).thenReturn(new ArrayList<>(List.of(mockComment)));
         List<UserCommentDTO> result = commentService.getCommentsOfAUser(1L);

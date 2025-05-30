@@ -77,4 +77,59 @@ public class GoogleAuthServiceImplTest {
         assertEquals("https://avatar.com/test", createdUser.getAvatarUrl());
         verify(userRepository).save(any(UserEntity.class));
     }
+
+    @Test
+    public void testAuthenticateWithGoogle_MissingFields_ReturnsBadRequest() {
+        // Falta el email
+        loginDTO.setEmail(null);
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+        verify(userRepository, never()).findByEmail(any());
+    }
+
+    @Test
+    public void testAuthenticateWithGoogle_ExceptionThrown_ReturnsInternalServerError() {
+        // Simula una excepción al buscar por email
+        when(userRepository.findByEmail("test@example.com")).thenThrow(new RuntimeException("DB error"));
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(500, response.getStatusCodeValue());
+        assertEquals("Error interno al autenticar con Google", response.getBody());
+    }
+
+    @Test
+    public void testAuthenticateWithGoogle_EmailIsNull_ReturnsBadRequest() {
+        loginDTO.setEmail(null); // ← caso 1
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+    @Test
+    public void testAuthenticateWithGoogle_UsernameIsNull_ReturnsBadRequest() {
+        loginDTO.setUsername(null); // ← caso 2
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+    @Test
+    public void testAuthenticateWithGoogle_AvatarUrlIsNull_ReturnsBadRequest() {
+        loginDTO.setAvatarUrl(null); // ← caso 3
+
+        ResponseEntity<?> response = googleAuthService.authenticateWithGoogle(loginDTO);
+
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Faltan campos en los datos de Google", response.getBody());
+    }
+
+
 }

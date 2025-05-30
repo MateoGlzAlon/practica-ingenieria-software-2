@@ -356,5 +356,33 @@ public class PostServiceImplTest {
         assertNull(result.get(0).getImageURL());
     }
 
+    @Test
+    public void testGetFeedPosts_PostWithNullUserId() {
+        PostEntity postWithNullImages = PostEntity.builder()
+                .id(2L)
+                .title("No Images")
+                .images(new ArrayList<>())
+                .user(mockUserEntity)
+                .content("Short content")
+                .comments(new ArrayList<>())
+                .createdAt(new Date())
+                .votes(0)
+                .state("open")
+                .build();
+
+        List<String> tags = new ArrayList<>();
+        tags.add("Java");
+
+        Page<PostEntity> mockPage = mock(Page.class);
+        when(mockPage.getContent()).thenReturn(List.of(postWithNullImages));
+        when(postRepository.findAll(any(Pageable.class), eq(tags))).thenReturn(mockPage);
+
+        List<FeedPostDTO> result = postService.getFeedPosts(0, 10, null, tags);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertNull(result.get(0).getImageURL());
+    }
+
 
 }
