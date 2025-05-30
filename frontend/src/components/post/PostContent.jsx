@@ -13,6 +13,8 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
     async function handleVote() {
 
+        if(!userId) return;
+
         try {
             const data = await createPostVotes(userId, postData.id)
             const voted = await getIsVoted(userId, postData.id)

@@ -153,7 +153,11 @@ export default function CreatePost() {
     }
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
+
+        if(!userId) return;
+        
         console.log("Submitting post with formData:", formData);
 
         try {
