@@ -10,9 +10,7 @@ import { toast } from 'sonner'
 import { useLoggedIn } from "@/hooks/loggedInContext"
 
 
-
-
-export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder }) {
+export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, setTotalComments, sortOrder }) {
 
   const [commentsData, setCommentsData] = useState(null)
   const [expandedComments, setExpandedComments] = useState({})
@@ -36,6 +34,17 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         .map(c => c.id);
 
       setAcceptedAnswer(acceptedIds);
+
+      const votedMap = {}
+      await Promise.all(
+        comments.map(async c => {
+          votedMap[c.id] = await getIsCommentVoted({
+            userId: userIdLS,
+            commentId: c.id
+          })
+        })
+      )
+      setVotedComments(votedMap)
     } catch (error) {
       console.error('Error fetching comments:', error)
     }
@@ -43,33 +52,10 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   useEffect(() => {
     if (!idPost) return;
+    
+    fetchComments();
 
-    (async () => {
-      try {
-        // 1) Traemos comentarios
-        const comments = await getCommentsOfAPost(idPost, sortOrder);
-        setCommentsData(comments);
-
-        // 2) Lógica de aceptados
-        setTotalComments(comments.length);
-        const acceptedIds = comments
-          .filter(c => c.accepted)
-          .map(c => c.id);
-        setAcceptedAnswer(acceptedIds);
-
-        // 3) Inicializamos votedComments tras cargar los comentarios
-        const votedMap = {};
-        await Promise.all(
-          comments.map(async c => {
-            votedMap[c.id] = await getIsCommentVoted({ userIdLS, commentId: c.id });
-          })
-        );
-        setVotedComments(votedMap);
-      } catch (err) {
-        console.error("Error inicializando comentarios:", err);
-      }
-    })();
-  }, [sortOrder]);
+  }, [idPost, refreshTrigger, sortOrder]);
 
   if (!commentsData) {
     return <p className="text-center py-10">Loading comments...</p>
@@ -77,7 +63,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
   const handleCommentVote = async (commentId) => {
     try {
-      await createCommentVote({ userId: userId, commentId })
+      await createCommentVote({ userId: userIdLS, commentId })
       const isVoted = await getIsCommentVoted({ userId: userIdLS, commentId })
 
       setVotedComments(prev => ({ ...prev, [commentId]: isVoted }))
@@ -96,7 +82,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
     console.log("useLogIN", useLoggedIn)
 
 
-    if (!userId) return;
+    if (!userIdLS) return;
     if (!receiverId || !amount) {
       toast.error("Missing receiver or amount");
       return;

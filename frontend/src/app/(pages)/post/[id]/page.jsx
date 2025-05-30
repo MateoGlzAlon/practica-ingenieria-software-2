@@ -7,7 +7,6 @@ import AnswersSection from "@/components/post/AnswersSection"
 import postAnswer from "@/api/comment/postAnswers"
 
 import Link from "next/link"
-import { mockData } from "@/app/mockData"
 
 import getHotQuestionPosts from "@/api/getHotQuestionPosts"
 import getIndividualPost from "@/api/getIndividualPost"
@@ -34,9 +33,6 @@ export default function Post({ params }) {
     const [showComments, setShowComments] = useState(false)
 
     const [sortOrder, setSortOrder] = useState("votes")
-
-
-
 
 
     useEffect(() => {
@@ -123,7 +119,6 @@ export default function Post({ params }) {
                             setAcceptedAnswer={setAcceptedAnswer}
                             idPost={id}
                             refreshTrigger={refreshComments}
-                            userId={userId}
                             setTotalComments={setTotalComments}
                             sortOrder={sortOrder}
                         />
