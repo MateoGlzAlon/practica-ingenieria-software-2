@@ -113,16 +113,16 @@ INSERT INTO "tags" ("name") VALUES
 
 -- INSERTS: users
 INSERT INTO "users" ( "name", "username", "email", "password", "github_link", "twitter_link", "website_link", "about", "avatar_url", "role", "wallet","created_at") VALUES
-('Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1', 'ADMIN', 1000, '2025-05-21 21:17:36.022143'),
-('Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://placehold.co/600x400?text=User3', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://placehold.co/600x400?text=User4', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5', 'MODERATOR', 1000, '2025-05-21 21:17:36.022143'),
-('Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://placehold.co/600x400?text=User7', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://placehold.co/600x400?text=User8', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9', 'USER', 1000, '2025-05-21 21:17:36.022143'),
-('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://placehold.co/600x400?text=User10', 'USER', 1000, '2025-05-21 21:17:36.022143');
+('Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1', 'ADMIN', 1000, '2025-05-22 21:17:36.022143'),
+('Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2', 'USER', 1000, '2025-05-23 21:17:36.022143'),
+('Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://placehold.co/600x400?text=User3', 'USER', 1000, '2025-05-24 21:17:36.022143'),
+('Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://placehold.co/600x400?text=User4', 'USER', 1000, '2025-05-25 21:17:36.022143'),
+('Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5', 'MODERATOR', 1000, '2025-05-26 21:17:36.022143'),
+('Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6', 'USER', 1000, '2025-05-27 21:17:36.022143'),
+('George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://placehold.co/600x400?text=User7', 'USER', 1000, '2025-05-28 21:17:36.022143'),
+('Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://placehold.co/600x400?text=User8', 'USER', 1000, '2025-05-29 21:17:36.022143'),
+('Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9', 'USER', 1000, '2025-05-30 21:17:36.022143'),
+('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://placehold.co/600x400?text=User10', 'USER', 1000, '2025-05-31 21:17:36.022143');
 -- INSERTS: posts
 INSERT INTO "posts" ("user_id", "tag_id", "title", "content", "votes", "state", "created_at") VALUES
 (2, 2, E'Intro to Python', E'Learn the basics of **Python programming**:
@@ -134,24 +134,24 @@ def greet():
 ( 3, 3, E'JavaScript Tips', E'Here are a few useful JavaScript tricks:
 ```js
 const greet = () => console.log("Hello!");
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-22 21:17:36.026944'),
 
 ( 4, 4, E'Deploy with Docker', E'How to deploy an app using **Docker**:
 ```bash
 docker build -t myapp .
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-23 21:17:36.026944'),
 
 ( 5, 5, E'Machine Learning 101', E'Start your ML journey with **scikit-learn**:
 ```python
 from sklearn.ensemble import RandomForestClassifier
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-24 21:17:36.026944'),
 
 ( 6, 6, E'Version Control with Git', E'Essential Git commands:
 ```bash
 $ git status
 $ git add .
 $ git commit -m "init"
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-25 21:17:36.026944'),
 
 ( 7, 7, E'Cloud with AWS', E'Host your project on AWS using EC2.
 > AWS is flexible and powerful.', 0, 'open', '2025-05-21 21:17:36.026944'),
@@ -161,76 +161,75 @@ $ git commit -m "init"
 @app.route("/")
 def home():
     return "Hello"
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-26 21:17:36.026944'),
 
 ( 9, 9, E'Kubernetes Basics', E'Intro to **Kubernetes** orchestration:
 ```yaml
 apiVersion: v1
 kind: Pod
-```', 0, 'open', '2025-05-21 21:17:36.026944'),
+```', 0, 'open', '2025-05-27 21:17:36.026944'),
 
 ( 10, 10, E'Secure Your App', E'Best practices for app security:
 - Use HTTPS
 - Sanitize inputs
-- Limit access', 0, 'open', '2025-05-21 21:17:36.026944'),
+- Limit access', 0, 'open', '2025-05-28 21:17:36.026944'),
 
 ( 1, 1, E'Responsive Design', E'Make your site responsive with CSS:
 ```css
 @media (max-width: 600px) {
   body { font-size: 14px; }
 }
-```', 0, 'open', '2025-05-21 21:17:36.026944');
+```', 0, 'open', '2025-05-29 21:17:36.026944');
 
 -- INSERTS: comments
 INSERT INTO "comments" ("post_id", "user_id", "content", "votes", "created_at", "accepted") VALUES
 (1, 1, 'Very helpful.', 0, '2025-05-21 21:17:36.030344', TRUE),
-(1, 2, 'I learned something new!', 0, '2025-05-21 21:17:36.030344', TRUE),
-(2, 3, 'I learned something new!', 0, '2025-05-21 21:17:37.030344', FALSE),
-(2, 4, 'Thanks for sharing.', 0, '2025-05-21 21:17:38.030344', FALSE),
-(3, 5, 'Thanks for sharing.', 0, '2025-05-21 21:17:39.030344', FALSE),
-(3, 6, 'Awesome tips!', 0, '2025-05-21 21:17:40.030344', FALSE),
-(4, 7, 'Awesome tips!', 0, '2025-05-21 21:17:41.030344', FALSE),
-(4, 8, 'Clean and clear explanation.', 0, '2025-05-21 21:17:42.030344', FALSE),
-(5, 9, 'Clean and clear explanation.', 0, '2025-05-21 21:17:43.030344', FALSE),
-(5, 10, 'Nice code snippet.', 0, '2025-05-21 21:17:44.030344', FALSE),
-(6, 1, 'Nice code snippet.', 0, '2025-05-21 21:17:45.030344', FALSE),
-(6, 2, 'This is gold.', 0, '2025-05-21 21:17:46.030344', FALSE),
-(7, 3, 'This is gold.', 0, '2025-05-21 21:17:47.030344', FALSE),
-(7, 4, 'Exactly what I needed.', 0, '2025-05-21 21:17:48.030344', FALSE),
-(8, 5, 'Exactly what I needed.', 0, '2025-05-21 21:17:49.030344', FALSE),
-(8, 6, 'Love it!', 0, '2025-05-21 21:17:50.030344', FALSE),
-(9, 7, 'Love it!', 0, '2025-05-21 21:17:51.030344', FALSE),
-(9, 8, 'Great post!', 0, '2025-05-21 21:17:52.030344', FALSE),
-(10, 9, 'Great post!', 0, '2025-05-21 21:17:53.030344', FALSE),
-(10, 10, 'Very helpful.', 0, '2025-05-21 21:17:54.030344', FALSE);
+(1, 2, 'I learned something new!', 0, '2025-05-22 21:17:36.030344', TRUE),
+(2, 3, 'I learned something new!', 0, '2025-05-23 21:17:37.030344', FALSE),
+(2, 4, 'Thanks for sharing.', 0, '2025-05-24 21:17:38.030344', FALSE),
+(3, 5, 'Thanks for sharing.', 0, '2025-05-25 21:17:39.030344', FALSE),
+(3, 6, 'Awesome tips!', 0, '2025-05-26 21:17:40.030344', FALSE),
+(4, 7, 'Awesome tips!', 0, '2025-05-27 21:17:41.030344', FALSE),
+(4, 8, 'Clean and clear explanation.', 0, '2025-05-28 21:17:42.030344', FALSE),
+(5, 9, 'Clean and clear explanation.', 0, '2025-05-29 21:17:43.030344', FALSE),
+(5, 10, 'Nice code snippet.', 0, '2025-05-30 21:17:44.030344', FALSE),
+(6, 1, 'Nice code snippet.', 0, '2025-05-31 21:17:45.030344', FALSE),
+(6, 2, 'This is gold.', 0, '2025-06-01 21:17:46.030344', FALSE),
+(7, 3, 'This is gold.', 0, '2025-06-02 21:17:47.030344', FALSE),
+(7, 4, 'Exactly what I needed.', 0, '2025-06-03 21:17:48.030344', FALSE),
+(8, 5, 'Exactly what I needed.', 0, '2025-06-04 21:17:49.030344', FALSE),
+(8, 6, 'Love it!', 0, '2025-06-05 21:17:50.030344', FALSE),
+(9, 7, 'Love it!', 0, '2025-06-06 21:17:51.030344', FALSE),
+(9, 8, 'Great post!', 0, '2025-06-07 21:17:52.030344', FALSE),
+(10, 9, 'Great post!', 0, '2025-06-08 21:17:53.030344', FALSE),
+(10, 10, 'Very helpful.', 0, '2025-06-09 21:17:54.030344', FALSE);
 
 -- INSERTS: post_images
 INSERT INTO "post_images" ( "post_id", "image_url", "created_at") VALUES
 (1, 'https://placehold.co/600x400?text=Post1', '2025-05-21 21:17:36.028905'),
-(2, 'https://placehold.co/600x400?text=Post2', '2025-05-21 21:17:36.028905'),
-(3, 'https://placehold.co/600x400?text=Post3', '2025-05-21 21:17:36.028905'),
-(4, 'https://placehold.co/600x400?text=Post4', '2025-05-21 21:17:36.028905'),
-(5, 'https://placehold.co/600x400?text=Post5', '2025-05-21 21:17:36.028905'),
-(6, 'https://placehold.co/600x400?text=Post6', '2025-05-21 21:17:36.028905'),
-(7, 'https://placehold.co/600x400?text=Post7', '2025-05-21 21:17:36.028905'),
-(8, 'https://placehold.co/600x400?text=Post8', '2025-05-21 21:17:36.028905'),
-(9, 'https://placehold.co/600x400?text=Post9', '2025-05-21 21:17:36.028905'),
-( 10, 'https://placehold.co/600x400?text=Post10', '2025-05-21 21:17:36.028905');
+(2, 'https://placehold.co/600x400?text=Post2', '2025-05-22 21:17:36.028905'),
+(3, 'https://placehold.co/600x400?text=Post3', '2025-05-23 21:17:36.028905'),
+(4, 'https://placehold.co/600x400?text=Post4', '2025-05-24 21:17:36.028905'),
+(5, 'https://placehold.co/600x400?text=Post5', '2025-05-25 21:17:36.028905'),
+(6, 'https://placehold.co/600x400?text=Post6', '2025-05-26 21:17:36.028905'),
+(7, 'https://placehold.co/600x400?text=Post7', '2025-05-27 21:17:36.028905'),
+(8, 'https://placehold.co/600x400?text=Post8', '2025-05-28 21:17:36.028905'),
+(9, 'https://placehold.co/600x400?text=Post9', '2025-05-29 21:17:36.028905'),
+( 10, 'https://placehold.co/600x400?text=Post10', '2025-05-30 21:17:36.028905');
 
 -- INSERTS: tips
 INSERT INTO "tips" ("sender_id", "receiver_id", "amount", "created_at") VALUES
-(2, 1, 250, '2025-05-21 21:17:36.032979'),
-(3, 2, 300, '2025-05-21 21:17:37.032979'),
-(4, 3, 150, '2025-05-21 21:17:38.032979'),
-(5, 4, 500, '2025-05-21 21:17:39.032979'),
-(6, 5, 100, '2025-05-21 21:17:40.032979'),
-(7, 6, 200, '2025-05-21 21:17:41.032979'),
-(8, 7, 180, '2025-05-21 21:17:42.032979'),
-(9, 8, 130, '2025-05-21 21:17:43.032979'),
-(10, 9, 170, '2025-05-21 21:17:44.032979'),
-(1, 10, 220, '2025-05-21 21:17:45.032979');
+(2, 1, 250, '2025-06-21 21:17:36.032979'),
+(3, 2, 300, '2025-06-21 21:17:37.032979'),
+(4, 3, 150, '2025-06-21 21:17:38.032979'),
+(5, 4, 500, '2025-06-21 21:17:39.032979'),
+(6, 5, 100, '2025-06-21 21:17:40.032979'),
+(7, 6, 200, '2025-06-21 21:17:41.032979'),
+(8, 7, 180, '2025-06-21 21:17:42.032979'),
+(9, 8, 130, '2025-06-21 21:17:43.032979'),
+(10, 9, 170, '2025-06-21 21:17:44.032979'),
+(1, 10, 220, '2025-06-21 21:17:45.032979');
 
--- 🛠️ Reset sequences to match the highest ID in each table
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 SELECT setval('tags_id_seq', (SELECT MAX(id) FROM tags));
 SELECT setval('posts_id_seq', (SELECT MAX(id) FROM posts));
