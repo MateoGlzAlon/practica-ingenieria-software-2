@@ -34,15 +34,6 @@ public class PostVoteServiceImplTest {
                 .build();
     }
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Test that verifies the PostVoteServiceImpl's findPostVoteById method
- * returns a PostVoteEntity when a valid ID is provided and exists in the repository.
- * It mocks the repository to return a predefined PostVoteEntity and checks
- * that the returned entity is not null and has the expected ID.
- */
-
-/*******  3faab409-1ab9-44ad-b026-880a31fc88d1  *******/
     @Test
     public void testFindPostById_ReturnsPostVote() {
         when(postVoteRepository.findById(1L)).thenReturn(Optional.of(mockVote));
@@ -62,5 +53,11 @@ public class PostVoteServiceImplTest {
 
         assertNull(result);
         verify(postVoteRepository).findById(2L);
+    }
+
+    @Test
+    public void testServiceConstructor() {
+        PostVoteServiceImpl service = new PostVoteServiceImpl(postVoteRepository, null, null, null);
+        assertNotNull(service);
     }
 }
