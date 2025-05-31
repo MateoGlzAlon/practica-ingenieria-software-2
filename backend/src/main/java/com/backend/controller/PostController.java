@@ -5,7 +5,6 @@ import com.backend.persistence.outputdto.PostOutputDTO;
 import com.backend.persistence.specialdto.FeedPostDTO;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.specialdto.PostDetailsDTO;
-import jakarta.annotation.security.RolesAllowed;
 
 import org.springframework.web.bind.annotation.*;
 

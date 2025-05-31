@@ -9,7 +9,6 @@ import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import jakarta.annotation.security.RolesAllowed;
 import java.util.List;
 
 

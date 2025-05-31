@@ -9,8 +9,7 @@ import com.backend.service.PostVoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.naming.directory.InvalidAttributesException;
-import java.util.Optional;
+    import java.util.Optional;
 
 @Service
 @AllArgsConstructor
