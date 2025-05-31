@@ -1,0 +1,14 @@
+import axios from 'axios';
+import { DATA } from "@/app/data";
+
+export default async function deleteComment(commentId) {
+    try {
+        const response = await axios.delete(`${DATA.apiURL}/comments/${commentId}`, postData);
+
+        console.log("Response from del /comments:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating post:", error);
+        throw error;
+    }
+}
