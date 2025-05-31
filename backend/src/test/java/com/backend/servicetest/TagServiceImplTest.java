@@ -4,10 +4,7 @@ import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.outputdto.TagCreatePostDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.specialdto.FeedPostDTO;
-import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.repository.*;
-import com.backend.service.impl.PostServiceImpl;
 import com.backend.service.impl.TagServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,30 +17,17 @@ import org.springframework.data.domain.*;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
  class TagServiceImplTest {
 
-    @Mock
-    private UserRepository userRepository;
-    @Mock
-    private PostRepository postRepository;
-    @Mock
-    private TipRepository tipRepository;
-    @Mock
-    private CommentRepository commentRepository;
-    @Mock
-    private PostVoteRepository postVoteRepository;
-    @Mock
-    private CommentVoteRepository commentVoteRepository;
+
     @Mock
     private TagRepository tagRepository;
 
     @InjectMocks private TagServiceImpl tagService;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
@@ -54,13 +38,6 @@ import static org.mockito.Mockito.*;
     void setup() {
         MockitoAnnotations.openMocks(this);
 
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)

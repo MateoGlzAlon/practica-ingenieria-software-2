@@ -153,8 +153,6 @@ class UserServiceImplTest {
                 .createdAt(new Date())
                 .build();
 
-        Object[] postCount = new Object[] { "Jan", 2 };
-        Object[] commentCount = new Object[] { "Jan", 3 };
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUserEntity));
         when(postRepository.findPostsByUserId(userId)).thenReturn(List.of(mockPostEntity));

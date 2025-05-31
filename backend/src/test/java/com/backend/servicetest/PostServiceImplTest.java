@@ -193,15 +193,18 @@ import static org.mockito.Mockito.*;
     void testUserNotFoundById_ThrowsException() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-            userRepository.findById(1L).orElseThrow(() -> new RuntimeException("User not found"));
-        });
+        RuntimeException thrown = assertThrows(RuntimeException.class,
+                () -> findUserOrThrow(1L));
 
         assertEquals("User not found", thrown.getMessage());
     }
 
+     private void findUserOrThrow(Long id) {
+         userRepository.findById(id)
+                 .orElseThrow(() -> new RuntimeException("User not found"));
+     }
 
-    @Test
+     @Test
     void testGetPostIndividual_ReturnsDTO() {
         when(postRepository.findById(1L)).thenReturn(Optional.of(mockPostEntity));
         var dto = postService.getPostIndividual(1L);

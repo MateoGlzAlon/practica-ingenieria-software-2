@@ -24,11 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private TagRepository TagRepository;
-
-
-
     @Test
     void testFindUserById() throws Exception {
         // Mock GET request to the endpoint /users/1

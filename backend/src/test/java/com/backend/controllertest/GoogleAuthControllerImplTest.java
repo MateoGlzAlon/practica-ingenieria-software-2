@@ -93,7 +93,7 @@ import com.backend.service.GoogleAuthService;
         ResponseEntity<?> result = googleAuthController.loginWithGoogle(mockLoginDTO);
 
         assertNotNull(result);
-        assertEquals(200, result.getStatusCodeValue());
+        assertEquals(200, result.getStatusCode().value());
         assertEquals("Login success", result.getBody());
 
         verify(googleAuthService, times(1)).authenticateWithGoogle(mockLoginDTO);

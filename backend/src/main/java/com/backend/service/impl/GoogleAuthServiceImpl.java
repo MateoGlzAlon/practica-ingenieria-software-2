@@ -42,7 +42,6 @@ public class GoogleAuthServiceImpl implements GoogleAuthService {
 
             return ResponseEntity.ok(user);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.internalServerError().body("Error interno al autenticar con Google");
         }
     }
