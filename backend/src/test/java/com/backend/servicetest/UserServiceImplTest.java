@@ -85,27 +85,7 @@ class UserServiceImplTest {
                 .createdAt(new Date())
                 .build();
 
-        mockCommentEntity = CommentEntity.builder()
-                .id(1L)
-                .post(mockPostEntity)
-                .votes(5)
-                .user(mockUserEntity)
-                .createdAt(new Date())
-                .content("Comentario")
-                .build();
 
-        mockPostImageEntity = PostImageEntity.builder()
-                .id(1L)
-                .imageUrl("https://placehold.co/600x400?text=Post90")
-                .build();
-
-        mockPostVoteEntity = PostVoteEntity.builder()
-                .id(1L)
-                .build();
-
-        mockCommentVoteEntity = CommentVoteEntity.builder()
-                .id(1L)
-                .build();
     }
 
     @Test
@@ -173,6 +153,8 @@ class UserServiceImplTest {
                 .createdAt(new Date())
                 .build();
 
+        Object[] postCount = new Object[] { "Jan", 2 };
+        Object[] commentCount = new Object[] { "Jan", 3 };
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUserEntity));
         when(postRepository.findPostsByUserId(userId)).thenReturn(List.of(mockPostEntity));
