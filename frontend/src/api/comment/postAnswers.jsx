@@ -10,8 +10,6 @@ export default async function postAnswer({ postId, userId, content }) {
             content: content
         }
 
-        //console.log("Body data = ", bodyData);
-
         const response = await axios.post(`${DATA.apiURL}/comments`, 
             bodyData
         );

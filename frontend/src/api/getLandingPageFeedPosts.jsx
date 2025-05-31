@@ -11,8 +11,6 @@ export default async function getFeedPosts(page = 0, size = 10, userId = 1, tags
             ...(tags.length > 0 ? { tags } : {})
         };
 
-        console.log("Query params:", queryParams);
-
         const response = await axios.get(`${DATA.apiURL}/posts/landingPageFeed`, {
             params: queryParams,
             paramsSerializer: (params) =>
@@ -21,8 +19,6 @@ export default async function getFeedPosts(page = 0, size = 10, userId = 1, tags
                 'Content-Type': 'application/json',
             },
         });
-
-        console.log("Response data:", response.data);
 
         return response.data;
     } catch (error) {

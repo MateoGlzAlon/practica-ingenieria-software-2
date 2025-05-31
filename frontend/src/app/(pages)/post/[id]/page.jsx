@@ -54,7 +54,6 @@ export default function Post({ params }) {
                 setDataPost(post)
                 setQuestionVotes(post.votes)
 
-                console.log("Post data", post)
             } catch (error) {
                 console.error('Error fetching post:', error)
             }

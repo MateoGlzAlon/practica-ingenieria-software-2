@@ -26,11 +26,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const { loggedIn, setLoggedIn } = useLoggedIn()
   const { wallet, updateWallet } = useWallet();
 
-
-  console.log("authorIdPar", authorId)
-  console.log("userIDLS", userIdLS)
-
-
   const fetchComments = async () => {
     try {
       const comments = await getCommentsOfAPost(idPost, sortOrder);
@@ -128,7 +123,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       });
 
       const text = await response.text();
-      console.log("Backend response:", text);
 
       if (!response.ok) {
         throw new Error(text);
@@ -238,7 +232,6 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 )}
 
                 <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-6">
-                  {console.log("loggin", loggedIn, userIdLS, answer.authorId, userIdLS !== answer.authorId)}
 
                   {loggedIn == true ? <>
                     {(userIdLS != answer.authorId) == true ?

@@ -8,8 +8,6 @@ export default async function createPostVotes(userId, postId) {
             postId: postId
         }
 
-        console.log("bodyData", bodyData)
-
         const response = await axios.post(`${DATA.apiURL}/postvotes`,
             bodyData
         );

@@ -3,9 +3,6 @@ import { DATA } from "@/app/data"
 
 export default async function getCommentsOfAPost(id, sort = 'newest') {
 
-    console.log("id", id);
-    console.log("sort", sort);
-
     try {
         const response = await axios.get(`${DATA.apiURL}/comments/post/${id}?sort=${sort}`, {
             headers: {

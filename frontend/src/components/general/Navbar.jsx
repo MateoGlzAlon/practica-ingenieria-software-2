@@ -23,7 +23,6 @@ export default function Navbar() {
             const success = await logInUser(credentialResponse, updateWallet);
             if (success === true) {
                 setLoggedIn(true);
-                console.log("Login successful");
             } else {
                 console.warn('Login failed');
             }
