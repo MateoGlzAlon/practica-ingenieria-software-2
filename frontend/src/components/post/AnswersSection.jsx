@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { useLoggedIn } from "@/hooks/loggedInContext"
 import deleteComment from "@/api/delete/deleteComment"
 import getUserRoleFromLocalStorage from "@/hooks/getUserRoleAuth"
+import { useWallet } from "@/hooks/walletContext";
 
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder, authorId }) {
@@ -23,6 +24,7 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const [userRoleLS] = useState(getUserRoleFromLocalStorage())
 
   const { loggedIn, setLoggedIn } = useLoggedIn()
+  const { wallet, updateWallet } = useWallet();
 
 
   console.log("authorIdPar", authorId)
@@ -107,21 +109,12 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
 
 
   const handleSendTip = async (receiverId, amount) => {
-
-    console.log("LOgged in", loggedIn);
-    console.log("useLogIN", useLoggedIn)
-
-
     if (!userIdLS) return;
-    if (!receiverId || !amount) {
-      toast.error("Missing receiver or amount");
+    const numericAmount = parseInt(amount);
+    if (!receiverId || isNaN(numericAmount) || numericAmount <= 0) {
+      toast.error("Invalid receiver or amount");
       return;
     }
-
-
-    console.log("SenderId", userIdLS);
-    console.log("ReceiverId", receiverId);
-    console.log("Amount", amount);
 
     try {
       const response = await fetch(`${DATA.apiURL}/tips/send`, {
@@ -130,22 +123,27 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
         body: JSON.stringify({
           senderId: userIdLS,
           receiverId,
-          amount: parseInt(amount),
+          amount: numericAmount,
         }),
       });
 
+      const text = await response.text();
+      console.log("Backend response:", text);
+
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
+        throw new Error(text);
       }
 
-      toast.success(`✅ Payment of ${amount} sent successfully!`);
+      updateWallet(wallet - numericAmount);
+
+      toast.success(`Payment of ${numericAmount} € sent successfully!`);
       setTipAmounts(prev => ({ ...prev, [receiverId]: "" }));
     } catch (error) {
       console.error("Error sending tip:", error);
-      toast.error("❌ Tip failed: " + error.message);
+      toast.error("Tip failed: " + error.message);
     }
-  }
+  };
+
 
 
 
