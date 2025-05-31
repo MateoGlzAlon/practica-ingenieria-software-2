@@ -4,7 +4,6 @@ describe('stoa e2e', () => {
     cy.visit('http://localhost:3000');
     cy.get('#navbar-title').should('exist');
     cy.get('#navbar-title').contains('Stoa');
-
   })
 
   it('visitPost', () => {
@@ -12,7 +11,7 @@ describe('stoa e2e', () => {
     cy.get('.px-16 > :nth-child(2)').click();
     cy.url().should('include', '/post/');
     cy.get('#post-title').should('exist');
-    cy.get('#post-title').contains('Intro to Python');
+    cy.get('#post-title').contains('CSS');
   })
 
   it('visitPostComment', () => {

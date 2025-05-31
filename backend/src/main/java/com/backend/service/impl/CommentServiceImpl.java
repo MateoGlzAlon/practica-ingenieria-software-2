@@ -79,46 +79,27 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(newComment);
     }
 
-    public CommentEntity acceptComment(CommentAcceptDTO comment){
-
-        /*
-        EXAMPLE FOR CHANGING ACCEPT STATUS
-        {
-            "userId":1,
-            "postId":1,
-            "commentId":1
-        }
-
-        */
-        
+    public CommentEntity acceptComment(CommentAcceptDTO comment) {
         List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
-        
-        boolean isValidUserVerification = false;
 
-        for(PostEntity newPost : posts){
-            if(Objects.equals(newPost.getId(), comment.getPostId())){
-                isValidUserVerification = true;
-                break;
-            }
-        }
+        boolean isValidUserVerification = posts.stream()
+                .anyMatch(post -> Objects.equals(post.getId(), comment.getPostId()));
 
-        if(!isValidUserVerification){
-            return null;
-        }
-        
-
-        CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
-
-        if(updateComment == null){
+        if (!isValidUserVerification) {
             return null;
         }
 
-        //change the value
+        Optional<CommentEntity> optionalComment = commentRepository.findById(comment.getCommentId());
+        if (optionalComment.isEmpty()) {
+            return null;
+        }
+
+        CommentEntity updateComment = optionalComment.get();
         updateComment.setAccepted(!updateComment.isAccepted());
 
         return commentRepository.save(updateComment);
-
     }
+
 
 
     public List<UserCommentDTO> getCommentsOfAUser(Long idUser){

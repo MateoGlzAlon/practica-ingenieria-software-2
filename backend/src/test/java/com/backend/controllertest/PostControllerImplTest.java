@@ -2,8 +2,7 @@ package com.backend.controllertest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -176,5 +175,12 @@ class PostControllerImplTest {
         assertNotNull(result);
         assertEquals("Post Title", result.getTitle());
         verify(postService).createPost(mockPostInput);
+    }
+
+    @Test
+    void testDeleteComment() {
+        postController.deletePost(1L);
+
+        verify(postService, times(1)).deletePost(1L);
     }
 }

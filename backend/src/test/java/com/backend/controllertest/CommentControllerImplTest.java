@@ -176,5 +176,10 @@ class CommentControllerImplTest {
         verify(commentService, times(1)).getCommentsOfAUser(userId);
     }
 
+    @Test
+    void testDeleteComment() {
+        commentController.deleteComment(1L);
 
+        verify(commentService, times(1)).deleteCommentById(1L);
+    }
 }

@@ -128,7 +128,11 @@ public class CommentServiceImplTest {
 
     @Test
     void testAcceptComment_CommentNotFound_ReturnsNull() {
-        CommentAcceptDTO acceptDTO = new CommentAcceptDTO(1L, 1L, 99L); // commentId inválido
+        CommentAcceptDTO acceptDTO = CommentAcceptDTO.builder()
+                .commentId(99L)
+                .userId(1L)
+                .postId(1L)
+                .build();
         when(postRepository.findPostsByUserId(1L)).thenReturn(List.of(mockPost));
         when(commentRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -166,4 +170,29 @@ public class CommentServiceImplTest {
         List<CommentEntity> result = commentService.getCommentsByPostIdOrderByOldest(1L);
         assertEquals(1, result.size());
     }
+
+    @Test
+    void testDeleteComment_Success() {
+
+        commentService.deleteCommentById(mockComment.getId());
+        verify(commentRepository).deleteById(mockComment.getId());
+    }
+
+
+    @Test
+    void testAcceptComment_ToggleAcceptedToFalse() {
+        mockComment.setAccepted(true);
+
+        CommentAcceptDTO acceptDTO = new CommentAcceptDTO(1L, 1L, 1L);
+        when(postRepository.findPostsByUserId(1L)).thenReturn(List.of(mockPost));
+        when(commentRepository.findById(1L)).thenReturn(Optional.of(mockComment));
+        when(commentRepository.save(any(CommentEntity.class))).thenAnswer(i -> i.getArgument(0));
+
+        CommentEntity result = commentService.acceptComment(acceptDTO);
+
+        assertNotNull(result);
+        assertFalse(result.isAccepted()); // it was true, now false
+    }
+
+
 }
