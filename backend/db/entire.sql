@@ -123,7 +123,7 @@ INSERT INTO "users" ( "name", "username", "email", "password", "github_link", "t
 ('George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-28 21:17:36.022143'),
 ('Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-29 21:17:36.022143'),
 ('Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-30 21:17:36.022143'),
-('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-31 21:17:36.022143');
+('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-31 21:17:36.022143'),
 ('Mateo Gonzalez', 'mateo.gonzalez.alonso', 'mateo.gonzalez.alonso@gmail.com', 'hashed_pw11', 'https://github.com/MateoGlzAlon', NULL, 'https://glzalomateo.dev', 'Blockchain enthusiast', 'https://lh3.googleusercontent.com/a/ACg8ocL2IReDahFfx_afAsmDOpnruynKgm3KKNYgg1OXwJs-6t45QftNmw=s96-c', 'ADMIN', 1000, '2025-05-31 21:17:36.022143');
 
 
