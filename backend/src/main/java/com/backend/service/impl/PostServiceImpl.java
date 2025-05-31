@@ -122,19 +122,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostEntity createPost(PostInputDTO post) {
 
-        /*
-         * {
-         * "title":"test2",
-         * "content":"this a test2",
-         * "userId": 1,
-         * "tagId": 1,
-         * "imageLinks":[
-         * "https://placehold.co/600x400?text=Post90",
-         * "https://placehold.co/600x400?text=Post91"
-         * ]
-         * }
-         * a
-         */
         UserEntity user = userRepository.findById(post.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
