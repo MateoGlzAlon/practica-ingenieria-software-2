@@ -143,6 +143,7 @@ export default function Post({ params }) {
                                 placeholder="Write your answer here..."
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
+                                required
                             ></textarea>
                             <div className="mt-4">
                                 <button
