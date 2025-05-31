@@ -21,7 +21,6 @@ import java.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +30,6 @@ public class PostServiceImpl implements PostService {
     private final TagRepository tagRepository;
     private final PostImageRepository postImageRepository;
     private final UserRepository userRepository;
-    private final PostVoteRepository postVoteRepository;
 
     @Override
     public PostEntity findPostById(Long id) {
@@ -102,7 +100,7 @@ public class PostServiceImpl implements PostService {
 
         }
 
-        PostDetailsDTO postDetails = PostDetailsDTO.builder()
+        return PostDetailsDTO.builder()
                 .id(post.getId())
                 .author(post.getUser().getUsername())
                 .authorProfilePicture(post.getUser().getAvatarUrl())
@@ -115,8 +113,6 @@ public class PostServiceImpl implements PostService {
                 .date(post.getCreatedAt())
                 .state(post.getState())
                 .build();
-
-        return postDetails;
     }
 
     @Override

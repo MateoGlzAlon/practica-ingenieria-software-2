@@ -1,7 +1,6 @@
 package com.backend.servicetest;
 
 import com.backend.persistence.entity.*;
-import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.outputdto.TagCreatePostDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.repository.*;
@@ -105,7 +104,7 @@ import static org.mockito.Mockito.*;
         List<TagEntity> tags = Arrays.asList(tag1, tag2);
         Sort sort = Sort.by(Sort.Direction.DESC, "name");
 
-        when(tagRepository.findAll(eq(sort))).thenReturn(tags);
+        when(tagRepository.findAll(sort)).thenReturn(tags);
 
         TagOutputDTO result = tagService.findTags();
 

@@ -2,7 +2,6 @@ package com.backend.repository;
 
 import com.backend.persistence.entity.CommentEntity;
 
-import com.backend.persistence.inputDTO.UserInputDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

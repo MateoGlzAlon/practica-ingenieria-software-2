@@ -16,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
@@ -42,20 +41,21 @@ public class StatsServiceImpl implements StatsService {
                 .build();
     }
 
-    
+
     @Override
     public List<UserBestStatsDTO> getTop3Users() {
         Pageable pageable = PageRequest.of(0, 3);
         List<Object[]> raw = userRepository.findTopUsersByActivity(pageable);
 
         return raw.stream()
-            .map(row -> new UserBestStatsDTO(
-                (Long)row[0],
-                (String)row[1],
-                ((Number)row[2]).longValue()
-            ))
-            .collect(Collectors.toList());
+                .map(row -> new UserBestStatsDTO(
+                        (Long) row[0],
+                        (String) row[1],
+                        ((Number) row[2]).longValue()
+                ))
+                .toList();
     }
+
 
     @Override
     public List<PostHotQuestionsDTO> hotPosts(){

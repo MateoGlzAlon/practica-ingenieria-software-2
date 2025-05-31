@@ -1,12 +1,10 @@
 package com.backend.repository;
 
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import com.backend.persistence.specialdto.UserBestStatsDTO;
 import java.util.Optional;
 
 import java.util.*;

@@ -22,8 +22,7 @@ public class TagControllerImpl implements TagController {
     @Override
     @GetMapping("/{id}")
     public TagEntity findTagById(@PathVariable Long id) {
-        TagEntity tag = tagService.findTagById(id);
-        return tag;
+        return tagService.findTagById(id);
     }
 
     @Override

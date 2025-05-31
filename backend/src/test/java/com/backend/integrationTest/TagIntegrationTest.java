@@ -1,6 +1,5 @@
 package com.backend.integrationTest;
 
-import com.backend.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,8 @@
 package com.backend.controller.impl;
 
 import com.backend.controller.CommentVoteController;
-import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.entity.CommentVoteEntity;
 import com.backend.persistence.inputDTO.CommentVoteInputDTO;
-import com.backend.repository.CommentVoteRepository;
 import com.backend.service.CommentVoteService;
 import lombok.AllArgsConstructor;
 

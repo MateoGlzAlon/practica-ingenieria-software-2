@@ -14,11 +14,8 @@ import com.backend.repository.TipRepository;
 import com.backend.repository.UserRepository;
 import com.backend.service.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -43,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public ProfileDTO getProfileByUserId(Long id){
 
         List<PostEntity> posts = postRepository.findPostsByUserId(id);
-        List<PostOutputDTO> posts_total = new ArrayList<>();
+        List<PostOutputDTO> postsTotal = new ArrayList<>();
 
         for(PostEntity p : posts){
             PostOutputDTO nPost = PostOutputDTO.builder()
@@ -54,7 +51,7 @@ public class UserServiceImpl implements UserService {
                     .date(p.getCreatedAt())
                     .build();
 
-            posts_total.add(nPost);
+            postsTotal.add(nPost);
         }
 
         UserEntity userData = userRepository.findById(id).orElse(null);
@@ -158,7 +155,7 @@ public class UserServiceImpl implements UserService {
         return ProfileDTO.builder()
                 .user(userDto)
                 .activityData(activityData)
-                .posts(posts_total)
+                .posts(postsTotal)
                 .build();
 
 
