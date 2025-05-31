@@ -28,7 +28,7 @@ import com.backend.persistence.specialdto.PostHotQuestionsDTO;
 import com.backend.persistence.specialdto.UserBestStatsDTO;
 import com.backend.service.impl.StatsServiceImpl;
 
-public class StatsControllerImplTest {
+ class StatsControllerImplTest {
     @Mock
     private StatsServiceImpl statsService;
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class GoogleAuthServiceImplTest {
+ class GoogleAuthServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -28,7 +28,7 @@ public class GoogleAuthServiceImplTest {
     private UserEntity existingUser;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         loginDTO = new GoogleLoginDTO();

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class PostServiceImplTest {
+ class PostServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -49,7 +49,7 @@ public class PostServiceImplTest {
     private PostImageEntity mockPostImageEntity;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockPostInput = PostInputDTO.builder()

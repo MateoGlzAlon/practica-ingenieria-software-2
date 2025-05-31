@@ -26,7 +26,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.outputdto.TagOutputDTO;
 import com.backend.service.TagService;
 
-public class TagControllerImplTest {
+ class TagControllerImplTest {
     @Mock
     private TagService tagService;
 
@@ -40,7 +40,7 @@ public class TagControllerImplTest {
     private PostImageEntity mockPostImageEntity;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()

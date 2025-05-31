@@ -37,18 +37,13 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
-    private CommentEntity mockCommentEntity;
-    private CommentVoteEntity mockCommentVoteEntity;
     private PostEntity mockPostEntity;
-    private PostVoteEntity mockPostVoteEntity;
-    private PostImageEntity mockPostImageEntity;
     private UserInputDTO mockUserInputDto;
 
     @BeforeEach
-    public void setupVariables() {
+     void setupVariables() {
         MockitoAnnotations.openMocks(this);
 
         mockUserInputDto = UserInputDTO.builder()
@@ -178,8 +173,6 @@ class UserServiceImplTest {
                 .createdAt(new Date())
                 .build();
 
-        Object[] postCount = new Object[] { "Jan", 2 };
-        Object[] commentCount = new Object[] { "Jan", 3 };
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUserEntity));
         when(postRepository.findPostsByUserId(userId)).thenReturn(List.of(mockPostEntity));

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class StatsServiceImplTest {
+ class StatsServiceImplTest {
 
     @Mock
     private PostRepository postRepository;

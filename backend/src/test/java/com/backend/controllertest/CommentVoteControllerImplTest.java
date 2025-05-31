@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-public class CommentVoteControllerImplTest {
+class CommentVoteControllerImplTest {
     
     @Mock
     private CommentVoteService commentVoteService;
@@ -38,7 +38,7 @@ public class CommentVoteControllerImplTest {
 
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
 
 

@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PostImageServiceImplTest {
+ class PostImageServiceImplTest {
 
     @Mock
     private PostImageRepository postImageRepository;
@@ -25,7 +25,7 @@ public class PostImageServiceImplTest {
     private PostImageEntity mockImage;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockImage = PostImageEntity.builder()

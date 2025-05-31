@@ -24,7 +24,7 @@ import com.backend.persistence.entity.TagEntity;
 import com.backend.persistence.entity.UserEntity;
 import com.backend.service.PostImageService;
 
-public class PostImageControllerImplTest {
+ class PostImageControllerImplTest {
     @Mock
     private PostImageService postImageService;
 
@@ -38,7 +38,7 @@ public class PostImageControllerImplTest {
     private PostImageEntity mockImage;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()

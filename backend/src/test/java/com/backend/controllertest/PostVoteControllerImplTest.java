@@ -28,7 +28,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.PostVoteInputDTO;
 import com.backend.service.PostVoteService;
 
-public class PostVoteControllerImplTest {
+ class PostVoteControllerImplTest {
     @Mock
     private PostVoteService postVoteService;
 
@@ -42,7 +42,7 @@ public class PostVoteControllerImplTest {
     private PostVoteEntity mockVote;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()

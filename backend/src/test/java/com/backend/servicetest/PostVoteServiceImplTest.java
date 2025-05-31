@@ -15,7 +15,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PostVoteServiceImplTest {
+ class PostVoteServiceImplTest {
 
     @Mock private PostVoteRepository postVoteRepository;
     @Mock private UserRepository userRepository;
@@ -38,7 +38,7 @@ public class PostVoteServiceImplTest {
 
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()

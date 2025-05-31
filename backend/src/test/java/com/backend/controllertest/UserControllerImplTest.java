@@ -29,7 +29,7 @@ import com.backend.persistence.specialdto.ProfileDTO;
 
 import com.backend.service.UserService;
 
-public class UserControllerImplTest {
+ class UserControllerImplTest {
 
     @Mock
     private UserService userService;
@@ -46,7 +46,7 @@ public class UserControllerImplTest {
     private UserOutputDTO mockUserOutputDto;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
 

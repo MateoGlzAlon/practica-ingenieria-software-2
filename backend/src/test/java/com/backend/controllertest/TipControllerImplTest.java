@@ -26,7 +26,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.service.TipService;
 import org.springframework.http.ResponseEntity;
 
-public class TipControllerImplTest {
+ class TipControllerImplTest {
     @Mock
     private TipService tipService;
 
@@ -40,7 +40,7 @@ public class TipControllerImplTest {
     private TipEntity mockTipEntity;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()

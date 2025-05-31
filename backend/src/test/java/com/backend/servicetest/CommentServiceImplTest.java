@@ -20,7 +20,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class CommentServiceImplTest {
+ class CommentServiceImplTest {
 
     @Mock
     private CommentRepository commentRepository;
@@ -37,7 +37,7 @@ public class CommentServiceImplTest {
     private PostEntity mockPost;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUser = UserEntity.builder().id(1L).username("user1").avatarUrl("avatar.png").build();

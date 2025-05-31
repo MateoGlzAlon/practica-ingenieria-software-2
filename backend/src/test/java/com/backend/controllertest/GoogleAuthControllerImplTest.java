@@ -27,7 +27,7 @@ import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.inputDTO.GoogleLoginDTO;
 import com.backend.service.GoogleAuthService;
 
-public class GoogleAuthControllerImplTest {
+ class GoogleAuthControllerImplTest {
     @Mock
     private GoogleAuthService googleAuthService;
 
@@ -42,7 +42,7 @@ public class GoogleAuthControllerImplTest {
 
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         MockitoAnnotations.openMocks(this);
 
         mockUserEntity = UserEntity.builder()
