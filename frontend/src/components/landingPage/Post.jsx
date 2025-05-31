@@ -39,19 +39,12 @@ export default function Post({ postData, userId }) {
             const voted = await getIsVoted(userId, postData.id)
             setVotedStatus(voted)
             setVotes(prev => prev + (voted ? 1 : -1))
-            console.log("Post data", data)
-
-            console.log("Postdata.voted ", postData)
 
         } catch (error) {
             console.error("Error voting:", error)
         }
 
-        console.log("votedStatus", votedStatus)
-
     }
-
-    console.log("Post data es", postData)
 
     return (
 

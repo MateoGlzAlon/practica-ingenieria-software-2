@@ -2,46 +2,55 @@
 BACKEND_DIR=backend
 FRONTEND_DIR=frontend
 
-# Detectar sistema operativo
-IS_WINDOWS := $(findstring Windows_NT,$(OS))
-
 # Comandos
-BACKEND_RUN = $(if $(IS_WINDOWS),gradlew.bat,./gradlew)
-BACKEND_BUILD = $(if $(IS_WINDOWS),gradlew.bat clean build,./mvnw clean install)
-BACKEND_CLEAN = $(if $(IS_WINDOWS),gradlew.bat clean,./mvnw clean)
+BACKEND_RUN=./gradlew run
+BACKEND_BUILD=./gradlew build
+BACKEND_TEST=./gradlew test
+E2E_TEST=npx cypress run
 
-# Comandos básicos
-.PHONY: all backend frontend start stop build clean
+.PHONY: all start start.backend start.frontend start.frontend_dev build build.backend build.frontend test.backend test.e2e provision
 
 all: start
 
 start:
-	@echo "🚀 Iniciando Backend y Frontend..."
-ifeq ($(IS_WINDOWS),Windows_NT)
-	start cmd /c "cd $(BACKEND_DIR) && $(BACKEND_RUN) bootRun"
-	start cmd /c "cd $(FRONTEND_DIR) && npm run dev"
-else
-	(cd $(BACKEND_DIR) && $(BACKEND_RUN) bootRun) & \
+	@echo "== Iniciando Backend y Frontend =="
+	(cd $(BACKEND_DIR) && $(BACKEND_RUN) spring-boot:run) & \
 	(cd $(FRONTEND_DIR) && npm run dev)
-endif
 
-backend:
-	@echo "🛠 Iniciando solo el Backend..."
-	cd $(BACKEND_DIR) && $(BACKEND_RUN) bootRun
+start.backend:
+	@echo "== Iniciando solo el Backend =="
+	cd $(BACKEND_DIR) && $(BACKEND_RUN) spring-boot:run
 
-frontend:
-	@echo "🛠 Iniciando solo el Frontend en modo dev..."
+start.frontend:
+	@echo "== Iniciando solo el Frontend =="
+	cd $(FRONTEND_DIR) && npm run start
+
+start.frontend_dev:
+	@echo "== Iniciando solo el Frontend (dev)=="
 	cd $(FRONTEND_DIR) && npm run dev
 
 build:
-	@echo "📦 Compilando ambos proyectos..."
+	@echo "== Buildeando backend =="
 	cd $(BACKEND_DIR) && $(BACKEND_BUILD)
 	cd $(FRONTEND_DIR) && npm run build
 
-clean:
-	@echo "🧹 Limpiando proyecto..."
-	cd $(BACKEND_DIR) && $(BACKEND_CLEAN)
-	cd $(FRONTEND_DIR) && rm -rf .next
+build.backend:
+	@echo " == Buildeando backend =="
+	cd $(BACKEND_DIR) && $(BACKEND_BUILD)
 
-stop:
-	@echo "🛑 Usa Ctrl+C para detener procesos o ejecuta kill manual."
+build.frontend:
+	@echo " == Buildeando f proyectos =="
+	cd $(FRONTEND_DIR) && npm run build	
+
+test.backend:
+	@echo "== Ejecutando pruebas del backend =="
+	cd $(BACKEND_DIR) && $(BACKEND_TEST)
+
+test.e2e:
+	@echo "== Ejecutando pruebas E2E del frontend =="
+	cd $(FRONTEND_DIR) && $(E2E_TEST)
+
+provision:
+	@echo "== Levantando el sistema (docker compose) =="
+	docker compose up -d --build
+

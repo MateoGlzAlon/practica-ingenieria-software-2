@@ -14,6 +14,8 @@ import { useParams } from 'next/navigation'
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 import { useLoggedIn } from "@/hooks/loggedInContext"
 
+import { useRouter } from "next/navigation";
+
 
 
 export default function Post({ params }) {
@@ -22,6 +24,7 @@ export default function Post({ params }) {
     const { id } = useParams()
 
     const userId = getUserIdFromLocalStorage();
+    const router = useRouter();
 
     const [postData, setDataPost] = useState(null)
     const [content, setContent] = useState("");
@@ -34,6 +37,13 @@ export default function Post({ params }) {
 
     const [sortOrder, setSortOrder] = useState("votes")
 
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    useEffect(() => {
+        if (shouldRedirect) {
+        router.push("/");
+        }
+    }, [shouldRedirect, router]);
 
     useEffect(() => {
         if (!id) return
@@ -44,7 +54,6 @@ export default function Post({ params }) {
                 setDataPost(post)
                 setQuestionVotes(post.votes)
 
-                console.log("Post data", post)
             } catch (error) {
                 console.error('Error fetching post:', error)
             }
@@ -87,7 +96,7 @@ export default function Post({ params }) {
 
                     <div className="flex-1">
                         <div className="mb-4 flex flex-wrap items-center justify-between">
-                            <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
+                            <h1 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0" id="post-title">
                                 {postData.title || "N/A"}
                             </h1>
                         </div>
@@ -100,10 +109,11 @@ export default function Post({ params }) {
                             setShowComments={setShowComments}
                             postData={postData}
                             userId={userId}
+                            setShouldRedirect={setShouldRedirect} 
                         />
 
                         <div className="flex items-center justify-between my-8">
-                            <h2 className="text-xl font-bold text-gray-900">{totalComments} Answers</h2>
+                            <h2 className="text-xl font-bold text-gray-900" id="answers-title">{totalComments} Answers</h2>
                             <div className="flex items-center space-x-2">
                                 <span className="text-sm text-gray-500">Sort by:</span>
                                 <select className="bg-white border border-gray-300 rounded-md px-2 py-1 text-sm"
@@ -133,6 +143,7 @@ export default function Post({ params }) {
                                 placeholder="Write your answer here..."
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
+                                required
                             ></textarea>
                             <div className="mt-4">
                                 <button

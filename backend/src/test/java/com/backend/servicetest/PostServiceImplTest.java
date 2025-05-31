@@ -384,5 +384,10 @@ public class PostServiceImplTest {
         assertNull(result.get(0).getImageURL());
     }
 
+    @Test
+    void testDeletePost_Success() {
 
+        postService.deletePost(mockPostEntity.getId());
+        verify(postRepository).deleteById(mockPostEntity.getId());
+    }
 }

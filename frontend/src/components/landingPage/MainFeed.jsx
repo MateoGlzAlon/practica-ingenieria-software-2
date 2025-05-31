@@ -22,8 +22,6 @@ export default function MainFeed() {
 
     const fetchPosts = async (pageNumber, tags = []) => {
 
-        console.log("Selected Tags", selectedTags)
-
         try {
             const data = await getFeedPosts(pageNumber, PAGE_SIZE, userId, tags)
             if (data.length < PAGE_SIZE) {
@@ -36,7 +34,6 @@ export default function MainFeed() {
                 setPosts(prev => [...prev, ...data])
             }
 
-            console.log("Mainfeed data", data)
         } catch (error) {
             console.error("Error fetching feed posts:", error)
         } finally {

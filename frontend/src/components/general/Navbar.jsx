@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import { useWallet } from '@/hooks/walletContext';
 import logInUser from '@/api/post/postLogInUser';
 import { useLoggedIn } from '@/hooks/loggedInContext';
 
 export default function Navbar() {
     const [userIdLS, setUserIdLS] = useState(null);
     const { loggedIn, setLoggedIn } = useLoggedIn();
-
+    const { wallet, updateWallet } = useWallet();
     useEffect(() => {
         const id = getUserIdFromLocalStorage();
         setUserIdLS(id);
@@ -19,10 +20,9 @@ export default function Navbar() {
 
     async function handleSuccess(credentialResponse) {
         try {
-            const success = await logInUser(credentialResponse);
+            const success = await logInUser(credentialResponse, updateWallet);
             if (success === true) {
                 setLoggedIn(true);
-                console.log("Login successful");
             } else {
                 console.warn('Login failed');
             }
@@ -46,16 +46,21 @@ export default function Navbar() {
             <nav className="fixed top-0 left-0 w-full bg-white border-b border-gray-300 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
                 <div className="w-1/3" />
 
-                <Link href="/" className="flex justify-center w-1/3">
-                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
+                <Link href="/" className="flex justify-center w-1/3" >
+                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer" >
                         <Landmark size={28} />
-                        <span className="pl-2 text-2xl">Stoa</span>
+                        <span className="pl-2 text-2xl" id="navbar-title">Stoa</span>
                     </div>
                 </Link>
 
                 <div className="w-1/3 flex justify-end items-center gap-3">
                     {loggedIn ? (
                         <>
+                        {wallet !== null && (
+                            <span className="text-gray-800 font-medium mr-2">
+                            Wallet {wallet} €
+                            </span>
+                        )}
                             <Link
                                 href="/profile"
                                 className="px-4 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all shadow-sm font-medium"

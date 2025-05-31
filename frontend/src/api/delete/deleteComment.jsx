@@ -5,7 +5,6 @@ export default async function deleteComment(commentId) {
     try {
         const response = await axios.delete(`${DATA.apiURL}/comments/${commentId}`);
 
-        console.log("Response from del /comments:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error creating post:", error);

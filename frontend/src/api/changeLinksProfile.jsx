@@ -11,8 +11,6 @@ export default async function changeLinksProfile({ userId, github, twitter, webs
             website_link: website
         }
 
-        //console.log("bodydata = ", bodyData)
-
         const response = await axios.post(`${DATA.apiURL}/users/change-links`, 
             bodyData
         );
