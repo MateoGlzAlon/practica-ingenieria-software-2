@@ -34,9 +34,9 @@ export default function SidebarRight() {
 
     useEffect(() => {
         fetchCommunityStats(),
-        fetchTopUsers()
+            fetchTopUsers()
     }, [])
-    
+
 
 
     return (
@@ -74,10 +74,9 @@ export default function SidebarRight() {
             <div className="bg-white p-4 rounded-md shadow-sm border border-gray-200">
                 <h3 className="font-medium mb-2">Rules and Guidelines</h3>
                 <ul className="text-sm space-y-2 text-gray-700">
-                    <li>Be respectful and helpful to others</li>
-                    <li>Provide context when asking questions</li>
-                    <li>Use appropriate tags for your posts</li>
-                    <li>Search before asking a new question</li>
+                    <li> - Be respectful and helpful to others</li>
+                    <li> - Provide context when asking questions</li>
+                    <li> - Use appropriate tags for your posts</li>
                 </ul>
             </div>
 

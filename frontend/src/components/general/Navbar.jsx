@@ -8,6 +8,8 @@ import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 import { useWallet } from '@/hooks/walletContext';
 import logInUser from '@/api/post/postLogInUser';
 import { useLoggedIn } from '@/hooks/loggedInContext';
+import { User, LogOut, Wallet } from "lucide-react"
+
 
 export default function Navbar() {
     const [userIdLS, setUserIdLS] = useState(null);
@@ -35,6 +37,8 @@ export default function Navbar() {
         try {
             localStorage.removeItem('userId');
             localStorage.removeItem('userRole');
+            localStorage.removeItem('avatar');
+            localStorage.removeItem('walletBalance');
             setLoggedIn(false);
         } catch (error) {
             console.error('Logout error:', error);
@@ -54,33 +58,42 @@ export default function Navbar() {
                 </Link>
 
                 <div className="w-1/3 flex justify-end items-center gap-3">
-                    {loggedIn ? (
-                        <>
-                        {wallet !== null && (
-                            <span className="text-gray-800 font-medium mr-2">
-                            Wallet {wallet} €
-                            </span>
-                        )}
-                            <Link
-                                href="/profile"
-                                className="px-4 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all shadow-sm font-medium"
-                            >
-                                Profile
-                            </Link>
+                    <div className="flex items-center gap-4">
+                        {loggedIn ? (
+                            <>
+                                {wallet !== null && (
+                                    <div className="flex items-center gap-1.5 text-gray-600">
+                                        <Wallet className="h-6 w-6" />
+                                        <span className="text-sm font-mono">{wallet}€</span>
+                                    </div>
+                                )}
 
-                            <button
-                                onClick={handleLogout}
-                                className="px-4 py-2 rounded-xl bg-red-100 text-red-700 hover:bg-red-200 transition-all shadow-sm font-medium"
-                            >
-                                Log out
-                            </button>
-                        </>
-                    ) : (
-                        <GoogleLogin
-                            onSuccess={handleSuccess}
-                            onError={() => console.error('Login error')}
-                        />
-                    )}
+                                <Link
+                                    href="/profile"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-gray-700 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+                                >
+                                    <img
+                                        src={localStorage.getItem('avatar')}
+                                        className="h-6 w-6 rounded-2xl"
+                                    />
+                                    Profile
+                                </Link>
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                >
+                                    <LogOut className="h-6 w-6" />
+                                    Sign out
+                                </button>
+                            </>
+                        ) : (
+                            <GoogleLogin
+                                onSuccess={handleSuccess}
+                                onError={() => console.error('Login error')}
+                            />
+                        )}
+                    </div>
                 </div>
             </nav>
 
