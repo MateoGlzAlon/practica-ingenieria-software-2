@@ -146,6 +146,7 @@ public class CommentServiceImpl implements CommentService {
         
     }
 
+
     @Override
     public List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId) {
         return commentRepository.findByPostIdOrderByVotesDesc(postId);
@@ -161,6 +162,9 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
     }
 
+    @Override
+    public void deleteCommentById(Long id) {
+        commentRepository.deleteById(id);
+    }
 
 }
-

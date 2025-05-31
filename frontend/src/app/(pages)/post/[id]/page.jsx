@@ -62,7 +62,7 @@ export default function Post({ params }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!userId) return;
+        if (!userId) return;
 
         try {
             await postAnswer({

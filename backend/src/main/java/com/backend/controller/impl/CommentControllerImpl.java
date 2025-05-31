@@ -51,5 +51,10 @@ public class CommentControllerImpl implements CommentController {
         return commentService.getCommentsOfAUser(idUser);
     }
 
+    @Override
+    public void deleteComment(Long id) {
+        commentService.deleteCommentById(id);
+    }
+
 }
 

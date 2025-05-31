@@ -17,6 +17,7 @@ export default async function logInUser(credentialResponse) {
         console.log('Response from /auth/google:', response.data);
         localStorage.setItem('userId', response.data.id);
         localStorage.setItem('userRole', response.data.role);
+        localStorage.setItem('avatar', response.data.avatarUrl);
         console.log('Login successfully:', response.data.id);
 
         return true
