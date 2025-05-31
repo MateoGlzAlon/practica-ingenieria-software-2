@@ -101,3 +101,4 @@ out/
 # TypeScript files
 *.tsbuildinfo
 next-env.d.ts
+frontend/cypress/screenshots

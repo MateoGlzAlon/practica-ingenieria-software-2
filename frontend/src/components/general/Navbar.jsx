@@ -46,10 +46,10 @@ export default function Navbar() {
             <nav className="fixed top-0 left-0 w-full bg-white border-b border-gray-300 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
                 <div className="w-1/3" />
 
-                <Link href="/" className="flex justify-center w-1/3">
-                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
+                <Link href="/" className="flex justify-center w-1/3" >
+                    <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer" >
                         <Landmark size={28} />
-                        <span className="pl-2 text-2xl">Stoa</span>
+                        <span className="pl-2 text-2xl" id="navbar-title">Stoa</span>
                     </div>
                 </Link>
 
