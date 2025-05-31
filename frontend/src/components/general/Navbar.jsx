@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import { useWallet } from '@/hooks/walletContext';
 import logInUser from '@/api/post/postLogInUser';
 import { useLoggedIn } from '@/hooks/loggedInContext';
 
 export default function Navbar() {
     const [userIdLS, setUserIdLS] = useState(null);
     const { loggedIn, setLoggedIn } = useLoggedIn();
-
+    const { wallet, updateWallet } = useWallet();
     useEffect(() => {
         const id = getUserIdFromLocalStorage();
         setUserIdLS(id);
@@ -19,7 +20,7 @@ export default function Navbar() {
 
     async function handleSuccess(credentialResponse) {
         try {
-            const success = await logInUser(credentialResponse);
+            const success = await logInUser(credentialResponse, updateWallet);
             if (success === true) {
                 setLoggedIn(true);
                 console.log("Login successful");
@@ -56,6 +57,11 @@ export default function Navbar() {
                 <div className="w-1/3 flex justify-end items-center gap-3">
                     {loggedIn ? (
                         <>
+                        {wallet !== null && (
+                            <span className="text-gray-800 font-medium mr-2">
+                            Wallet {wallet} €
+                            </span>
+                        )}
                             <Link
                                 href="/profile"
                                 className="px-4 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all shadow-sm font-medium"

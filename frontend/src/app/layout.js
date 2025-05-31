@@ -3,6 +3,7 @@ import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { TagFilterProvider } from "@/hooks/tagsContext";
 import { LoggedInProvider } from "@/hooks/loggedInContext";
+import { WalletProvider } from "@/hooks/walletContext";
 import { Toaster } from 'sonner'
 
 
@@ -17,14 +18,17 @@ export default function RootLayout({ children }) {
       <body>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
           <LoggedInProvider>
-            <TagFilterProvider>
-              <Navbar />
-              <Toaster richColors position="bottom-right" />
-              {children}
-            </TagFilterProvider>
+            <WalletProvider> 
+              <TagFilterProvider>
+                <Navbar />
+                <Toaster richColors position="bottom-right" />
+                {children}
+              </TagFilterProvider>
+            </WalletProvider>
           </LoggedInProvider>
         </GoogleOAuthProvider>
       </body>
     </html>
   );
 }
+
