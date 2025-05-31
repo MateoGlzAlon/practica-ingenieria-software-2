@@ -211,11 +211,11 @@ spec:
     image: nginx
 ```
 
-Can someone explain what each part means and how I can deploy this? Also, how do I check the pod status, access its logs, and expose it as a service?', 0, 'open', '2025-05-27 21:17:36.026944'),
+Can someone explain what each part means and how I can deploy this? Also, how do I check the pod status, access its logs, and expose it as a service?', 1, 'open', '2025-05-27 21:17:36.026944'),
 
 (10, 10, E'How can I secure my web application?', E'Best practices to protect web applications from common vulnerabilities.', E'I want to make sure my web application is secure. I’ve heard about using HTTPS and sanitizing inputs.
 
-What are the most important steps to secure a basic web app? Are there tools or libraries that can help with this? Additionally, how can I implement authentication securely and protect against threats like XSS, CSRF, and SQL injection?', 0, 'open', '2025-05-28 21:17:36.026944'),
+What are the most important steps to secure a basic web app? Are there tools or libraries that can help with this? Additionally, how can I implement authentication securely and protect against threats like XSS, CSRF, and SQL injection?', 1, 'open', '2025-05-28 21:17:36.026944'),
 
 (1, 1, E'How do I make my website responsive using CSS?', E'Using media queries to make web pages mobile-friendly.', E'I want to make my website look good on both desktop and mobile. I’ve heard that CSS media queries are helpful.
 
@@ -227,7 +227,7 @@ Here’s an example:
 }
 ```
 
-How do I apply these correctly, and what are other best practices for responsive design? Are there any frameworks or tools that simplify responsive web development?' , 0, 'open', '2025-05-29 21:17:36.026944');
+How do I apply these correctly, and what are other best practices for responsive design? Are there any frameworks or tools that simplify responsive web development?' , 1, 'open', '2025-05-29 21:17:36.026944');
 
 
 -- INSERTS: comments
@@ -253,11 +253,11 @@ INSERT INTO "comments" ("post_id", "user_id", "content", "votes", "created_at", 
 (7, 3, 'To run the Flask app, add `app.run(debug=True)` at the end of your script and visit `http://localhost:5000`.', 0, '2025-06-02 21:17:47.030344', FALSE),
 (7, 4, 'For better structure, organize routes in Blueprints and handle errors with Flask’s `@app.errorhandler` decorators.', 0, '2025-06-03 21:17:48.030344', FALSE),
 
-(8, 5, 'Each section in the YAML defines a part of the pod. Use `kubectl apply -f pod.yaml` to deploy it.', 0, '2025-06-04 21:17:49.030344', FALSE),
-(8, 6, 'Check pod status with `kubectl get pods`, access logs with `kubectl logs`, and expose using a `Service` definition.', 0, '2025-06-05 21:17:50.030344', FALSE),
+(8, 5, 'Each section in the YAML defines a part of the pod. Use `kubectl apply -f pod.yaml` to deploy it.', 1, '2025-06-04 21:17:49.030344', FALSE),
+(8, 6, 'Check pod status with `kubectl get pods`, access logs with `kubectl logs`, and expose using a `Service` definition.', 1, '2025-06-05 21:17:50.030344', FALSE),
 
 (9, 7, 'Use HTTPS with a valid SSL certificate. You can get one from Let’s Encrypt using Certbot.', 0, '2025-06-06 21:17:51.030344', FALSE),
-(9, 8, 'To prevent XSS and CSRF, sanitize all inputs and use tokens in forms. Flask-WTF or Helmet.js are helpful.', 0, '2025-06-07 21:17:52.030344', FALSE),
+(9, 8, 'To prevent XSS and CSRF, sanitize all inputs and use tokens in forms. Flask-WTF or Helmet.js are helpful.', 1, '2025-06-07 21:17:52.030344', FALSE),
 
 (10, 9, 'To make sites responsive, use media queries like `@media (max-width: 768px)` and mobile-first layout techniques.', 0, '2025-06-08 21:17:53.030344', FALSE),
 (10, 10, 'Frameworks like Bootstrap or TailwindCSS make it easier to build responsive UIs without writing a lot of custom CSS.', 0, '2025-06-09 21:17:54.030344', FALSE);
