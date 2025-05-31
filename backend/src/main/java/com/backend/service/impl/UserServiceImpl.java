@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
 
     public UserEntity changeUserLinks(UserLinksInputDTO userLinks){
 
-        UserEntity user = userRepository.findById(userLinks.getUserId()).get();
+        UserEntity user = userRepository.findById(userLinks.getUserId()).orElse(null);
 
         user.setGithub_link(userLinks.getGithub_link());
         user.setWebsite_link(userLinks.getWebsite_link());
@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Long getUserIdByEmail(String email){
-        return userRepository.findByEmail(email).get().getId();
+        return userRepository.findByEmail(email).orElse(null).getId();
     }
     
 }

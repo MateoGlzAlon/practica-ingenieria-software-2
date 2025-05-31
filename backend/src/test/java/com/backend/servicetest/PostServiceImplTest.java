@@ -393,4 +393,17 @@ import static org.mockito.Mockito.*;
         postService.deletePost(mockPostEntity.getId());
         verify(postRepository).deleteById(mockPostEntity.getId());
     }
-}
+
+     @Test
+     void testGetPostDetails_PostNotFound_ThrowsException() {
+         when(postRepository.findById(999L)).thenReturn(Optional.empty());
+
+         RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+             postService.getPostDetails(999L);
+         });
+
+         assertEquals("Post not found", thrown.getMessage());
+         verify(postRepository).findById(999L);
+     }
+
+ }

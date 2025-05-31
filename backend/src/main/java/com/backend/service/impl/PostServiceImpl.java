@@ -89,15 +89,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDetailsDTO getPostDetails(Long id) {
-
-        PostEntity post = postRepository.findById(id).orElse(null);
+        PostEntity post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
 
         List<String> listImages = new ArrayList<>();
-
         for (PostImageEntity image : post.getImages()) {
-
             listImages.add(image.getImageUrl());
-
         }
 
         return PostDetailsDTO.builder()
@@ -114,6 +111,7 @@ public class PostServiceImpl implements PostService {
                 .state(post.getState())
                 .build();
     }
+
 
     @Override
     public PostEntity createPost(PostInputDTO post) {

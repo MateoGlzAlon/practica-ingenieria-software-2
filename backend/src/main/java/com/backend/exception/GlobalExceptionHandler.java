@@ -24,19 +24,25 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UserHasAlreadyVotedException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // Responds with 422
   public ResponseEntity<String> handleUserHasAlreadyVotedException(UserHasAlreadyVotedException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @ExceptionHandler(WalletBalanceException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // Responds with 422
-  public ResponseEntity<String> handleWalletBalanceException(UserHasAlreadyVotedException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+  public ResponseEntity<String> handleWalletBalanceException(WalletBalanceException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Responds with 500
-  public ResponseEntity<String> handleUserNotFoundException(UserHasAlreadyVotedException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+  public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(PostNotFoundException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Responds with 500
+  public ResponseEntity<String> handlePostNotFoundException(PostNotFoundException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 
