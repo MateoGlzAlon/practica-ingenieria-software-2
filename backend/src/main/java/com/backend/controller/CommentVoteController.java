@@ -10,7 +10,7 @@ public interface CommentVoteController {
     CommentVoteEntity findCommentVoteById(Long id);
 
     @GetMapping("/check")
-    boolean isCommentVoted(@RequestParam Long userId,@RequestParam Long commentId);
+    boolean isCommentVoted(@RequestParam(required = false) Long userId,@RequestParam Long commentId);
 
     @PostMapping
     CommentVoteEntity createCommentVote(CommentVoteInputDTO commentVote);

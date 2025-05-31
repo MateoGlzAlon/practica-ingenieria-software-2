@@ -1,8 +1,6 @@
 package com.backend.controllertest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +11,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.backend.persistence.outputdto.TagCreatePostDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,19 +19,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.backend.controller.impl.TagControllerImpl;
-import com.backend.controller.impl.TipControllerImpl;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
-import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.TagOutputDTO;
-import com.backend.persistence.outputdto.UserOutputDTO;
-import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.service.TagService;
-import com.backend.service.TipService;
 
 public class TagControllerImplTest {
     @Mock
@@ -41,28 +33,15 @@ public class TagControllerImplTest {
     @InjectMocks    
     private TagControllerImpl tagController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private TagOutputDTO mockTagOutputDTO;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
-    private UserInputDTO mockUserInputDto;
-    private ProfileDTO mockProfileDto;
-    private UserOutputDTO mockUserOutputDto;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -100,40 +79,10 @@ public class TagControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        PostEntity post = PostEntity.builder()
-                .id(1L)
-                .title("Post Title")
-                .build();
-
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .post(post)
-                .createdAt(new Date())
-                .build();
-
-        
-        mockUserInputDto = UserInputDTO.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password")
-                .about("about user")
-                .build();
-
-        mockUserOutputDto = UserOutputDTO.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .role("USER")
-                .about("about user")
-                .build();
-        mockProfileDto = ProfileDTO.builder()
-                .user(mockUserOutputDto)
-                .build();
     }
 
     @Test
-    public void testFindTagById_ReturnsTag() {
+    void testFindTagById_ReturnsTag() {
         when(tagService.findTagById(1L)).thenReturn(mockTagEntity);
 
         TagEntity result = tagController.findTagById(1L);
@@ -144,7 +93,7 @@ public class TagControllerImplTest {
     }
 
     @Test
-    public void testFindTagById_ReturnsNullIfNotFound() {
+    void testFindTagById_ReturnsNullIfNotFound() {
         when(tagService.findTagById(99L)).thenReturn(null);
 
         TagEntity result = tagController.findTagById(99L);
@@ -154,7 +103,7 @@ public class TagControllerImplTest {
     }
 
     @Test
-    public void testFindTags_ReturnsTagOutputDTO() {
+    void testFindTags_ReturnsTagOutputDTO() {
         when(tagService.findTags()).thenReturn(mockTagOutputDTO);
 
         TagOutputDTO result = tagController.findTags();
@@ -166,8 +115,7 @@ public class TagControllerImplTest {
     }
 
     @Test
-    public void testFindTags_DefaultPagination() {
-        // Simula que no se pasan parámetros explícitos (usa los valores por defecto)
+    void testFindTags_DefaultPagination() {
         when(tagService.findTags()).thenReturn(mockTagOutputDTO);
 
         TagOutputDTO result = tagController.findTags();
@@ -176,5 +124,34 @@ public class TagControllerImplTest {
         assertEquals(1, result.getTags().size());
         verify(tagService, times(1)).findTags();
     }
+
+    @Test
+    void testGetTagsAvailablePost_ReturnsList() {
+        TagCreatePostDTO tag1 = TagCreatePostDTO.builder().id(1L).name("Java").build();
+        TagCreatePostDTO tag2 = TagCreatePostDTO.builder().id(2L).name("Spring").build();
+        List<TagCreatePostDTO> mockTags = List.of(tag1, tag2);
+
+        when(tagService.getTagsAvailablePost()).thenReturn(mockTags);
+
+        List<TagCreatePostDTO> result = tagController.getTagsAvailablePost();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Java", result.get(0).getName());
+        verify(tagService, times(1)).getTagsAvailablePost();
+    }
+
+    @Test
+    void testGetTagsAvailablePost_EmptyList() {
+        when(tagService.getTagsAvailablePost()).thenReturn(List.of());
+
+        List<TagCreatePostDTO> result = tagController.getTagsAvailablePost();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(tagService, times(1)).getTagsAvailablePost();
+    }
+
+
 
 }

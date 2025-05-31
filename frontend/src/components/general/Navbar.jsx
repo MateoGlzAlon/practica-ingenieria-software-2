@@ -1,46 +1,50 @@
 'use client';
 
 import { GoogleLogin } from '@react-oauth/google';
-import { useState } from 'react';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import { Landmark } from "lucide-react";
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import logInUser from '@/api/post/postLogInUser';
+import { useLoggedIn } from '@/hooks/loggedInContext';
 
 export default function Navbar() {
+    const [userIdLS, setUserIdLS] = useState(null);
+    const { loggedIn, setLoggedIn } = useLoggedIn();
 
-    const [userIdLS, setUserIdLS] = useState(getUserIdFromLocalStorage());
+    useEffect(() => {
+        const id = getUserIdFromLocalStorage();
+        setUserIdLS(id);
+    }, []);
 
-
-    const handleSuccess = async (credentialResponse) => {
-        const token = credentialResponse.credential;
-        const decoded = jwtDecode(token);
-
-        const googleUser = {
-            email: decoded.email,
-            username: decoded.name,
-            avatarUrl: decoded.picture,
-        };
+    async function handleSuccess(credentialResponse) {
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/google', googleUser);
-
-            console.log('Response from /api/auth/google:', response.data);
-            const backendToken = response.data.token;
-            localStorage.setItem('token', backendToken);
-            localStorage.setItem('userId', response.data.id);
-            console.log('Login successfully:', response.data.id);
+            const success = await logInUser(credentialResponse);
+            if (success === true) {
+                setLoggedIn(true);
+                console.log("Login successful");
+            } else {
+                console.warn('Login failed');
+            }
         } catch (error) {
-            console.error('Error authenticating with the backend', error);
+            console.error('Login error:', error);
         }
-    };
+    }
+
+    async function handleLogout() {
+        try {
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            setLoggedIn(false);
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
 
     return (
         <>
-            <nav className="fixed top-0 left-0 w-full bg-white border-b-[0.5px] border-gray-500 z-50 px-6 py-4 flex justify-between items-center">
-                <div className='w-1/3' >
-                    {userIdLS || "N/A"}
-                </div>
+            <nav className="fixed top-0 left-0 w-full bg-white border-b border-gray-300 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+                <div className="w-1/3" />
 
                 <Link href="/" className="flex justify-center w-1/3">
                     <div className="flex items-center text-2xl font-bold text-black hover:cursor-pointer">
@@ -49,23 +53,30 @@ export default function Navbar() {
                     </div>
                 </Link>
 
-                {userIdLS ?
+                <div className="w-1/3 flex justify-end items-center gap-3">
+                    {loggedIn ? (
+                        <>
+                            <Link
+                                href="/profile"
+                                className="px-4 py-2 rounded-xl bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all shadow-sm font-medium"
+                            >
+                                Profile
+                            </Link>
 
-                    <Link href="/profile" className='w-1/3 flex justify-end'>
-                        Perfil
-                    </Link>
-
-
-                    :
-                    <Link href="/login" className='w-1/3 flex justify-end'>
+                            <button
+                                onClick={handleLogout}
+                                className="px-4 py-2 rounded-xl bg-red-100 text-red-700 hover:bg-red-200 transition-all shadow-sm font-medium"
+                            >
+                                Log out
+                            </button>
+                        </>
+                    ) : (
                         <GoogleLogin
                             onSuccess={handleSuccess}
-                            onError={() => console.log('Login error')}
+                            onError={() => console.error('Login error')}
                         />
-                    </Link>
-                }
-
-
+                    )}
+                </div>
             </nav>
 
             <div className="mt-[72px]"></div>

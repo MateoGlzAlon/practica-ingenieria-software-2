@@ -3,6 +3,7 @@ package com.backend.servicetest;
 import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
+import com.backend.persistence.inputDTO.UserLinksInputDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
 import com.backend.repository.*;
 import com.backend.service.impl.UserServiceImpl;
@@ -165,8 +166,6 @@ class UserServiceImplTest {
                 .amount(10)
                 .sender(mockUserEntity)
                 .receiver(UserEntity.builder().id(2L).build())
-                .post(mockPostEntity)
-                .comment(comment)
                 .createdAt(new Date())
                 .build();
 
@@ -176,8 +175,6 @@ class UserServiceImplTest {
                 .amount(20)
                 .sender(UserEntity.builder().username("senderUser").build())
                 .receiver(mockUserEntity)
-                .post(mockPostEntity)
-                .comment(comment)
                 .createdAt(new Date())
                 .build();
 
@@ -242,6 +239,38 @@ class UserServiceImplTest {
 
         assertNull(result);
         verify(userRepository).findById(userId);
+    }
+
+    @Test
+    void testChangeUserLinks_Success() {
+        UserLinksInputDTO linksDTO = UserLinksInputDTO.builder()
+                .userId(1L)
+                .github_link("https://github.com/new")
+                .website_link("https://mysite.com")
+                .twitter_link("https://twitter.com/new")
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUserEntity));
+        when(userRepository.save(any(UserEntity.class))).thenAnswer(i -> i.getArgument(0));
+
+        UserEntity updatedUser = userService.changeUserLinks(linksDTO);
+
+        assertEquals("https://github.com/new", updatedUser.getGithub_link());
+        assertEquals("https://mysite.com", updatedUser.getWebsite_link());
+        assertEquals("https://twitter.com/new", updatedUser.getTwitter_link());
+
+        verify(userRepository).findById(1L);
+        verify(userRepository).save(mockUserEntity);
+    }
+
+    @Test
+    void testGetUserIdByEmail_Success() {
+        when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUserEntity));
+
+        Long userId = userService.getUserIdByEmail("user@example.com");
+
+        assertEquals(1L, userId);
+        verify(userRepository).findByEmail("user@example.com");
     }
 
 

@@ -5,6 +5,7 @@ import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
 import com.backend.persistence.inputDTO.CommentAcceptDTO;
 import com.backend.persistence.outputdto.UserCommentDTO;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,6 @@ public interface CommentController {
     @GetMapping("/post/{id}")
     List<CommentOutputDTO> findCommentsOfAPost(@PathVariable Long id, @RequestParam(required = false, defaultValue = "newest") String sort);
 
-
     @PostMapping
     CommentEntity createComment(@RequestBody CommentInputDTO comment);
 
@@ -28,4 +28,6 @@ public interface CommentController {
     @GetMapping("/user/{idUser}")
     List<UserCommentDTO> getCommentsOfAUser(@PathVariable Long idUser);
 
+    @DeleteMapping("/{id}")
+    void deleteComment(@PathVariable Long id);
 }

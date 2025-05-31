@@ -26,14 +26,7 @@ public class TipEntity {
     @JoinColumn(name = "receiver_id", nullable = false)
     private UserEntity receiver;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private PostEntity post;
-
-    @ManyToOne
-    @JoinColumn(name = "comment_id", nullable = false)
-    private CommentEntity comment;
-
+    @Column(nullable = false)
     private int amount;
 
     @Column(name = "created_at")

@@ -17,8 +17,8 @@ public interface PostController {
     @GetMapping("/{id}")
     PostEntity findPostById(@PathVariable Long id);
 
-    @GetMapping("/landingPageFeed/{userId}")
-    List<FeedPostDTO> getFeedPosts(int page, int size, List<String> tags, @PathVariable Long userId);
+    @GetMapping("/landingPageFeed")
+    List<FeedPostDTO> getFeedPosts(int page, int size, List<String> tags, @RequestParam Long userId);
 
     @GetMapping("/focus/{id}")
     PostOutputDTO getPostIndividual(@PathVariable Long id);

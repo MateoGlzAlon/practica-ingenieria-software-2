@@ -22,8 +22,20 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(UserHasAlreadyVotedException.class)
-  @ResponseStatus(HttpStatus.CONFLICT) // Responds with 409 status
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // Responds with 422
   public ResponseEntity<String> handleUserHasAlreadyVotedException(UserHasAlreadyVotedException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(WalletBalanceException.class)
+  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // Responds with 422
+  public ResponseEntity<String> handleWalletBalanceException(UserHasAlreadyVotedException ex) {
+    return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Responds with 500
+  public ResponseEntity<String> handleUserNotFoundException(UserHasAlreadyVotedException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 

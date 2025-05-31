@@ -1,7 +1,6 @@
 package com.backend.service.impl;
 
 import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.UserEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.inputDTO.CommentInputDTO;
 import com.backend.persistence.outputdto.CommentOutputDTO;
@@ -14,7 +13,6 @@ import com.backend.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Sort;
 
 import java.util.*;
 
@@ -55,6 +53,7 @@ public class CommentServiceImpl implements CommentService {
                         .id(comment.getId())
                         .authorProfilePicture(comment.getUser().getAvatarUrl())
                         .author(comment.getUser().getUsername())
+                        .authorId(comment.getUser().getId())
                         .content(comment.getContent())
                         .votes(comment.getVotes())
                         .createdAt(comment.getCreatedAt())
@@ -65,15 +64,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentEntity createComment(CommentInputDTO comment){
-
-        /*
-        EXAMPLE OF BODY OF REQUEST:
-            {
-              "postId": 1,
-              "userId": 1,
-              "content": "WOW!!!!!!!!!! NICE ONE LOL"
-            }
-        */
 
         CommentEntity newComment = CommentEntity.builder()
                 //id no se pone, se asigna solo
@@ -100,24 +90,22 @@ public class CommentServiceImpl implements CommentService {
         }
 
         */
-
-        // TO-DO: Uncomment this later – just disabled for now while debugging.
-        /*
+        
         List<PostEntity> posts = postRepository.findPostsByUserId(comment.getUserId());
         
         boolean isValidUserVerification = false;
 
         for(PostEntity newPost : posts){
-            if(newPost.getPostId() == comment.getPostId()){
+            if(Objects.equals(newPost.getId(), comment.getPostId())){
                 isValidUserVerification = true;
                 break;
             }
         }
 
-        if(isValidUserVerification == false){
+        if(!isValidUserVerification){
             return null;
         }
-        */
+        
 
         CommentEntity updateComment = commentRepository.findById(comment.getCommentId()).get();
 
@@ -158,6 +146,7 @@ public class CommentServiceImpl implements CommentService {
         
     }
 
+
     @Override
     public List<CommentEntity> getCommentsByPostIdOrderByVotes(Long postId) {
         return commentRepository.findByPostIdOrderByVotesDesc(postId);
@@ -173,6 +162,9 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
     }
 
+    @Override
+    public void deleteCommentById(Long id) {
+        commentRepository.deleteById(id);
+    }
 
 }
-

@@ -38,6 +38,9 @@ public class UserEntity {
     @Column(name = "created_at")
     private Date createdAt;
 
+    @Column(nullable = false)
+    private Double wallet;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-post")
     private List<PostEntity> posts;
