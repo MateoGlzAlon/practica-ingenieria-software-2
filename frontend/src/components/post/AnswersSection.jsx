@@ -8,6 +8,8 @@ import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth"
 import { DATA } from "@/app/data"
 import { toast } from 'sonner'
 import { useLoggedIn } from "@/hooks/loggedInContext"
+import deleteComment from "@/api/delete/deleteComment"
+import getUserRoleFromLocalStorage from "@/hooks/getUserRoleAuth"
 
 
 export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPost, refreshTrigger, userId, setTotalComments, sortOrder, authorId }) {
@@ -18,7 +20,10 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
   const [commentVotes, setCommentVotes] = useState({})
   const [tipAmounts, setTipAmounts] = useState({})
   const [userIdLS] = useState(getUserIdFromLocalStorage())
+  const [userRoleLS] = useState(getUserRoleFromLocalStorage())
+
   const { loggedIn, setLoggedIn } = useLoggedIn()
+
 
   console.log("authorIdPar", authorId)
   console.log("userIDLS", userIdLS)
@@ -79,6 +84,25 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       console.error("Error voting comment:", error)
     }
   }
+
+  const handleDeleteComment = async (commentId) => {
+    if (!userIdLS) return;
+
+    try {
+      await deleteComment(commentId);
+
+      setVotedComments(prev => {
+        const updated = { ...prev };
+        delete updated[commentId];
+        return updated;
+      });
+
+      await fetchComments();
+    } catch (error) {
+      console.error("Error deleting comment:", error.response?.data || error.message);
+    }
+  };
+
 
 
 
@@ -148,25 +172,31 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
       {commentsData.map((answer) => (
         <div
           key={answer.id}
-          className={`
-            bg-white p-6 rounded-md transition
-            ${(acceptedAnswer === answer.id ||
-              (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
-              ? "border-2 border-green-500 ring-1 ring-green-500"
-              : "border border-gray-200"
-            }
-          `}
+          className={`relative bg-white p-6 rounded-md transition ${(acceptedAnswer === answer.id ||
+            (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+            ? "border-2 border-green-500 ring-1 ring-green-500"
+            : "border border-gray-200"
+            }`}
         >
+          {loggedIn == true && userRoleLS == "ADMIN" && (
+            <button
+              onClick={() => handleDeleteComment(answer.id)}
+              className="absolute top-4 right-4 px-2 py-1 text-sm border-2 border-red-500 text-red-500 hover:bg-red-200 transition hover:cursor-pointer"
+            >
+              ❌ Delete
+            </button>
+          )}
+
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <button
                 onClick={() => handleCommentVote(answer.id)}
                 className={`
-                  ${votedComments[answer.id]
+          ${votedComments[answer.id]
                     ? "text-orange-500"
                     : "text-gray-400 hover:text-orange-500"}
-                  transition
-                `}
+          transition
+        `}
                 aria-label="Upvote"
               >
                 <ArrowUp
@@ -178,27 +208,21 @@ export default function AnswersSection({ acceptedAnswer, setAcceptedAnswer, idPo
                 {Number(commentVotes[answer.id] ?? answer.votes) || 0}
               </span>
 
-              {loggedIn == true && userIdLS == authorId ?
+              {loggedIn == true && userIdLS == authorId && (
                 <button
                   onClick={() => handleAcceptComment(answer.id)}
-                  className={`
-                  mt-4
-                  ${(acceptedAnswer === answer.id ||
-                      (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
-                      ? "text-green-500"
-                      : "text-gray-400 hover:text-green-500"
-                    }
-                  transition
-                `}
+                  className={`mt-4 ${(acceptedAnswer === answer.id ||
+                    (Array.isArray(acceptedAnswer) && acceptedAnswer.includes(answer.id)))
+                    ? "text-green-500"
+                    : "text-gray-400 hover:text-green-500"
+                    } transition`}
                   aria-label="Accept answer"
                 >
                   <Award size={18} />
                 </button>
-                :
-                <></>
-              }
-
+              )}
             </div>
+
 
             <div className="flex-1">
               <div className="prose max-w-none">
