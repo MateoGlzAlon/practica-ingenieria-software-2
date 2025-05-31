@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
         for(TipEntity te : tipsSent){
             TipSentOutputDTO nTip = TipSentOutputDTO.builder()
-                    .receiver(te.getSender().getUsername())
+                    .receiver(te.getReceiver().getUsername())
                     .amount(te.getAmount())
                     .date(te.getCreatedAt())
                     .build();

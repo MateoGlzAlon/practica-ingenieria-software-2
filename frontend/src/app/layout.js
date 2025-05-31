@@ -2,6 +2,10 @@ import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { TagFilterProvider } from "@/hooks/tagsContext";
+import { LoggedInProvider } from "@/hooks/loggedInContext";
+import { WalletProvider } from "@/hooks/walletContext";
+import { Toaster } from 'sonner'
+
 
 export const metadata = {
   title: "Create Next App",
@@ -13,12 +17,18 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
-          <TagFilterProvider>
-            <Navbar />
-            {children}
-          </TagFilterProvider>
+          <LoggedInProvider>
+            <WalletProvider> 
+              <TagFilterProvider>
+                <Navbar />
+                <Toaster richColors position="bottom-right" />
+                {children}
+              </TagFilterProvider>
+            </WalletProvider>
+          </LoggedInProvider>
         </GoogleOAuthProvider>
       </body>
     </html>
   );
 }
+

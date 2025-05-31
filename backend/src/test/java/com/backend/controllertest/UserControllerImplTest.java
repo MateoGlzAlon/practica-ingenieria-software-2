@@ -11,33 +11,22 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
+import com.backend.persistence.inputDTO.UserLinksInputDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
 import com.backend.controller.impl.UserControllerImpl;
-import com.backend.persistence.entity.CommentEntity;
-import com.backend.persistence.entity.CommentVoteEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.PostImageEntity;
-import com.backend.persistence.entity.PostVoteEntity;
 import com.backend.persistence.entity.TagEntity;
-import com.backend.persistence.entity.TipEntity;
 import com.backend.persistence.entity.UserEntity;
-import com.backend.persistence.inputDTO.PostInputDTO;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.outputdto.UserOutputDTO;
 import com.backend.persistence.specialdto.ProfileDTO;
-import com.backend.repository.CommentRepository;
-import com.backend.repository.CommentVoteRepository;
-import com.backend.repository.PostRepository;
-import com.backend.repository.PostVoteRepository;
-import com.backend.repository.TagRepository;
-import com.backend.repository.TipRepository;
-import com.backend.repository.UserRepository;
+
 import com.backend.service.UserService;
 
 public class UserControllerImplTest {
@@ -48,12 +37,10 @@ public class UserControllerImplTest {
     @InjectMocks    
     private UserControllerImpl userController;
 
-    private PostInputDTO mockPostInput;
     private UserEntity mockUserEntity;
     private TagEntity mockTagEntity;
     private PostEntity mockPostEntity;
     private PostImageEntity mockPostImageEntity;
-    private TipEntity mockTipEntity;
     private UserInputDTO mockUserInputDto;
     private ProfileDTO mockProfileDto;
     private UserOutputDTO mockUserOutputDto;
@@ -62,13 +49,6 @@ public class UserControllerImplTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
 
-        mockPostInput = PostInputDTO.builder()
-                .title("Test Title")
-                .content("Test Content")
-                .tagId(1L)
-                .userId(1L)
-                .imageLinks(Arrays.asList("https://placehold.co/600x400?text=Post90"))
-                .build();
 
         mockUserEntity = UserEntity.builder()
                 .id(1L)
@@ -102,11 +82,6 @@ public class UserControllerImplTest {
                 .createdAt(new Date())
                 .build();
 
-        mockTipEntity = TipEntity.builder()
-                .id(1L)
-                .amount(100)
-                .createdAt(new Date())
-                .build();
 
         
         mockUserInputDto = UserInputDTO.builder()
@@ -129,7 +104,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testFindUserById_ReturnsUserEntity() {
+    void testFindUserById_ReturnsUserEntity() {
         when(userService.findUserById(1L)).thenReturn(mockUserEntity);
 
         UserEntity result = userController.findUserById(1L);
@@ -140,7 +115,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testFindInputUserById_ReturnsUserInputDTO() {
+    void testFindInputUserById_ReturnsUserInputDTO() {
         when(userService.findUserInputByID(1L)).thenReturn(mockUserInputDto);
 
         UserInputDTO result = userController.findInputUserById(1L);
@@ -151,7 +126,7 @@ public class UserControllerImplTest {
     }
 
     @Test
-    public void testGetProfileByUserId_ReturnsProfileDTO() {
+    void testGetProfileByUserId_ReturnsProfileDTO() {
         when(userService.getProfileByUserId(1L)).thenReturn(mockProfileDto);
 
         ProfileDTO result = userController.getProfileByUserId(1L);
@@ -160,5 +135,41 @@ public class UserControllerImplTest {
         assertEquals("testuser", result.getUser().getUsername());
         verify(userService, times(1)).getProfileByUserId(1L);
     }
+
+    @Test
+    void testChangeUserLinks_ReturnsUpdatedUser() {
+        UserLinksInputDTO linksDTO = UserLinksInputDTO.builder()
+                .userId(1L)
+                .github_link("https://github.com/test")
+                .twitter_link("https://twitter.com/test")
+                .website_link("https://test.com")
+                .build();
+
+        when(userService.changeUserLinks(linksDTO)).thenReturn(mockUserEntity);
+
+        UserEntity result = userController.changeUserLinks(linksDTO);
+
+        assertNotNull(result);
+        assertEquals("testuser", result.getUsername());
+        verify(userService, times(1)).changeUserLinks(linksDTO);
+    }
+
+    @Test
+    void testGetUserIdByEmail_ReturnsId() {
+        when(userService.getUserIdByEmail("test@example.com")).thenReturn(1L);
+
+        Long result = userController.getUserIdByEmail("test@example.com");
+
+        assertEquals(1L, result);
+        verify(userService, times(1)).getUserIdByEmail("test@example.com");
+    }
+
+    @Test
+    void testGetDummy_ReturnsDummyString() {
+        String result = userController.getDummy();
+
+        assertEquals("Dummy", result);
+    }
+
 
 }

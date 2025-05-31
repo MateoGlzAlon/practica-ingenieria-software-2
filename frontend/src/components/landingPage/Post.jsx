@@ -1,37 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown, Bookmark } from "lucide-react";
 import Link from "next/link"
 import { format } from 'date-fns';
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
 import MarkdownRenderer from "@/components/general/MarkDownRenderer"
+import getUserIdFromLocalStorage from "@/hooks/getUserIdAuth";
 
 
+export default function Post({ postData, userId }) {
 
-
-export default function Post({ postData }) {
-
-    const userId = 1 // TODO : GET USERID FROM CONTEXT
-
-    const [votedStatus, setVotedStatus] = useState()
+    const [votedStatus, setVotedStatus] = useState(false)
     const [votes, setVotes] = useState(postData.votes)
+    const [userIdLS, setUserIdLS] = useState(getUserIdFromLocalStorage());
+
+    useEffect(() => {
+        if (!userIdLS) return;
+
+        let mounted = true;
+
+        (async () => {
+            try {
+                const already = await getIsVoted(userIdLS, postData.id);
+                if (mounted) setVotedStatus(already);
+            } catch (err) {
+                console.error("Error checking vote status:", err);
+            }
+        })();
+        return () => { mounted = false };
+    }, [userIdLS, postData.id]);
 
     async function handleVote() {
+
+        if (!userIdLS) return;
 
         try {
             const data = await createPostVotes(userId, postData.id)
             const voted = await getIsVoted(userId, postData.id)
             setVotedStatus(voted)
             setVotes(prev => prev + (voted ? 1 : -1))
-            console.log("Post data", data)
-
-            console.log("Postdata.voted ", postData)
 
         } catch (error) {
             console.error("Error voting:", error)
         }
-
-        console.log("votedStatus", votedStatus)
 
     }
 
@@ -55,32 +66,56 @@ export default function Post({ postData }) {
                     <div className="py-5">
                         <MarkdownRenderer
                             className="text-gray-700 mb-4 line-clamp-3 py-4"
-                            content={postData.content}
+                            content={postData.summary}
                         />
                     </div>
 
 
                     <div className=" flex flex-row justify-between">
 
-                        <div className="flex flex-row w-1/4 items-center justify-between ">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    handleVote();
-                                }}
-                                className={`${votedStatus ? "text-green-600" : ""} hover:text-pink-500`}
-                            >
-                                <ArrowUp size={28} />
-                            </button>
+                        <div className="flex flex-row w-1/8 items-center justify-between ">
+
+                            {userIdLS ?
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        e.preventDefault()
+                                        handleVote()
+                                    }}
+                                    className={
+                                        votedStatus
+                                            ? "text-orange-500 transition"
+                                            : "text-gray-400 hover:text-orange-500 transition"
+                                    }
+                                    aria-label="Upvote"
+                                    disabled={!userIdLS}
+                                >
+                                    <ArrowUp
+                                        size={28}
+                                        className="hover:text-green-700"
+                                    />
+                                </button>
+                                :
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                    }}
+                                    className={
+                                        votedStatus
+                                            ? "text-orange-500 transition"
+                                            : "text-gray-400 hover:text-orange-500 transition"
+                                    }
+                                >
+                                    <ArrowUp
+                                        size={28}
+                                        className="hover:text-green-700"
+                                    />
+                                </button>
+                            }
 
                             <span className="font-semibold text-lg text-gray-900">{votes}</span>
-                            <button
-                                onClick={() => { }}
-                                className="text-gray-400 hover:text-yellow-500"
-                            >
-                                <Bookmark size={28} />
-                            </button>
+                            <div className='w-1/2' />
                         </div>
 
                         <div className="flex justify-between items-center text-sm text-gray-500 ">

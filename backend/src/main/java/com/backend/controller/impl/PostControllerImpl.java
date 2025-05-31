@@ -9,6 +9,7 @@ import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.annotation.security.RolesAllowed;
 import java.util.List;
 
 
@@ -25,13 +26,14 @@ public class PostControllerImpl implements PostController {
         return postService.findPostById(id);
     }
 
-    @GetMapping("/landingPageFeed/{userId}")
+    @GetMapping("/landingPageFeed")
     public List<FeedPostDTO> getFeedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam List<String> tags,
-            @PathVariable Long userId
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) Long userId
     ) {
+
         return postService.getFeedPosts(page, size, userId, tags);
     }
 
@@ -51,6 +53,11 @@ public class PostControllerImpl implements PostController {
     @PostMapping
     public PostEntity createPost(@RequestBody PostInputDTO post){
         return postService.createPost(post);
+    }
+
+    @Override
+    public void deletePost(Long id){
+        postService.deletePost(id);
     }
 
 }

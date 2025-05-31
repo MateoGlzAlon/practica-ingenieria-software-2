@@ -12,7 +12,6 @@ import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 
 export default function ProfilePage() {
 
-    //TO-DO: for now we search for userId=1, change this later
     const idUser = getUserIdFromLocalStorage();
 
     const [profileData, setProfileData] = useState(null)
@@ -145,7 +144,7 @@ export default function ProfilePage() {
                                 initialValue={links?.github}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,
@@ -160,7 +159,7 @@ export default function ProfilePage() {
                                 initialValue={links?.twitter}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,
@@ -175,7 +174,7 @@ export default function ProfilePage() {
                                 initialValue={links?.website}
                                 onSave={async (field, newValue) => {
                                     const updatedLinks = {
-                                        userId: 2, //TO-DO: CHANGE THIS
+                                        userId: idUser,
                                         github: field === "github" ? newValue : links.github,
                                         twitter: field === "twitter" ? newValue : links.twitter,
                                         website: field === "website" ? newValue : links.website,
@@ -331,7 +330,7 @@ export default function ProfilePage() {
                                             {user.tipsReceived.map((tip, index) => (
                                                 <li key={index} className="bg-green-50 p-4 rounded border border-green-200">
                                                     <p className="text-sm text-gray-700">
-                                                        Received <span className="font-medium">${tip.amount}</span> from <span className="font-medium">@{tip.sender}</span> on {tip.date}
+                                                        Received <span className="font-medium">${tip.amount}</span> from <span className="font-medium">@{tip.sender}</span> on {new Date(tip.date).toLocaleDateString("en-GB")}
                                                     </p>
                                                 </li>
                                             ))}
@@ -345,7 +344,7 @@ export default function ProfilePage() {
                                             {user.tipsSent.map((tip, index) => (
                                                 <li key={index} className="bg-red-50 p-4 rounded border border-red-200">
                                                     <p className="text-sm text-gray-700">
-                                                        Sent <span className="font-medium">${tip.amount}</span> to <span className="font-medium">@{tip.receiver}</span> on {tip.date}
+                                                        Sent <span className="font-medium">${tip.amount}</span> to <span className="font-medium">@{tip.receiver}</span> on {new Date(tip.date).toLocaleDateString("en-GB")}
                                                     </p>
                                                 </li>
                                             ))}

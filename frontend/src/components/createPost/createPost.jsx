@@ -5,15 +5,21 @@ import { generatePostAI } from "@/utils/openai";
 import { X, Search, ChevronDown, Plus, ImageIcon } from "lucide-react"
 import createPost from "@/api/post/postCreatePost"
 import { uploadFile } from "@/components/awsComponents/UploadImage"
+import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
+import getTagsPostCreation from "@/api/getTagsPostCreation";
+
 
 export default function CreatePost() {
+
+    const [userId] = useState(getUserIdFromLocalStorage());
+
     const [formData, setFormData] = useState({
         title: "",
         summary: "",
         content: "",
         //TODO
         tagId: 1,
-        userId: 1,
+        userId: userId,
         imageLinks: [],
     })
     const [isFormVisible, setIsFormVisible] = useState(false)
@@ -23,8 +29,10 @@ export default function CreatePost() {
     const [isDragOver, setIsDragOver] = useState(false)
     const tagDropdownRef = useRef(null)
     const fileInputRef = useRef(null)
+    const [availableTags, setAvailableTags] = useState([])
 
-    const availableTags = [
+    /*const availableTags = [
+
         { id: 1, name: "Technology" },
         { id: 2, name: "Design" },
         { id: 3, name: "Programming" },
@@ -35,7 +43,18 @@ export default function CreatePost() {
         { id: 8, name: "Guide" },
         { id: 9, name: "Tips" },
         { id: 10, name: "Discussion" },
-    ]
+    ]*/
+
+    useEffect(() => {
+        if (!isTagDropdownOpen) return;
+
+        getTagsPostCreation()
+            .then(tags => setAvailableTags(tags))
+            .catch(err => {
+            console.error("Error fetching tags:", err);
+            setAvailableTags([]);
+            });
+    }, [isTagDropdownOpen]);
 
     const filteredTags = tagSearchQuery
         ? availableTags.filter((tag) => tag.name.toLowerCase().includes(tagSearchQuery.toLowerCase()))
@@ -63,9 +82,6 @@ export default function CreatePost() {
 
         if (!res.ok) throw new Error("Failed to generate metadata");
         const { data, usage } = await res.json();
-
-        console.log("🧠 AI Suggestion:", data);
-        console.log("💰 Estimated cost:", `$${usage.totalCost.toFixed(6)}`);
 
         return data;
     }
@@ -134,15 +150,15 @@ export default function CreatePost() {
     }
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
-        console.log("Submitting post with formData:", formData);
+
+        if(!userId) return;
 
         try {
             const uploadedImageLinks = await Promise.all(
                 uploadedImages.map(async ({ file }) => {
                     const uploaded = await uploadFile(file);
-
-                    console.log("Uploaded image:", uploaded);
 
                     return uploaded.url[0]; // Clean URL
                 })
@@ -160,7 +176,7 @@ export default function CreatePost() {
                 content: "",
                 //TODO
                 tagId: 1,
-                userId: 1,
+                userId: userId,
                 imageLinks: [],
             });
             setUploadedImages([]);
@@ -250,9 +266,35 @@ export default function CreatePost() {
 
                         {/* Content Section */}
                         <div className="space-y-3">
-                            <label htmlFor="content" className="block text-sm font-semibold text-gray-800">
-                                Content
-                            </label>
+                            <div className=" flex justify-between">
+                                <label htmlFor="content" className=" flex items-center text-sm font-semibold text-gray-800">
+                                    Content
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={async () => {
+                                        try {
+                                            if (formData.content.trim() === "") {
+                                                throw new Error("Content is empty");
+                                            }
+
+                                            const result = await fetchPostMeta(formData.content);
+
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                title: result.title,
+                                                summary: result.summary,
+                                            }));
+
+                                        } catch (err) {
+                                            alert("Failed to generate title/summary/tag.");
+                                        }
+                                    }}
+                                    className="px-4 py-2 mt-2 bg-gray-100 border-2 border-gray-200 text-sm rounded-lg hover:bg-gray-200"
+                                >
+                                    ✨ Auto-generate Title and summary based on Content
+                                </button>
+                            </div>
                             <textarea
                                 id="content"
                                 name="content"
@@ -264,41 +306,6 @@ export default function CreatePost() {
                                 required
                             />
                         </div>
-
-                        <button
-                            type="button"
-                            onClick={async () => {
-                                try {
-                                    if (formData.content.trim() === "") {
-                                        throw new Error("Content is empty");
-                                    }
-
-                                    const result = await fetchPostMeta(formData.content);
-
-                                    console.log("🧠 AI Suggestion:", result);
-
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        title: result.title,
-                                        summary: result.summary,
-                                    }));
-
-                                    console.log("2", formData)
-
-
-                                    console.log("3")
-
-
-                                    console.log("🧠 Suggested:", result);
-                                } catch (err) {
-                                    alert("Failed to generate title/summary/tag.");
-                                }
-                            }}
-                            className="px-4 py-2 mt-2 bg-gray-100 text-sm rounded-lg hover:bg-gray-200"
-                        >
-                            ✨ Auto-generate Title & Tag
-                        </button>
-
 
                         {/* Tag Section */}
                         <div className="space-y-3">

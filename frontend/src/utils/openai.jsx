@@ -50,8 +50,6 @@ ${content}
             prompt_tokens * PRICE_CACHED_INPUT +
             completion_tokens * PRICE_OUTPUT;
 
-        console.log("📊 Estimated cost: $", cost.toFixed(6));
-
         const parsed = JSON.parse(choices[0].message.content);
 
         return {

@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { DATA } from "@/app/data"
 
-export default async function getCommentsOfAPost(id, sort = 'newest') {
-
+export default async function getTagsPostCreation() {
     try {
-        const response = await axios.get(`${DATA.apiURL}/comments/post/${id}?sort=${sort}`, {
+        const response = await axios.get(`${DATA.apiURL}/tags/available`, {
             headers: {
                 'Content-Type': 'application/json',
             },
