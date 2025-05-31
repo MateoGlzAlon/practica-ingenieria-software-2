@@ -20,6 +20,8 @@ public interface PostService {
 
     PostEntity createPost(PostInputDTO post);
 
+    void deletePost(Long id);
+
 }
 
 

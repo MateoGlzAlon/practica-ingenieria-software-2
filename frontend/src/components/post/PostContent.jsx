@@ -4,11 +4,18 @@ import MarkdownRenderer from "@/components/general/MarkDownRenderer"
 import createPostVotes from "@/api/post/postCreatePostVote";
 import getIsVoted from "@/api/getIsVoted";
 import ProjectImageCarousel from "@/components/post/ProjectImageCarousel"
+import getUserRoleFromLocalStorage from "@/hooks/getUserRoleAuth";
+import { useLoggedIn } from "@/hooks/loggedInContext";
+import deletePost from "@/api/delete/deletePost";
+import Router from "next/router";
+import { toast } from 'sonner'
 
 
-export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData, userId }) {
+export default function PostContent({ questionVotes, setQuestionVotes, showComments, setShowComments, postData, userId, setShouldRedirect }) {
 
     const [votedStatus, setVotedStatus] = useState()
+    const [userRoleLS] = useState(getUserRoleFromLocalStorage())
+    const {loggedIn, setLoggedIn} = useLoggedIn()
 
     useEffect(() => {
         if (!userId || !postData.id) return
@@ -46,6 +53,20 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
         console.log("votedStatus", votedStatus)
 
+    }
+
+    async function handleDeletePost(postId) {
+        if (!userId) return;
+        
+        try {
+            await deletePost(postId);
+
+            toast.success("Post deleted successfully");
+
+            setShouldRedirect(true);
+        } catch (error) {
+            console.error("Error borrando el post:", error);
+        }
     }
 
 
@@ -88,7 +109,17 @@ export default function PostContent({ questionVotes, setQuestionVotes, showComme
 
 
                         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                            <div className="flex space-x-4" />
+                            
+                            <div className="flex space-x-4 items-center">
+                                {loggedIn && userRoleLS === "ADMIN" && (
+                                    <button
+                                        onClick={() => handleDeletePost(postData.id)}
+                                        className="px-2 py-1 text-sm border-2 border-red-500 text-red-500 hover:bg-red-200 transition"
+                                    >
+                                         ❌ Delete Post
+                                    </button>
+                                )}
+                            </div>
 
                             <div className="flex items-center bg-blue-50 p-2 rounded-md ">
                                 <img

@@ -14,6 +14,8 @@ import { useParams } from 'next/navigation'
 import getUserIdFromLocalStorage from '@/hooks/getUserIdAuth';
 import { useLoggedIn } from "@/hooks/loggedInContext"
 
+import { useRouter } from "next/navigation";
+
 
 
 export default function Post({ params }) {
@@ -22,6 +24,7 @@ export default function Post({ params }) {
     const { id } = useParams()
 
     const userId = getUserIdFromLocalStorage();
+    const router = useRouter();
 
     const [postData, setDataPost] = useState(null)
     const [content, setContent] = useState("");
@@ -34,6 +37,13 @@ export default function Post({ params }) {
 
     const [sortOrder, setSortOrder] = useState("votes")
 
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    useEffect(() => {
+        if (shouldRedirect) {
+        router.push("/");
+        }
+    }, [shouldRedirect, router]);
 
     useEffect(() => {
         if (!id) return
@@ -100,6 +110,7 @@ export default function Post({ params }) {
                             setShowComments={setShowComments}
                             postData={postData}
                             userId={userId}
+                            setShouldRedirect={setShouldRedirect} 
                         />
 
                         <div className="flex items-center justify-between my-8">

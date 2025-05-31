@@ -9,6 +9,7 @@ import com.backend.persistence.specialdto.PostDetailsDTO;
 import com.backend.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.annotation.security.RolesAllowed;
 import java.util.List;
 
 
@@ -52,6 +53,11 @@ public class PostControllerImpl implements PostController {
     @PostMapping
     public PostEntity createPost(@RequestBody PostInputDTO post){
         return postService.createPost(post);
+    }
+
+    @Override
+    public void deletePost(Long id){
+        postService.deletePost(id);
     }
 
 }
