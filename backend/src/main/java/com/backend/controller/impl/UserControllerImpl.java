@@ -42,8 +42,7 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-
-  @PostMapping("/change-links")
+    @PostMapping("/change-links")
     public UserEntity changeUserLinks(@RequestBody UserLinksInputDTO userLinks){
         return userService.changeUserLinks(userLinks);
     }

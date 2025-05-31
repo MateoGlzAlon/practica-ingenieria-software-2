@@ -109,21 +109,23 @@ INSERT INTO "tags" ("name") VALUES
 ('devops'),
 ('cybersecurity'),
 ('cloud computing'),
-('blockchain'),
+('containerization'),
 ( 'mobile development');
 
 -- INSERTS: users
 INSERT INTO "users" ( "name", "username", "email", "password", "github_link", "twitter_link", "website_link", "about", "avatar_url", "role", "wallet","created_at") VALUES
-('Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://placehold.co/600x400?text=User1', 'ADMIN', 1000, '2025-05-22 21:17:36.022143'),
-('Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://placehold.co/600x400?text=User2', 'USER', 1000, '2025-05-23 21:17:36.022143'),
-('Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://placehold.co/600x400?text=User3', 'USER', 1000, '2025-05-24 21:17:36.022143'),
-('Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://placehold.co/600x400?text=User4', 'USER', 1000, '2025-05-25 21:17:36.022143'),
-('Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://placehold.co/600x400?text=User5', 'MODERATOR', 1000, '2025-05-26 21:17:36.022143'),
-('Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://placehold.co/600x400?text=User6', 'USER', 1000, '2025-05-27 21:17:36.022143'),
-('George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://placehold.co/600x400?text=User7', 'USER', 1000, '2025-05-28 21:17:36.022143'),
-('Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://placehold.co/600x400?text=User8', 'USER', 1000, '2025-05-29 21:17:36.022143'),
-('Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://placehold.co/600x400?text=User9', 'USER', 1000, '2025-05-30 21:17:36.022143'),
-('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://placehold.co/600x400?text=User10', 'USER', 1000, '2025-05-31 21:17:36.022143');
+('Alice Anderson', 'alice', 'alice@example.com', 'hashed_pw1', 'https://github.com/alice', 'https://twitter.com/alice', 'https://alice.dev', 'Philosopher and writer', 'https://avatar.iran.liara.run/public/girl', 'ADMIN', 1000, '2025-05-22 21:17:36.022143'),
+('Bob Brown', 'bob', 'bob@example.com', 'hashed_pw2', 'https://github.com/bob', NULL, 'https://bob.dev', 'Lover of Stoicism', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-23 21:17:36.022143'),
+('Charlie Clark', 'charlie', 'charlie@example.com', 'hashed_pw3', NULL, NULL, NULL, 'Tech and wisdom', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-24 21:17:36.022143'),
+('Diana Dawson', 'diana', 'diana@example.com', 'hashed_pw4', 'https://github.com/diana', 'https://twitter.com/diana', 'https://diana.dev', 'Meditation fan', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-25 21:17:36.022143'),
+('Edgar Edwards', 'edgar', 'edgar@example.com', 'hashed_pw5', 'https://github.com/edgar', 'https://twitter.com/edgar', 'https://edgar.dev', 'Stoic entrepreneur', 'https://avatar.iran.liara.run/public/boy', 'MODERATOR', 1000, '2025-05-26 21:17:36.022143'),
+('Fiona Fisher', 'fiona', 'fiona@example.com', 'hashed_pw6', 'https://github.com/fiona', 'https://twitter.com/fiona', 'https://fiona.dev', 'Mindfulness advocate', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-27 21:17:36.022143'),
+('George Green', 'george', 'george@example.com', 'hashed_pw7', 'https://github.com/george', 'https://twitter.com/george', 'https://george.dev', 'Writing about virtue', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-28 21:17:36.022143'),
+('Hannah Hill', 'hannah', 'hannah@example.com', 'hashed_pw8', 'https://github.com/hannah', 'https://twitter.com/hannah', 'https://hannah.dev', 'Stoic mom', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-29 21:17:36.022143'),
+('Ian Irving', 'ian', 'ian@example.com', 'hashed_pw9', 'https://github.com/ian', 'https://twitter.com/ian', 'https://ian.dev', 'Ethics enthusiast', 'https://avatar.iran.liara.run/public/boy', 'USER', 1000, '2025-05-30 21:17:36.022143'),
+('Julia Jones', 'julia', 'julia@example.com', 'hashed_pw10', 'https://github.com/julia', 'https://twitter.com/julia', 'https://julia.dev', 'Lover of logic', 'https://avatar.iran.liara.run/public/girl', 'USER', 1000, '2025-05-31 21:17:36.022143'),
+('Mateo Gonzalez', 'mateo.gonzalez.alonso', 'mateo.gonzalez.alonso@gmail.com', 'hashed_pw11', 'https://github.com/MateoGlzAlon', NULL, 'https://glzalomateo.dev', 'Blockchain enthusiast', 'https://lh3.googleusercontent.com/a/ACg8ocL2IReDahFfx_afAsmDOpnruynKgm3KKNYgg1OXwJs-6t45QftNmw=s96-c', 'ADMIN', 1000, '2025-05-31 21:17:36.022143');
+
 
 
 INSERT INTO "posts" ("user_id", "tag_id", "title", "summary", "content", "votes", "state", "created_at") VALUES
@@ -209,11 +211,11 @@ spec:
     image: nginx
 ```
 
-Can someone explain what each part means and how I can deploy this? Also, how do I check the pod status, access its logs, and expose it as a service?', 0, 'open', '2025-05-27 21:17:36.026944'),
+Can someone explain what each part means and how I can deploy this? Also, how do I check the pod status, access its logs, and expose it as a service?', 1, 'open', '2025-05-27 21:17:36.026944'),
 
 (10, 10, E'How can I secure my web application?', E'Best practices to protect web applications from common vulnerabilities.', E'I want to make sure my web application is secure. I’ve heard about using HTTPS and sanitizing inputs.
 
-What are the most important steps to secure a basic web app? Are there tools or libraries that can help with this? Additionally, how can I implement authentication securely and protect against threats like XSS, CSRF, and SQL injection?', 0, 'open', '2025-05-28 21:17:36.026944'),
+What are the most important steps to secure a basic web app? Are there tools or libraries that can help with this? Additionally, how can I implement authentication securely and protect against threats like XSS, CSRF, and SQL injection?', 1, 'open', '2025-05-28 21:17:36.026944'),
 
 (1, 1, E'How do I make my website responsive using CSS?', E'Using media queries to make web pages mobile-friendly.', E'I want to make my website look good on both desktop and mobile. I’ve heard that CSS media queries are helpful.
 
@@ -225,7 +227,7 @@ Here’s an example:
 }
 ```
 
-How do I apply these correctly, and what are other best practices for responsive design? Are there any frameworks or tools that simplify responsive web development?' , 0, 'open', '2025-05-29 21:17:36.026944');
+How do I apply these correctly, and what are other best practices for responsive design? Are there any frameworks or tools that simplify responsive web development?' , 1, 'open', '2025-05-29 21:17:36.026944');
 
 
 -- INSERTS: comments
@@ -251,11 +253,11 @@ INSERT INTO "comments" ("post_id", "user_id", "content", "votes", "created_at", 
 (7, 3, 'To run the Flask app, add `app.run(debug=True)` at the end of your script and visit `http://localhost:5000`.', 0, '2025-06-02 21:17:47.030344', FALSE),
 (7, 4, 'For better structure, organize routes in Blueprints and handle errors with Flask’s `@app.errorhandler` decorators.', 0, '2025-06-03 21:17:48.030344', FALSE),
 
-(8, 5, 'Each section in the YAML defines a part of the pod. Use `kubectl apply -f pod.yaml` to deploy it.', 0, '2025-06-04 21:17:49.030344', FALSE),
-(8, 6, 'Check pod status with `kubectl get pods`, access logs with `kubectl logs`, and expose using a `Service` definition.', 0, '2025-06-05 21:17:50.030344', FALSE),
+(8, 5, 'Each section in the YAML defines a part of the pod. Use `kubectl apply -f pod.yaml` to deploy it.', 1, '2025-06-04 21:17:49.030344', FALSE),
+(8, 6, 'Check pod status with `kubectl get pods`, access logs with `kubectl logs`, and expose using a `Service` definition.', 1, '2025-06-05 21:17:50.030344', FALSE),
 
 (9, 7, 'Use HTTPS with a valid SSL certificate. You can get one from Let’s Encrypt using Certbot.', 0, '2025-06-06 21:17:51.030344', FALSE),
-(9, 8, 'To prevent XSS and CSRF, sanitize all inputs and use tokens in forms. Flask-WTF or Helmet.js are helpful.', 0, '2025-06-07 21:17:52.030344', FALSE),
+(9, 8, 'To prevent XSS and CSRF, sanitize all inputs and use tokens in forms. Flask-WTF or Helmet.js are helpful.', 1, '2025-06-07 21:17:52.030344', FALSE),
 
 (10, 9, 'To make sites responsive, use media queries like `@media (max-width: 768px)` and mobile-first layout techniques.', 0, '2025-06-08 21:17:53.030344', FALSE),
 (10, 10, 'Frameworks like Bootstrap or TailwindCSS make it easier to build responsive UIs without writing a lot of custom CSS.', 0, '2025-06-09 21:17:54.030344', FALSE);
@@ -294,6 +296,16 @@ INSERT INTO "tips" ("sender_id", "receiver_id", "amount", "created_at") VALUES
 (9, 8, 130, '2025-06-21 21:17:43.032979'),
 (10, 9, 170, '2025-06-21 21:17:44.032979'),
 (1, 10, 220, '2025-06-21 21:17:45.032979');
+
+INSERT INTO "comment_votes" ("comment_id", "user_id") VALUES
+(16,11),
+(15,10),
+(18,7);
+
+INSERT INTO "post_votes" ("post_id", "user_id") VALUES
+(8,11),
+(9,11),
+(10,11);
 
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 SELECT setval('tags_id_seq', (SELECT MAX(id) FROM tags));

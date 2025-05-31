@@ -33,8 +33,6 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
     private final PostVoteRepository postVoteRepository;
 
-
-
     @Override
     public PostEntity findPostById(Long id) {
         return postRepository.findById(id).orElse(null);
@@ -43,9 +41,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<FeedPostDTO> getFeedPosts(int page, int size, Long userId, List<String> tags) {
 
-
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<PostEntity> postsPage = postRepository.findAll(pageable,tags);
+        Page<PostEntity> postsPage = postRepository.findAll(pageable, tags);
 
         List<FeedPostDTO> feedPostDTOs = new ArrayList<>();
         for (PostEntity post : postsPage.getContent()) {
@@ -66,19 +63,18 @@ public class PostServiceImpl implements PostService {
                     .authorUsername(post.getUser().getUsername())
                     .commentCount(post.getComments().size())
                     .createdAt(post.getCreatedAt())
-                    .content(post.getContent().substring(0,Math.min(100,post.getContent().length())))
+                    .content(post.getContent())
                     .voted(isVoted)
                     .build();
-            
+
             feedPostDTOs.add(feedPostDTO);
         }
 
         return feedPostDTOs;
     }
 
-
     @Override
-    public PostOutputDTO getPostIndividual(Long id){
+    public PostOutputDTO getPostIndividual(Long id) {
         PostEntity post = postRepository.findById(id).orElse(null);
 
         if (post == null) {
@@ -100,12 +96,11 @@ public class PostServiceImpl implements PostService {
 
         List<String> listImages = new ArrayList<>();
 
-        for( PostImageEntity image : post.getImages()){
+        for (PostImageEntity image : post.getImages()) {
 
             listImages.add(image.getImageUrl());
 
         }
-
 
         PostDetailsDTO postDetails = PostDetailsDTO.builder()
                 .id(post.getId())
@@ -121,25 +116,12 @@ public class PostServiceImpl implements PostService {
                 .state(post.getState())
                 .build();
 
-
         return postDetails;
     }
 
     @Override
     public PostEntity createPost(PostInputDTO post) {
 
-        /*
-        {
-            "title":"test2",
-            "content":"this a test2",
-            "userId": 1,
-            "tagId": 1,
-            "imageLinks":[
-                "https://placehold.co/600x400?text=Post90",
-                "https://placehold.co/600x400?text=Post91"
-            ]
-        }
-         a*/
         UserEntity user = userRepository.findById(post.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -176,7 +158,7 @@ public class PostServiceImpl implements PostService {
         return newPost;
     }
 
-    public void deletePost(Long id){
+    public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
 
