@@ -109,7 +109,7 @@ INSERT INTO "tags" ("name") VALUES
 ('devops'),
 ('cybersecurity'),
 ('cloud computing'),
-('blockchain'),
+('containerization'),
 ( 'mobile development');
 
 -- INSERTS: users
