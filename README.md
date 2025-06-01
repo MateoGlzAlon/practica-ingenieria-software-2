@@ -1,51 +1,50 @@
-# Stoa
-# Plataforma de Ayuda Informática
+# Stoa  
+## IT Support Platform
 
-Este proyecto es una aplicación web desarrollada como práctica de la asignatura de Ingeniería del Software 2. Su objetivo es proporcionar un espacio donde los usuarios pueden recibir asistencia sobre problemas informáticos mediante una comunidad, expertos y herramientas automatizadas.
+This project is a web application developed as a practical assignment for the Software Engineering 2 course. Its goal is to provide a space where users can receive help with computer-related problems through a community, experts, and automated tools.
 
-Incluye:
+It includes:
 
-- Backend en **Java + Spring Boot**
-- Frontend en **React + Next.js** 
-- Puebas unitarias con **JUnit y Mockito**
-- Pruebas de integración con **JUnit y H2**
-- Pruebas E2E con **Cypress**
-- Orquestación con **Docker Compose**
-- Automatización de tareas con **Makefile**
+- Backend with **Java + Spring Boot**  
+- Frontend with **React + Next.js**  
+- Unit testing with **JUnit and Mockito**  
+- Integration testing with **JUnit and H2**  
+- End-to-end testing with **Cypress**  
+- Orchestration with **Docker Compose**  
+- Task automation with **Makefile**
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
-- [Docker y Docker Compose](https://docs.docker.com/)
-- [Node.js y npm](https://nodejs.org/) (solo si no usas Docker)
-- [Java 17+](https://adoptium.net/) (solo si no usas Docker)
+- [Docker and Docker Compose](https://docs.docker.com/)  
+- [Node.js and npm](https://nodejs.org/) (only if not using Docker)  
+- [Java 17+](https://adoptium.net/) (only if not using Docker)  
 - [Make](https://www.gnu.org/software/make/)  
-  > En Windows, puedes usar `make` desde WSL o instalarlo con herramientas como [GnuWin32](http://gnuwin32.sourceforge.net/packages/make.htm)
+  > On Windows, you can use `make` via WSL or install it with tools like [GnuWin32](http://gnuwin32.sourceforge.net/packages/make.htm)
 
 ---
 
-## Instalación y ejecución rápida
+## Quick Installation and Run
 
-Clona el repositorio y levanta todo el sistema:
+Clone the repository and start the entire system:
 
 ```bash
 git clone https://github.com/MateoGlzAlon/practica-ingenieria-software-2.git
 cd practica-ingenieria-software-2
 make provision
-````
+```
 
-> ⚠️ **Importante:** Antes de ejecutar el sistema, asegúrate de configurar correctamente las **variables de entorno** necesarias en el archivo `docker-compose.yml`.
-> Estas variables son requeridas tanto para el `backend` como para el `frontend` y definen aspectos clave como el acceso a la base de datos, servicios de autenticación, almacenamiento en la nube y APIs externas.
+> **Important:** Before running the system, make sure to correctly configure the **required environment variables** in the `docker-compose.yml` file.  
+> These variables are needed by both the `backend` and the `frontend`, and define key aspects such as database access, authentication services, cloud storage, and external APIs.
 
-Consulta la tabla de variables de entorno más abajo para más detalles.
-
+See the environment variables table below for more details.
 
 ---
 
-## Ejecutar la aplicación sin utilizar `make`
+## Running the Application Without `make`
 
-Si no deseas usar `make`, también puedes ejecutar el proyecto manualmente utilizando Docker:
+If you prefer not to use `make`, you can also run the project manually using Docker:
 
 ```bash
 docker compose up --build
@@ -53,35 +52,36 @@ docker compose up --build
 
 ---
 
-## Comandos disponibles (`Makefile`)
+## Available Commands (`Makefile`)
 
-| Comando                  | Descripción                                              |
-|--------------------------|----------------------------------------------------------|
-| `make start`             | Inicia backend y frontend en modo desarrollo             |
-| `make start.backend`     | Inicia solo el backend                                   |
-| `make start.frontend`    | Inicia solo el frontend (modo producción)                |
-| `make start.frontend_dev`| Inicia el frontend en modo desarrollo                    |
-| `make build`             | Compila backend y frontend                               |
-| `make build.backend`     | Compila solo el backend                                  |
-| `make build.frontend`    | Compila solo el frontend                                 |
-| `make test.backend`      | Ejecuta pruebas unitarias del backend (JUnit + Gradle)   |
-| `make test.e2e`          | Ejecuta pruebas end-to-end del frontend (Cypress)        |
-| `make provision`         | Construye y levanta todo el sistema con Docker Compose   |
+| Command                   | Description                                              |
+|---------------------------|----------------------------------------------------------|
+| `make start`              | Starts backend and frontend in development mode          |
+| `make start.backend`      | Starts the backend only                                  |
+| `make start.frontend`     | Starts the frontend in production mode                   |
+| `make start.frontend_dev` | Starts the frontend in development mode                  |
+| `make build`              | Builds both backend and frontend                         |
+| `make build.backend`      | Builds the backend only                                  |
+| `make build.frontend`     | Builds the frontend only                                 |
+| `make test.backend`       | Runs backend unit tests (JUnit + Gradle)                 |
+| `make test.e2e`           | Runs frontend end-to-end tests (Cypress)                 |
+| `make provision`          | Builds and launches the full system with Docker Compose  |
 
+---
 
-## 📋 Variables de Entorno
+## Environment Variables
 
-| Variable                | Servicio          | Descripción                                                                 |
-| ----------------------- | ----------------- | --------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL`   | frontend          | URL base de la API utilizada por el frontend.                               |
-| `GOOGLE_CLIENT_ID`      | frontend, backend | ID del cliente de Google para autenticación OAuth2.                         |
-| `AWS_BUCKET_NAME`       | frontend          | Nombre del bucket de AWS S3 utilizado para almacenar archivos.              |
-| `AWS_BUCKET_REGION`     | frontend          | Región donde se encuentra el bucket de AWS.                                 |
-| `AWS_ACCESS_KEY`        | frontend          | Clave de acceso para autenticarse en los servicios de AWS.                  |
-| `AWS_SECRET_ACCESS_KEY` | frontend          | Clave secreta vinculada a `AWS_ACCESS_KEY`.                                 |
-| `OPENAI_API_KEY`        | frontend          | Clave de API para acceder a los servicios de OpenAI (ChatGPT).              |
-| `POSTGRES_HOST`         | backend           | Dirección del host de la base de datos PostgreSQL.                          |
-| `POSTGRES_DATABASE`     | backend           | Nombre de la base de datos a utilizar.                                      |
-| `POSTGRES_USERNAME`     | backend           | Usuario con permisos para acceder a la base de datos.                       |
-| `POSTGRES_PASSWORD`     | backend           | Contraseña del usuario de la base de datos.                                 |
-| `GOOGLE_CLIENT_SECRET`  | backend           | Secreto de cliente para autenticación OAuth2 con Google.                    |
+| Variable                  | Service           | Description                                                                 |
+|---------------------------|-------------------|-----------------------------------------------------------------------------|
+| `NEXT_PUBLIC_API_URL`     | frontend           | Base URL of the API used by the frontend.                                   |
+| `GOOGLE_CLIENT_ID`        | frontend, backend  | Google client ID for OAuth2 authentication.                                 |
+| `AWS_BUCKET_NAME`         | frontend           | Name of the AWS S3 bucket used for file storage.                            |
+| `AWS_BUCKET_REGION`       | frontend           | Region where the AWS bucket is located.                                     |
+| `AWS_ACCESS_KEY`          | frontend           | Access key for authenticating with AWS services.                            |
+| `AWS_SECRET_ACCESS_KEY`   | frontend           | Secret key associated with `AWS_ACCESS_KEY`.                                |
+| `OPENAI_API_KEY`          | frontend           | API key to access OpenAI services (ChatGPT).                                |
+| `POSTGRES_HOST`           | backend            | Host address of the PostgreSQL database.                                    |
+| `POSTGRES_DATABASE`       | backend            | Name of the database to use.                                                |
+| `POSTGRES_USERNAME`       | backend            | User with access permissions to the database.                               |
+| `POSTGRES_PASSWORD`       | backend            | Password of the database user.                                              |
+| `GOOGLE_CLIENT_SECRET`    | backend            | Client secret for OAuth2 authentication with Google.                        |
