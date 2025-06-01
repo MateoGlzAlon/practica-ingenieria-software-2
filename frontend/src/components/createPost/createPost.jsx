@@ -51,8 +51,8 @@ export default function CreatePost() {
         getTagsPostCreation()
             .then(tags => setAvailableTags(tags))
             .catch(err => {
-            console.error("Error fetching tags:", err);
-            setAvailableTags([]);
+                console.error("Error fetching tags:", err);
+                setAvailableTags([]);
             });
     }, [isTagDropdownOpen]);
 
@@ -153,7 +153,7 @@ export default function CreatePost() {
 
         e.preventDefault();
 
-        if(!userId) return;
+        if (!userId) return;
 
         try {
             const uploadedImageLinks = await Promise.all(
@@ -164,10 +164,14 @@ export default function CreatePost() {
                 })
             );
 
+            console.log("Uploaded image links:", uploadedImageLinks)
+
             const finalPostData = {
                 ...formData,
                 imageLinks: uploadedImageLinks,
             };
+
+            console.log("Final post data:", finalPostData)
 
             await createPost(finalPostData);
 
