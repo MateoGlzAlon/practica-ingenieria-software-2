@@ -1,5 +1,6 @@
 package com.backend.service.impl;
 
+import com.backend.exception.UserNotFoundException;
 import com.backend.persistence.entity.CommentEntity;
 import com.backend.persistence.entity.PostEntity;
 import com.backend.persistence.entity.TipEntity;
@@ -161,20 +162,23 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public UserEntity changeUserLinks(UserLinksInputDTO userLinks){
-
-        UserEntity user = userRepository.findById(userLinks.getUserId()).orElse(null);
+    public UserEntity changeUserLinks(UserLinksInputDTO userLinks) {
+        UserEntity user = userRepository.findById(userLinks.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         user.setGithub_link(userLinks.getGithub_link());
         user.setWebsite_link(userLinks.getWebsite_link());
         user.setTwitter_link(userLinks.getTwitter_link());
 
         return userRepository.save(user);
-
     }
 
-    public Long getUserIdByEmail(String email){
-        return userRepository.findByEmail(email).orElse(null).getId();
+
+    public Long getUserIdByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email))
+                .getId();
     }
-    
+
+
 }

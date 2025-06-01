@@ -1,5 +1,6 @@
 package com.backend.servicetest;
 
+import com.backend.exception.UserNotFoundException;
 import com.backend.persistence.entity.*;
 import com.backend.persistence.inputDTO.UserInputDTO;
 import com.backend.persistence.inputDTO.UserLinksInputDTO;
@@ -27,10 +28,7 @@ class UserServiceImplTest {
     private TipRepository tipRepository;
     @Mock
     private CommentRepository commentRepository;
-    @Mock
-    private PostVoteRepository postVoteRepository;
-    @Mock
-    private CommentVoteRepository commentVoteRepository;
+
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -243,6 +241,40 @@ class UserServiceImplTest {
         assertEquals(1L, userId);
         verify(userRepository).findByEmail("user@example.com");
     }
+
+    @Test
+    void testChangeUserLinks_UserNotFound_ThrowsException() {
+        UserLinksInputDTO input = UserLinksInputDTO.builder()
+                .userId(999L)
+                .github_link("https://github.com/testuser")
+                .website_link("https://example.com")
+                .twitter_link("https://twitter.com/testuser")
+                .build();
+
+        when(userRepository.findById(999L)).thenReturn(Optional.empty());
+
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
+            userService.changeUserLinks(input);
+        });
+
+        assertEquals("USER HAS NOT BEEN FOUND: User not found", thrown.getMessage());
+        verify(userRepository).findById(999L);
+    }
+
+    @Test
+    void testGetUserIdByEmail_UserNotFound_ThrowsException() {
+        String email = "nonexistent@example.com";
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        UserNotFoundException thrown = assertThrows(UserNotFoundException.class, () -> {
+            userService.getUserIdByEmail(email);
+        });
+
+        assertEquals("USER HAS NOT BEEN FOUND: User not found with email: " + email, thrown.getMessage());
+        verify(userRepository).findByEmail(email);
+    }
+
 
 
 }
