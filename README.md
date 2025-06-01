@@ -73,13 +73,13 @@ docker compose up --build
 
 | Variable                | Servicio          | Descripción                                                                 |
 | ----------------------- | ----------------- | --------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL`   | frontend          | URL base de la API utilizada por el frontend (Next.js).                     |
+| `NEXT_PUBLIC_API_URL`   | frontend          | URL base de la API utilizada por el frontend.                               |
 | `GOOGLE_CLIENT_ID`      | frontend, backend | ID del cliente de Google para autenticación OAuth2.                         |
 | `AWS_BUCKET_NAME`       | frontend          | Nombre del bucket de AWS S3 utilizado para almacenar archivos.              |
 | `AWS_BUCKET_REGION`     | frontend          | Región donde se encuentra el bucket de AWS.                                 |
 | `AWS_ACCESS_KEY`        | frontend          | Clave de acceso para autenticarse en los servicios de AWS.                  |
 | `AWS_SECRET_ACCESS_KEY` | frontend          | Clave secreta vinculada a `AWS_ACCESS_KEY`.                                 |
-| `OPENAI_API_KEY`        | frontend          | Clave de API para acceder a los servicios de OpenAI (por ejemplo, ChatGPT). |
+| `OPENAI_API_KEY`        | frontend          | Clave de API para acceder a los servicios de OpenAI (ChatGPT).              |
 | `POSTGRES_HOST`         | backend           | Dirección del host de la base de datos PostgreSQL.                          |
 | `POSTGRES_DATABASE`     | backend           | Nombre de la base de datos a utilizar.                                      |
 | `POSTGRES_USERNAME`     | backend           | Usuario con permisos para acceder a la base de datos.                       |
